@@ -70,8 +70,7 @@
   },
   "lint-staged": {
     "**/*.{js,mjs,ts}": [
-      "prettier --write",
-      "jest --findRelatedTests --coverage=false"
+      "prettier --write"
     ]
   }
 }
