@@ -4,11 +4,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const { compilerOptions } = require('./tsconfig.json');
-
-const ENTRY_FILE_NAME = path.resolve('src/app/index.tsx');
-const PUBLIC_PATH = '/static/';
-const PUBLIC_FOLDER = path.resolve(__dirname, 'src/public');
-const BUILD_WEB_FOLDER = path.resolve(__dirname, 'build/public/web');
+const {
+  ENTRY_FILE_NAME,
+  PUBLIC_PATH,
+  PUBLIC_FOLDER,
+  BUILD_WEB_FOLDER,
+  TEMPLATE_FILE,
+  OUTPUT_PATH
+} = require('./webpack.config');
 
 const plugins = [
   new CopyWebpackPlugin({
@@ -29,7 +32,7 @@ const plugins = [
     cleanOnceBeforeBuildPatterns: [path.join(BUILD_WEB_FOLDER, '**/*'), '!**/*.gitignore']
   }),
   new HtmlWebpackPlugin({
-    template: path.resolve(PUBLIC_FOLDER, 'index.html'),
+    template: TEMPLATE_FILE,
     filename: '../index.html',
     hash: false,
     minify: {
@@ -57,7 +60,7 @@ module.exports = {
   entry: ENTRY_FILE_NAME,
   output: {
     crossOriginLoading: 'anonymous',
-    path: path.join(BUILD_WEB_FOLDER, PUBLIC_PATH),
+    path: OUTPUT_PATH,
     publicPath: PUBLIC_PATH
   },
   plugins,

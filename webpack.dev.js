@@ -1,10 +1,8 @@
-const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common');
-
-const BUILD_WEB_FOLDER = path.resolve(__dirname, 'build/public/web');
+const { PUBLIC_PATH, BUILD_WEB_FOLDER } = require('./webpack.config');
 
 const dev = {
   mode: 'development',
@@ -20,7 +18,7 @@ const dev = {
     hot: true,
     host: 'localhost',
     port: 3000,
-    publicPath: path.join('/', 'static', '/'),
+    publicPath: PUBLIC_PATH,
     watchOptions: {
       ignored: /node_modules/
     },

@@ -5,8 +5,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common');
-
-const REPORTS_FOLDER = path.resolve(__dirname, 'build/reports/bundle-analyzer');
+const { BUILD_REPORTS_FOLDER } = require('./webpack.config');
 
 const prod = {
   mode: 'production',
@@ -26,7 +25,7 @@ const prod = {
       analyzerMode: 'static',
       openAnalyzer: false,
       reportFilename: (entry) =>
-        path.resolve(REPORTS_FOLDER, `build-report-${Date.now()}-${entry}.html`)
+        path.resolve(BUILD_REPORTS_FOLDER, `build-report-${Date.now()}-${entry}.html`)
     })
   ],
   optimization: {
