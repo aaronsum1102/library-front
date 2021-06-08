@@ -8,7 +8,8 @@
   "browserslist": "> 0.25%, not dead",
   "scripts": {
     "build": "cross-env BABEL_ENV=webpack NODE_ENV=production webpack --config webpack.prod.js --progress --colors --display-error-details",
-    "dev": "cross-env BABEL_ENV=webpack NODE_ENV=development webpack serve --config webpack.dev.js --progress --open"
+    "dev": "cross-env BABEL_ENV=webpack NODE_ENV=development webpack serve --config webpack.dev.js --progress --open",
+    "lint": "yarn eslint 'src/**/*.{js,jsx,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.4.0",
@@ -60,6 +61,10 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0",
     "webpack-subresource-integrity": "^1.5.2"
+  },
+  "resolutions": {
+    "css-what": ">=5.0.1",
+    "glob-parent": ">=5.1.2"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx}": [
