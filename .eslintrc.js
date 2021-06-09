@@ -23,13 +23,30 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['import', 'jsx-a11y', 'react', 'react-hooks', '@typescript-eslint', 'prettier'],
-  ignorePatterns: ['webpack.*.js', 'babel.config.js'],
   settings: {
     react: {
       version: 'detect'
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx']
+    },
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true
+      }
     }
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      }
+    }
+  ],
   rules: {
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    'react/prop-types': 0
   }
 };
