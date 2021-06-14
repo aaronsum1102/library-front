@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Box } from '@material-ui/core';
 
 import { generateRouteUrl } from '~src/routes';
 import { useAuth } from '~app/hooks';
@@ -14,10 +15,10 @@ const HomeView = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <Box>
       HomeView
-      <button onClick={() => signOut()}>Logout</button>
-    </div>
+      <button onClick={() => onSingoutClick()}>Logout</button>
+    </Box>
   );
 };
 

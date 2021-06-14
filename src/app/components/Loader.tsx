@@ -1,13 +1,7 @@
 import React from 'react';
-import { styled, Box, CircularProgress, Typography } from '@material-ui/core';
+import { styled, CircularProgress, Typography } from '@material-ui/core';
 
-const StyledBox = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '100%'
-});
+import { Center } from './Center';
 
 const StyledTypography = styled(Typography)({
   marginTop: '16px'
@@ -20,9 +14,9 @@ interface Props {
 
 export const Loader = ({ showText = true, text = 'Loading...' }: Props): JSX.Element => {
   return (
-    <StyledBox>
+    <Center>
       <CircularProgress />
       {showText && <StyledTypography>{text}</StyledTypography>}
-    </StyledBox>
+    </Center>
   );
 };
