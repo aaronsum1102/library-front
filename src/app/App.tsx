@@ -1,36 +1,14 @@
 import React from 'react';
+import { Container } from '@material-ui/core';
 
-import { useAuth } from './hooks';
+import { LoadableRouter } from '~src/router';
 
-export const App: React.FC = () => {
-  const { user, sendSignInLink, isSignInWithEmailLink, signIn, signOut } = useAuth();
-
-  const email = window.localStorage.getItem('emailForSignIn');
-
-  if (isSignInWithEmailLink) {
-    if (email) {
-      signIn(email);
-      return (
-        <div>
-          <p>Verifying...</p>
-        </div>
-      );
-    }
-  }
-
-  if (!isSignInWithEmailLink && !user) {
-    return (
-      <div>
-        <p>Continue with email</p>
-        <button onClick={() => sendSignInLink('sumsx03@gmail.com')}>singn in</button>
-      </div>
-    );
-  }
-
+const App = (): JSX.Element => {
   return (
-    <div>
-      <p>Hello {user?.email}</p>
-      <button onClick={() => signOut()}>singn out</button>
-    </div>
+    <Container maxWidth="xl">
+      <LoadableRouter />
+    </Container>
   );
 };
+
+export default App;

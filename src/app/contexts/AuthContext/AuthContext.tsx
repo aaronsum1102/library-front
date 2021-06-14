@@ -5,8 +5,9 @@ export interface AuthState {
   user: firebase.User | null;
   sendSignInLink: (email: string) => Promise<void>;
   isSignInWithEmailLink: boolean;
-  signIn: (email: string) => Promise<void>;
+  signIn: (email: string) => Promise<boolean>;
   signOut: () => Promise<void>;
+  isInitAuth: boolean;
 }
 
 const defaultContext = {} as AuthState;
