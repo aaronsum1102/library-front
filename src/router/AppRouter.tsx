@@ -1,13 +1,18 @@
 import React from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 
-import { RouteDefinition } from '../routes';
+import {
+  RouteDefinition,
+  generateRouteUrl,
+  VerifyViewRouteState,
+  LoginViewRouteState
+} from '../routes';
 import { ProtectedRoute } from './ProtectedRoute';
 import { useAuth } from '~app/hooks';
 
 interface AppRouterProps {
-  routes: RouteDefinition[];
-  verificationRoutes: RouteDefinition[];
+  protectedRoutes: RouteDefinition[];
+  authRoutes: RouteDefinition[];
   getView: (
     routeDefinition: RouteDefinition | null,
     routeProps: RouteComponentProps
@@ -18,13 +23,9 @@ interface AppRouterProps {
   ) => JSX.Element;
 }
 
-interface RouteState {
-  fromVerify?: boolean;
-}
-
 export const AppRouter = ({
-  routes,
-  verificationRoutes,
+  protectedRoutes,
+  authRoutes,
   getView,
   getNotFoundView
 }: AppRouterProps): JSX.Element => {
@@ -32,14 +33,16 @@ export const AppRouter = ({
 
   return (
     <Switch>
-      {verificationRoutes.map((route) => (
+      {authRoutes.map((route) => (
         <Route
           key={`view.${route.name}`}
           exact={route.exact}
           path={route.path}
           render={(props: RouteComponentProps) => {
             if (
-              (props.location.state as RouteState)?.fromVerify ||
+              (props.match.path == generateRouteUrl('login') &&
+                (props.location.state as LoginViewRouteState)?.isAuthRequired) ||
+              (props.location.state as VerifyViewRouteState)?.fromVerify ||
               (!user && new RegExp(/\?apiKey=.+oobCode=.+mode=signIn/g).test(props.location.search))
             ) {
               return getView(route, props);
@@ -49,7 +52,7 @@ export const AppRouter = ({
           }}
         />
       ))}
-      {routes.map((route) => {
+      {protectedRoutes.map((route) => {
         const Component = route.private ? ProtectedRoute : Route;
         return (
           <Component

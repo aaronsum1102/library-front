@@ -17,7 +17,7 @@ const actionCodeSettings: firebase.auth.ActionCodeSettings = {
 };
 
 export const AuthContextProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<firebase.User | null>(null);
+  const [user, setUser] = useState<firebase.User | null | undefined>(undefined);
   const isInitAuth = useRef(true);
 
   useEffect(() => {
@@ -47,18 +47,19 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 
   const isSignInWithEmailLink = auth.isSignInWithEmailLink(window.location.href);
 
-  const signIn = async (email: string) => {
+  const signIn = async (email: string): Promise<boolean> => {
     if (isSignInWithEmailLink) {
       try {
         const result = await auth.signInWithEmailLink(email, window.location.href);
         window.localStorage.removeItem('emailForSignIn');
         // result.additionalUserInfo?.isNewUser
-        console.log('chcekl', result);
+        console.log('check', result);
         return true;
       } catch (error) {
         handleError(error as firebase.auth.Error);
       }
     }
+    return false;
   };
 
   const signOut = async () => {

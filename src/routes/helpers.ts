@@ -1,4 +1,4 @@
-import { routes, verificationRoutes } from './definition';
+import { protectedRoutes, authRoutes } from './definition';
 
 export interface RouteDefinition {
   name: string;
@@ -9,7 +9,7 @@ export interface RouteDefinition {
 }
 
 export const generateRouteUrl = (name: string, parameters: Record<string, string> = {}): string => {
-  const route = [...routes, ...verificationRoutes].find((route) => route.name == name);
+  const route = [...protectedRoutes, ...authRoutes].find((route) => route.name == name);
 
   if (!route) {
     throw new Error(`Cannot build URL for unknown route ${name}.`);

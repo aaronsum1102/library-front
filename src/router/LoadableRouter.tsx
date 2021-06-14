@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import loadable from '@loadable/component';
 
-import { RouteDefinition, routes, verificationRoutes } from '../routes';
+import { RouteDefinition, protectedRoutes, authRoutes } from '../routes';
 import { AppRouter } from './AppRouter';
 
 const LoadableView = loadable(
@@ -21,8 +21,8 @@ export const LoadableRouter = (): JSX.Element => {
 
   return (
     <AppRouter
-      routes={routes}
-      verificationRoutes={verificationRoutes}
+      protectedRoutes={protectedRoutes}
+      authRoutes={authRoutes}
       getView={getView}
       getNotFoundView={getNotFoundView}
     />

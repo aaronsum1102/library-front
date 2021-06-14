@@ -1,13 +1,14 @@
 import { RouteDefinition } from './helpers';
 
-export const routes: RouteDefinition[] = [
-  {
-    name: 'login',
-    path: '/login',
-    exact: true,
-    view: 'LoginView',
-    private: false
-  },
+export interface VerifyViewRouteState {
+  fromVerify?: boolean;
+}
+
+export interface LoginViewRouteState {
+  isAuthRequired?: boolean;
+}
+
+export const protectedRoutes: RouteDefinition[] = [
   {
     name: 'home',
     path: '/',
@@ -17,7 +18,14 @@ export const routes: RouteDefinition[] = [
   }
 ];
 
-export const verificationRoutes: RouteDefinition[] = [
+export const authRoutes: RouteDefinition[] = [
+  {
+    name: 'login',
+    path: '/login',
+    exact: true,
+    view: 'LoginView',
+    private: false
+  },
   {
     name: 'verify',
     path: '/verify',
