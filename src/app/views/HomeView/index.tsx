@@ -11,7 +11,7 @@ const HomeView = (): JSX.Element => {
 
   const onSingoutClick = () => {
     signOut();
-    history.replace(generateRouteUrl('login'));
+    history.replace(generateRouteUrl('login'), { isAuthRequired: true });
   };
 
   return (
