@@ -3,12 +3,19 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 import { generateRouteUrl } from '../routes';
 import { useAuth } from '~app/hooks';
+
+import { Typography } from '@material-ui/core';
 import { Loader } from '~app/components';
 
 export const ProtectedRoute = (props: RouteProps): JSX.Element => {
   const { user, isInitAuth } = useAuth();
 
-  if (isInitAuth) return <Loader text="Authenticating" color="primary" thickness={5} />;
+  if (isInitAuth)
+    return (
+      <Loader color="primary" thickness={5}>
+        <Typography variant="h6">Authenticating</Typography>
+      </Loader>
+    );
 
   if (!user)
     return (

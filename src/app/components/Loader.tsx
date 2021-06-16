@@ -1,27 +1,28 @@
 import React from 'react';
-import { styled, CircularProgress, CircularProgressProps, Typography } from '@material-ui/core';
+import { CircularProgress, CircularProgressProps, Typography } from '@material-ui/core';
 
-import { Center } from './Center';
-
-const StyledTypography = styled(Typography)({
-  marginTop: '16px'
-});
+import { Center, Spacer } from '.';
 
 interface Props extends CircularProgressProps {
   showText?: boolean;
-  text?: string;
+  children?: React.ReactNode;
 }
 
 export const Loader = ({
   showText = true,
-  text = 'Loading...',
+  children = <Typography variant="h6">Loading...</Typography>,
   color = 'inherit',
   ...rest
 }: Props): JSX.Element => {
   return (
     <Center>
       <CircularProgress {...rest} color={color} />
-      {showText && <StyledTypography variant="h6">{text}</StyledTypography>}
+      {showText && (
+        <>
+          <Spacer />
+          {children}
+        </>
+      )}
     </Center>
   );
 };
