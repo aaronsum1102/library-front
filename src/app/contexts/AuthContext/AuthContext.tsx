@@ -3,10 +3,10 @@ import firebase from 'firebase/app';
 
 export interface AuthState {
   user: firebase.User | null | undefined;
-  sendSignInLink: (email: string) => Promise<void>;
+  sendSignInLink: (email: string) => Promise<boolean>;
   isSignInWithEmailLink: boolean;
   signIn: (email: string) => Promise<boolean>;
-  signOut: () => Promise<void>;
+  signOut: () => Promise<boolean>;
   isInitAuth: boolean;
 }
 

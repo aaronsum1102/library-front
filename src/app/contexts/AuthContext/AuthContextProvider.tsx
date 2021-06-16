@@ -40,8 +40,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     try {
       await auth.sendSignInLinkToEmail(email, actionCodeSettings);
       window.localStorage.setItem('emailForSignIn', email);
+      return true;
     } catch (error: unknown) {
       handleError(error as firebase.auth.Error);
+      return false;
     }
   };
 
@@ -66,8 +68,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     try {
       await auth.signOut();
       setUser(null);
+      return true;
     } catch (error) {
       handleError(error as firebase.auth.Error);
+      return false;
     }
   };
 

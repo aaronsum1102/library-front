@@ -8,7 +8,7 @@ import { Loader } from '~app/components';
 export const ProtectedRoute = (props: RouteProps): JSX.Element => {
   const { user, isInitAuth } = useAuth();
 
-  if (isInitAuth) return <Loader text="Authenticating" />;
+  if (isInitAuth) return <Loader text="Authenticating" color="primary" thickness={5} />;
 
   if (!user)
     return (
