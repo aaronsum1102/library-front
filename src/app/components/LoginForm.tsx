@@ -70,8 +70,7 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
         isMounted.current &&
           setEmailField({
             ...emailField,
-            error: true,
-            helperText: 'Invalid email provided'
+            error: true
           });
       }
     } else {

@@ -29,6 +29,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         setUser(null);
       }
     });
+
     return () => unsubscribe();
   }, []);
 
