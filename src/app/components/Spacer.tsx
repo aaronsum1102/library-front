@@ -19,24 +19,29 @@ interface Props {
   orientation?: Orientations;
 }
 
-const StyledSpacer = styled('div')(
-  ({ space = Spacings.medium, orientation = Orientations.horizontal }: Props) => {
-    if (orientation == Orientations.vertical) {
-      return {
-        width: space,
-        height: '100vh',
-        maxHeight: '100%'
-      };
-    } else {
-      return {
-        height: space,
-        width: '100vw',
-        maxWidth: '100%'
-      };
-    }
+const StyledSpacer = styled('div')(({ space, orientation }: Props) => {
+  if (orientation === Orientations.vertical) {
+    return {
+      width: space,
+      height: '100vh',
+      maxHeight: '100%'
+    };
   }
-);
 
-export const Spacer = (props: Props): JSX.Element => {
+  return {
+    height: space,
+    width: '100vw',
+    maxWidth: '100%'
+  };
+});
+
+const Spacer = (props: Props): JSX.Element => {
   return <StyledSpacer {...props} />;
 };
+
+Spacer.defaultProps = {
+  space: Spacings.medium,
+  orientation: Orientations.horizontal
+};
+
+export default Spacer;

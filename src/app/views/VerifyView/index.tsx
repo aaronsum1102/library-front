@@ -1,15 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { Typography } from '@material-ui/core';
 import { generateRouteUrl } from '~src/routes';
 import { useAuth } from '~app/hooks';
 
-import { Typography } from '@material-ui/core';
 import { Center, Loader, LoginForm } from '~app/components';
 
 const VerifyView = (): JSX.Element => {
-  const { user, signIn } = useAuth();
   const emailFromLocalStorage = useRef(window.localStorage.getItem('emailForSignIn'));
+
+  const { user, signIn } = useAuth();
 
   useEffect(() => {
     if (emailFromLocalStorage.current) {
@@ -27,9 +28,9 @@ const VerifyView = (): JSX.Element => {
           }}
         />
       );
-    } else {
-      return <Redirect to={generateRouteUrl('home')} />;
     }
+
+    return <Redirect to={generateRouteUrl('home')} />;
   }
 
   return (

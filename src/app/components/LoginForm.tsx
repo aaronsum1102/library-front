@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
-
 import { Typography, TextField, TextFieldProps, Button, styled } from '@material-ui/core';
-import { Loader, Spacer, Spacings } from '~app/components';
+import Loader from './Loader';
+import Spacer, { Spacings } from './Spacer';
 
 interface Props {
   buttonText: string;
@@ -30,6 +30,7 @@ const StyledButton = styled(Button)({
 
 const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
   const isMounted = useRef(true);
+
   const [emailField, setEmailField] = useState<EmailField>({
     value: '',
     error: false,
@@ -48,7 +49,7 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
   };
 
   const onChange: TextFieldProps['onChange'] = (element) => {
-    const value = element.target.value;
+    const { value } = element.target;
 
     setEmailField({
       ...emailField,
@@ -66,23 +67,21 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
     if (!error) {
       const result = await onSubmitCallback(emailField.value);
 
-      if (!result) {
-        isMounted.current &&
-          setEmailField({
-            ...emailField,
-            error: true
-          });
-      }
-    } else {
-      isMounted.current &&
+      if (!result && isMounted.current) {
         setEmailField({
           ...emailField,
-          error,
-          helperText: emailField.value ? 'Invalid email provided' : 'Email is required'
+          error: true
         });
+      }
+    } else {
+      setEmailField({
+        ...emailField,
+        error,
+        helperText: emailField.value ? 'Invalid email provided' : 'Email is required'
+      });
     }
 
-    isMounted.current && setLoading(false);
+    if (isMounted.current) setLoading(false);
   }, [emailField, onSubmitCallback, setLoading]);
 
   return (

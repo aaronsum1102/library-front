@@ -14,10 +14,12 @@ const LoginView = (): JSX.Element => {
   const { user, sendSignInLink } = useAuth();
 
   const sendSignInLinkCallback = useCallback(
-    async (email: string) => {
-      setEmail(email);
-      const result = await sendSignInLink(email);
-      result && setIsWaitingForVerification(true);
+    async (finalEmail: string) => {
+      setEmail(finalEmail);
+      const result = await sendSignInLink(finalEmail);
+
+      if (result) setIsWaitingForVerification(true);
+
       return result;
     },
     [setEmail, sendSignInLink, setIsWaitingForVerification]

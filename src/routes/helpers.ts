@@ -1,15 +1,7 @@
 import { protectedRoutes, authRoutes } from './definition';
 
-export interface RouteDefinition {
-  name: string;
-  path: string;
-  exact: boolean;
-  view: string;
-  private: boolean;
-}
-
-export const generateRouteUrl = (name: string, parameters: Record<string, string> = {}): string => {
-  const route = [...protectedRoutes, ...authRoutes].find((route) => route.name == name);
+const generateRouteUrl = (name: string, parameters: Record<string, string> = {}): string => {
+  const route = [...protectedRoutes, ...authRoutes].find((r) => r.name === name);
 
   if (!route) {
     throw new Error(`Cannot build URL for unknown route ${name}.`);
@@ -21,3 +13,5 @@ export const generateRouteUrl = (name: string, parameters: Record<string, string
     route.path
   );
 };
+
+export default generateRouteUrl;

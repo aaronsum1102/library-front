@@ -7,7 +7,7 @@ import {
   VerifyViewRouteState,
   LoginViewRouteState
 } from '../routes';
-import { ProtectedRoute } from './ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 
 interface AppRouterProps {
   protectedRoutes: RouteDefinition[];
@@ -22,7 +22,7 @@ interface AppRouterProps {
   ) => JSX.Element;
 }
 
-export const AppRouter = ({
+const AppRouter = ({
   protectedRoutes,
   authRoutes,
   getView,
@@ -37,18 +37,19 @@ export const AppRouter = ({
           path={route.path}
           render={(props: RouteComponentProps) => {
             if (
-              (props.match.path == generateRouteUrl('login') &&
+              (props.match.path === generateRouteUrl('login') &&
                 (props.location.state as LoginViewRouteState)?.isAuthRequired) ||
               (props.location.state as VerifyViewRouteState)?.fromVerify ||
               new RegExp(/\?apiKey=.+oobCode=.+mode=signIn/g).test(props.location.search)
             ) {
               return getView(route, props);
-            } else {
-              return getNotFoundView(null, props);
             }
+
+            return getNotFoundView(null, props);
           }}
         />
       ))}
+
       {protectedRoutes.map((route) => {
         const Component = route.private ? ProtectedRoute : Route;
         return (
@@ -67,3 +68,5 @@ export const AppRouter = ({
     </Switch>
   );
 };
+
+export default AppRouter;

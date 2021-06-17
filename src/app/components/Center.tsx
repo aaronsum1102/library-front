@@ -14,6 +14,8 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const Center = ({ children }: Props): JSX.Element => {
+const Center = ({ children }: Props): JSX.Element => {
   return <StyledBox>{children}</StyledBox>;
 };
+
+export default Center;

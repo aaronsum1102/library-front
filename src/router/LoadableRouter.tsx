@@ -3,13 +3,13 @@ import { RouteComponentProps } from 'react-router-dom';
 import loadable from '@loadable/component';
 
 import { RouteDefinition, protectedRoutes, authRoutes } from '../routes';
-import { AppRouter } from './AppRouter';
+import AppRouter from './AppRouter';
 
 const LoadableView = loadable(
   (props: { view: string }) => import(`../app/views/${props.view}/index`)
 );
 
-export const LoadableRouter = (): JSX.Element => {
+const LoadableRouter = (): JSX.Element => {
   const getView = (routeDefinition: RouteDefinition | null, routeProps: RouteComponentProps) => (
     <LoadableView {...routeProps} view={routeDefinition?.view || 'NotFoundView'} />
   );
@@ -28,3 +28,5 @@ export const LoadableRouter = (): JSX.Element => {
     />
   );
 };
+
+export default LoadableRouter;

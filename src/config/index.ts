@@ -19,7 +19,7 @@ const getRuntimeConfig = (): RuntimeConfig => {
     firebase: {
       apiKey: <string>process.env.API_KEY,
       authDomain: `${projectId}.firebaseapp.com`,
-      projectId: projectId,
+      projectId,
       appId: <string>process.env.APP_ID
     }
   };

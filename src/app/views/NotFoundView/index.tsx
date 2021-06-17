@@ -4,19 +4,11 @@ import { Typography, Link } from '@material-ui/core';
 import { generateRouteUrl } from '~src/routes';
 import { Center } from '~app/components';
 
-interface Props {
-  staticContext: {
-    statusCode: number;
-  };
-}
-
-const NotFoundView = ({ staticContext }: Props): JSX.Element => {
-  staticContext.statusCode = 404;
-
+const NotFoundView = (): JSX.Element => {
   return (
     <Center>
       <Typography variant="h3" color="textSecondary" paragraph>
-        {staticContext.statusCode}
+        404
       </Typography>
       <Typography variant="h4" paragraph>
         Page not found
@@ -27,10 +19,6 @@ const NotFoundView = ({ staticContext }: Props): JSX.Element => {
       </Typography>
     </Center>
   );
-};
-
-NotFoundView.defaultProps = {
-  staticContext: {}
 };
 
 export default NotFoundView;

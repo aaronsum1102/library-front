@@ -1,4 +1,10 @@
-import { RouteDefinition } from './helpers';
+export interface RouteDefinition {
+  name: string;
+  path: string;
+  exact: boolean;
+  view: string;
+  private: boolean;
+}
 
 export interface VerifyViewRouteState {
   fromVerify?: boolean;

@@ -12,19 +12,21 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
 const actionCodeSettings: firebase.auth.ActionCodeSettings = {
-  url: app.baseUrl + 'verify',
+  url: `${app.baseUrl}verify`,
   handleCodeInApp: true
 };
 
-export const AuthContextProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<firebase.User | null | undefined>(undefined);
+const AuthContextProvider: React.FC = ({ children }) => {
   const isInitAuth = useRef(true);
 
+  const [user, setUser] = useState<firebase.User | null | undefined>(undefined);
+
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((newUserState) => {
       isInitAuth.current = false;
-      if (user) {
-        setUser(user);
+
+      if (newUserState) {
+        setUser(newUserState);
       } else {
         setUser(null);
       }
@@ -87,3 +89,5 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export default AuthContextProvider;
