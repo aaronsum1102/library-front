@@ -1,40 +1,49 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { generateRouteUrl } from '~src/routes';
 import { useAuth } from '~app/hooks';
 
+import { Typography } from '@material-ui/core';
+import { Center, Loader, LoginForm } from '~app/components';
+
 const VerifyView = (): JSX.Element => {
-  const { signIn } = useAuth();
-  const history = useHistory();
-
-  const email = window.localStorage.getItem('emailForSignIn');
-
-  const loginUser = async (email: string) => {
-    const result = await signIn(email);
-    if (result) {
-      history.replace(generateRouteUrl('notify'), {
-        fromVerify: true
-      });
-    }
-  };
+  const { user, signIn } = useAuth();
+  const emailFromLocalStorage = useRef(window.localStorage.getItem('emailForSignIn'));
 
   useEffect(() => {
-    if (email) {
-      loginUser(email);
+    if (emailFromLocalStorage.current) {
+      signIn(emailFromLocalStorage.current);
     }
   }, []);
 
+  if (user) {
+    if (emailFromLocalStorage.current) {
+      return (
+        <Redirect
+          to={{
+            pathname: generateRouteUrl('notify'),
+            state: { fromVerify: true }
+          }}
+        />
+      );
+    } else {
+      return <Redirect to={generateRouteUrl('home')} />;
+    }
+  }
+
   return (
-    <>
-      {!email && (
-        <div>
-          <h1>Verify</h1>
-          <p>Enter you email to verify {email}</p>
-          <button onClick={() => loginUser('sumsx03@gmail.com')}>vefiry</button>
-        </div>
+    <Center>
+      {!emailFromLocalStorage.current ? (
+        <LoginForm buttonText="Verify" onSubmitCallback={signIn} />
+      ) : (
+        <>
+          <Loader thickness={6} color="primary">
+            <Typography variant="h5">Verifying</Typography>
+          </Loader>
+        </>
       )}
-    </>
+    </Center>
   );
 };
 

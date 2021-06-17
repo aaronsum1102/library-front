@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { useAuth } from '~app/hooks';
 import { generateRouteUrl } from '~src/routes';
 
-import { Center } from '~app/components';
-import { LoginForm, AuthenticatingInfo } from './components';
+import { Center, LoginForm } from '~app/components';
+import { AuthenticatingInfo } from './components';
 
 const LoginView = (): JSX.Element => {
   const [isWaitingForVerification, setIsWaitingForVerification] = useState(false);
@@ -13,12 +13,15 @@ const LoginView = (): JSX.Element => {
 
   const { user, sendSignInLink } = useAuth();
 
-  const sendSignInLinkCallback = async (email: string) => {
-    setEmail(email);
-    const result = await sendSignInLink(email);
-    result && setIsWaitingForVerification(true);
-    return result;
-  };
+  const sendSignInLinkCallback = useCallback(
+    async (email: string) => {
+      setEmail(email);
+      const result = await sendSignInLink(email);
+      result && setIsWaitingForVerification(true);
+      return result;
+    },
+    [setEmail, sendSignInLink, setIsWaitingForVerification]
+  );
 
   if (user) {
     return <Redirect to={generateRouteUrl('home')} />;
@@ -27,7 +30,7 @@ const LoginView = (): JSX.Element => {
   return (
     <Center>
       {!isWaitingForVerification ? (
-        <LoginForm sendSignInLink={sendSignInLinkCallback} />
+        <LoginForm buttonText="Log in" onSubmitCallback={sendSignInLinkCallback} />
       ) : (
         <AuthenticatingInfo email={email} />
       )}

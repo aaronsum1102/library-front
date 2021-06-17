@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { Typography, TextField, TextFieldProps, Button, styled } from '@material-ui/core';
 import { Loader, Spacer, Spacings } from '~app/components';
 
 interface Props {
-  sendSignInLink: (email: string) => Promise<boolean>;
+  buttonText: string;
+  onSubmitCallback: (email: string) => Promise<boolean>;
 }
 
 interface EmailField {
@@ -27,13 +28,20 @@ const StyledButton = styled(Button)({
   maxWidth: '100%'
 });
 
-const LoginForm = ({ sendSignInLink }: Props): JSX.Element => {
+const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
+  const isMounted = useRef(true);
   const [emailField, setEmailField] = useState<EmailField>({
     value: '',
     error: false,
     helperText: ''
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const validateEmail = (value: string): boolean => {
     return new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(value);
@@ -56,25 +64,27 @@ const LoginForm = ({ sendSignInLink }: Props): JSX.Element => {
     const error = !validateEmail(emailField.value);
 
     if (!error) {
-      const result = await sendSignInLink(emailField.value);
+      const result = await onSubmitCallback(emailField.value);
 
       if (!result) {
-        setEmailField({
-          ...emailField,
-          error: true,
-          helperText: 'Invalid email provided'
-        });
+        isMounted.current &&
+          setEmailField({
+            ...emailField,
+            error: true,
+            helperText: 'Invalid email provided'
+          });
       }
     } else {
-      setEmailField({
-        ...emailField,
-        error,
-        helperText: emailField.value ? 'Invalid email provided' : 'Email is required'
-      });
+      isMounted.current &&
+        setEmailField({
+          ...emailField,
+          error,
+          helperText: emailField.value ? 'Invalid email provided' : 'Email is required'
+        });
     }
 
-    setLoading(false);
-  }, [emailField, sendSignInLink]);
+    isMounted.current && setLoading(false);
+  }, [emailField, onSubmitCallback, setLoading]);
 
   return (
     <>
@@ -100,7 +110,7 @@ const LoginForm = ({ sendSignInLink }: Props): JSX.Element => {
           onClick={onClick}
           startIcon={loading && <Loader showText={false} size="1rem" />}
         >
-          Log in
+          {buttonText}
         </StyledButton>
       </StyledFormContainer>
     </>

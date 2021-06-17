@@ -8,7 +8,6 @@ import {
   LoginViewRouteState
 } from '../routes';
 import { ProtectedRoute } from './ProtectedRoute';
-import { useAuth } from '~app/hooks';
 
 interface AppRouterProps {
   protectedRoutes: RouteDefinition[];
@@ -29,8 +28,6 @@ export const AppRouter = ({
   getView,
   getNotFoundView
 }: AppRouterProps): JSX.Element => {
-  const { user } = useAuth();
-
   return (
     <Switch>
       {authRoutes.map((route) => (
@@ -43,7 +40,7 @@ export const AppRouter = ({
               (props.match.path == generateRouteUrl('login') &&
                 (props.location.state as LoginViewRouteState)?.isAuthRequired) ||
               (props.location.state as VerifyViewRouteState)?.fromVerify ||
-              (!user && new RegExp(/\?apiKey=.+oobCode=.+mode=signIn/g).test(props.location.search))
+              new RegExp(/\?apiKey=.+oobCode=.+mode=signIn/g).test(props.location.search)
             ) {
               return getView(route, props);
             } else {
