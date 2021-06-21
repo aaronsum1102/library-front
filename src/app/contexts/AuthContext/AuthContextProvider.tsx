@@ -6,7 +6,7 @@ import { AuthContext, User } from './AuthContext';
 import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
-console.log('chcek', app);
+
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
