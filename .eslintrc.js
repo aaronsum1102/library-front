@@ -5,6 +5,7 @@ module.exports = {
     es2021: true
   },
   extends: [
+    'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
@@ -20,16 +21,35 @@ module.exports = {
       jsx: true
     },
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
+    project: './tsconfig.json'
   },
   plugins: ['import', 'jsx-a11y', 'react', 'react-hooks', '@typescript-eslint', 'prettier'],
-  ignorePatterns: ['webpack.*.js', 'babel.config.js'],
   settings: {
     react: {
       version: 'detect'
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx']
+    },
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true
+      }
     }
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      }
+    }
+  ],
   rules: {
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    'react/prop-types': 0,
+    'react/jsx-props-no-spreading': 'off'
   }
 };

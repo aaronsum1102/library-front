@@ -10,7 +10,9 @@
     "baseUrl": "./",
     "paths": {
       "~root/*": ["./*"],
+      "~src/*": ["./src/*"],
       "~app/*": ["./src/app/*"],
+      "~config/*": ["./src/config/*"],
       "~tests/*": ["./tests/*"]
     }
   },
