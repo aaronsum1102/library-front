@@ -24,8 +24,7 @@ const prod = {
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
-      reportFilename: (entry) =>
-        path.resolve(BUILD_REPORTS_FOLDER, `build-report-${Date.now()}-${entry}.html`)
+      reportFilename: path.resolve(BUILD_REPORTS_FOLDER, `build-report-${Date.now()}.html`)
     })
   ],
   optimization: {

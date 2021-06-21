@@ -95,6 +95,16 @@ module.exports = {
           test: /[\\/]node_modules[\\/]react-dom[\\/]/,
           name: 'vendor1',
           chunks: 'all'
+        },
+        materilUi: {
+          test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+          name: 'vendor2',
+          chunks: 'all'
+        },
+        firebase: {
+          test: /[\\/]node_modules[\\/]@firebase[\\/]auth[\\/]dist[\\/]/,
+          name: 'vendor3',
+          chunks: 'all'
         }
       }
     }
