@@ -1,8 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.render(<div>TEST</div>, document.getElementById('root'));
+import { AuthContextProvider } from './contexts';
+
+import App from './App';
+
+render(
+  <BrowserRouter>
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+  </BrowserRouter>,
+  document.getElementById('root')
+);
 
 if (typeof module.hot !== 'undefined') {
-  module.hot.accept(); /* eslint-disable-line no-undef */
+  module.hot.accept();
 }

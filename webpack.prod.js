@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const SubResourceIntegrityPlugin = require('webpack-subresource-integrity');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
 
@@ -17,15 +16,10 @@ const prod = {
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new SubResourceIntegrityPlugin({
-      hashFuncNames: ['sha256', 'sha384'],
-      enabled: true
-    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
-      reportFilename: (entry) =>
-        path.resolve(BUILD_REPORTS_FOLDER, `build-report-${Date.now()}-${entry}.html`)
+      reportFilename: path.resolve(BUILD_REPORTS_FOLDER, `build-report-${Date.now()}.html`)
     })
   ],
   optimization: {
