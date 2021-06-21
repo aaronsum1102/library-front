@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { AuthContext } from './AuthContext';
+import { AuthContext, User } from './AuthContext';
 import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
@@ -19,14 +19,17 @@ const actionCodeSettings: firebase.auth.ActionCodeSettings = {
 const AuthContextProvider: React.FC = ({ children }) => {
   const isInitAuth = useRef(true);
 
-  const [user, setUser] = useState<firebase.User | null | undefined>(undefined);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((newUserState) => {
       isInitAuth.current = false;
 
-      if (newUserState) {
-        setUser(newUserState);
+      if (newUserState?.email) {
+        setUser({
+          ...user,
+          email: newUserState.email
+        } as User);
       } else {
         setUser(null);
       }
@@ -57,8 +60,12 @@ const AuthContextProvider: React.FC = ({ children }) => {
       try {
         const result = await auth.signInWithEmailLink(email, window.location.href);
         window.localStorage.removeItem('emailForSignIn');
-        // result.additionalUserInfo?.isNewUser
-        console.log('check', result);
+
+        setUser({
+          ...user,
+          isNewUser: result.additionalUserInfo?.isNewUser
+        } as User);
+
         return true;
       } catch (error) {
         handleError(error as firebase.auth.Error);

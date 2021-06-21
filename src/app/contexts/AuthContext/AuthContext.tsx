@@ -1,8 +1,12 @@
 import { createContext } from 'react';
-import firebase from 'firebase/app';
+
+export interface User {
+  email: string;
+  isNewUser: boolean;
+}
 
 export interface AuthState {
-  user: firebase.User | null | undefined;
+  user: User | null | undefined;
   sendSignInLink: (email: string) => Promise<boolean>;
   isSignInWithEmailLink: boolean;
   signIn: (email: string) => Promise<boolean>;
