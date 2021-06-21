@@ -66,11 +66,9 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
       setLoading(true);
 
       const error = !validateEmail(emailField.value);
-      console.log('chcek', emailField.value, error);
 
       if (!error) {
         const result = await onSubmitCallback(emailField.value);
-        console.log('chcek2', result);
 
         if (!result && isMounted.current) {
           setEmailField({
