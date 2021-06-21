@@ -14,12 +14,7 @@ const HomeView = (): JSX.Element => {
     history.replace(generateRouteUrl('login'), { isAuthRequired: true });
   };
 
-  return (
-    <Box>
-      HomeView
-      <button onClick={() => onSingoutClick()}>Logout</button>
-    </Box>
-  );
+  return <Box>HomeView</Box>;
 };
 
 export default HomeView;
