@@ -30,6 +30,8 @@ const AuthContextProvider: React.FC = ({ children }) => {
           ...user,
           email: newUserState.email
         } as User);
+
+        window.localStorage.setItem('userId', newUserState.uid);
       } else {
         setUser(null);
       }
@@ -78,6 +80,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     try {
       await auth.signOut();
       setUser(null);
+      window.localStorage.removeItem('userId');
       return true;
     } catch (error) {
       handleError(error as firebase.auth.Error);

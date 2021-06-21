@@ -59,36 +59,43 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
     });
   };
 
-  const onClick = useCallback(async () => {
-    setLoading(true);
+  const onLogin = useCallback(
+    async (event: React.SyntheticEvent) => {
+      event.preventDefault();
 
-    const error = !validateEmail(emailField.value);
+      setLoading(true);
 
-    if (!error) {
-      const result = await onSubmitCallback(emailField.value);
+      const error = !validateEmail(emailField.value);
+      console.log('chcek', emailField.value, error);
 
-      if (!result && isMounted.current) {
+      if (!error) {
+        const result = await onSubmitCallback(emailField.value);
+        console.log('chcek2', result);
+
+        if (!result && isMounted.current) {
+          setEmailField({
+            ...emailField,
+            error: true
+          });
+        }
+      } else {
         setEmailField({
           ...emailField,
-          error: true
+          error,
+          helperText: emailField.value ? 'Invalid email provided' : 'Email is required'
         });
       }
-    } else {
-      setEmailField({
-        ...emailField,
-        error,
-        helperText: emailField.value ? 'Invalid email provided' : 'Email is required'
-      });
-    }
 
-    if (isMounted.current) setLoading(false);
-  }, [emailField, onSubmitCallback, setLoading]);
+      if (isMounted.current) setLoading(false);
+    },
+    [emailField, onSubmitCallback, setLoading]
+  );
 
   return (
     <>
       <Typography variant="h3">Log in to Library</Typography>
       <Spacer space={Spacings.xLarge} />
-      <StyledFormContainer>
+      <StyledFormContainer onSubmit={onLogin}>
         <StyledTextField
           id="email"
           label="Email"
@@ -102,10 +109,10 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
         />
         <Spacer space={Spacings.large} />
         <StyledButton
+          type="submit"
           variant="contained"
           color="primary"
           disabled={!emailField.value || emailField.error}
-          onClick={onClick}
           startIcon={loading && <Loader showText={false} size="1rem" />}
         >
           {buttonText}

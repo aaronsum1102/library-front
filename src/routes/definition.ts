@@ -10,10 +10,6 @@ export interface VerifyViewRouteState {
   fromVerify?: boolean;
 }
 
-export interface LoginViewRouteState {
-  isAuthRequired?: boolean;
-}
-
 export const protectedRoutes: RouteDefinition[] = [
   {
     name: 'home',

@@ -1,7 +1,14 @@
 import React from 'react';
-import { Container, CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
-
+import {
+  Container,
+  CssBaseline,
+  ThemeProvider,
+  createMuiTheme,
+  Typography
+} from '@material-ui/core';
 import { LoadableRouter } from '~src/router';
+import { Loader } from '~app/components';
+import { useAuth } from '~app/hooks';
 
 const theme = createMuiTheme({
   overrides: {
@@ -24,12 +31,21 @@ const theme = createMuiTheme({
 });
 
 const App = (): JSX.Element => {
+  const { isInitAuth } = useAuth();
+  const userId = window.localStorage.getItem('userId');
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container maxWidth="xl">
-          <LoadableRouter />
+          {isInitAuth ? (
+            <Loader color="primary" thickness={5} showText={!userId}>
+              <Typography variant="h6">Authenticating</Typography>
+            </Loader>
+          ) : (
+            <LoadableRouter />
+          )}
         </Container>
       </ThemeProvider>
     </>

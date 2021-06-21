@@ -1,12 +1,7 @@
 import React from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 
-import {
-  RouteDefinition,
-  generateRouteUrl,
-  VerifyViewRouteState,
-  LoginViewRouteState
-} from '../routes';
+import { RouteDefinition, generateRouteUrl, VerifyViewRouteState } from '../routes';
 import ProtectedRoute from './ProtectedRoute';
 
 interface AppRouterProps {
@@ -37,8 +32,7 @@ const AppRouter = ({
           path={route.path}
           render={(props: RouteComponentProps) => {
             if (
-              (props.match.path === generateRouteUrl('login') &&
-                (props.location.state as LoginViewRouteState)?.isAuthRequired) ||
+              props.match.path === generateRouteUrl('login') ||
               (props.location.state as VerifyViewRouteState)?.fromVerify ||
               new RegExp(/\?apiKey=.+oobCode=.+mode=signIn/g).test(props.location.search)
             ) {

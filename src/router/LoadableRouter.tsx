@@ -1,7 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import loadable from '@loadable/component';
-
 import { RouteDefinition, protectedRoutes, authRoutes } from '../routes';
 import AppRouter from './AppRouter';
 

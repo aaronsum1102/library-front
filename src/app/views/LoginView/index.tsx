@@ -1,11 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-
-import { useAuth } from '~app/hooks';
-import { generateRouteUrl } from '~src/routes';
-
 import { Center, LoginForm } from '~app/components';
 import { AuthenticatingInfo } from './components';
+import { useAuth } from '~app/hooks';
+import { generateRouteUrl } from '~src/routes';
 
 const LoginView = (): JSX.Element => {
   const [isWaitingForVerification, setIsWaitingForVerification] = useState(false);
@@ -27,6 +25,10 @@ const LoginView = (): JSX.Element => {
 
   if (user) {
     return <Redirect to={generateRouteUrl('home')} />;
+  }
+
+  if (window.localStorage.getItem('userId')) {
+    return <></>;
   }
 
   return (
