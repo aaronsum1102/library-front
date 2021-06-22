@@ -14,9 +14,7 @@ const getRuntimeConfig = (): RuntimeConfig => {
   const projectId = <string>process.env.PROJECT_ID;
   return {
     app: {
-      baseUrl: process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}/`
-        : 'http://localhost:3000/'
+      baseUrl: <string>process.env.BASE_URL
     },
     firebase: {
       apiKey: <string>process.env.API_KEY,
