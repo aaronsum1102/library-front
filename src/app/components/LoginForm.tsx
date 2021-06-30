@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
-import { Typography, TextField, TextFieldProps, Button, styled } from '@material-ui/core';
+import { Typography, TextField, TextFieldProps, Button, Box, styled } from '@material-ui/core';
 import Loader from './Loader';
 import Spacer, { Spacings } from './Spacer';
 
@@ -13,10 +13,6 @@ interface EmailField {
   error: boolean;
   helperText: string;
 }
-
-const StyledFormContainer = styled('form')({
-  maxWidth: '320px'
-});
 
 const StyledTextField = styled(TextField)({
   minWidth: '100%',
@@ -37,6 +33,7 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
     helperText: ''
   });
   const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     return () => {
@@ -57,6 +54,8 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
       error: false,
       helperText: ''
     });
+
+    setAuthError(undefined);
   };
 
   const onLogin = useCallback(
@@ -75,6 +74,8 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
             ...emailField,
             error: true
           });
+
+          setAuthError(true);
         }
       } else {
         setEmailField({
@@ -93,7 +94,15 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
     <>
       <Typography variant="h3">Log in to Library</Typography>
       <Spacer space={Spacings.xLarge} />
-      <StyledFormContainer onSubmit={onLogin}>
+      <Box component="form" maxWidth={320} onSubmit={onLogin}>
+        {authError && (
+          <>
+            <Box bgcolor="error.main" color="error.contrastText" padding={2} minWidth="100%">
+              Authentication failed. Please try again later.
+            </Box>
+            <Spacer space={Spacings.xLarge} />
+          </>
+        )}
         <StyledTextField
           id="email"
           label="Email"
@@ -115,7 +124,7 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
         >
           {buttonText}
         </StyledButton>
-      </StyledFormContainer>
+      </Box>
     </>
   );
 };
