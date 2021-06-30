@@ -40,17 +40,12 @@ const AuthContextProvider: React.FC = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const handleError = (error: firebase.auth.Error) => {
-    console.log('Error', error);
-  };
-
   const sendSignInLink = async (email: string) => {
     try {
       await auth.sendSignInLinkToEmail(email, actionCodeSettings);
       window.localStorage.setItem('emailForSignIn', email);
       return true;
-    } catch (error: unknown) {
-      handleError(error as firebase.auth.Error);
+    } catch (error) {
       return false;
     }
   };
@@ -70,7 +65,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
 
         return true;
       } catch (error) {
-        handleError(error as firebase.auth.Error);
+        return false;
       }
     }
     return false;
@@ -83,7 +78,6 @@ const AuthContextProvider: React.FC = ({ children }) => {
       window.localStorage.removeItem('userId');
       return true;
     } catch (error) {
-      handleError(error as firebase.auth.Error);
       return false;
     }
   };
