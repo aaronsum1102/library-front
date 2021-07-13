@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { AuthContextProvider } from './contexts';
 
-import App from './App';
+import { App } from './components';
 
 render(
   <BrowserRouter>
