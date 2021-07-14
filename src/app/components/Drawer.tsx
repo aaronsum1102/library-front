@@ -6,6 +6,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import { useApp, useAuth } from '~app/hooks';
 import { Spacer, Spacings } from '~app/components';
+import { protectedRoutes } from '~src/routes';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiPaper-root': {
@@ -59,7 +60,11 @@ const AppDrawer = (): JSX.Element => {
         <Spacer space={Spacings.xLarge} />
 
         <Box component="nav">
-          <Button href="/">Resources</Button>
+          {protectedRoutes.map(({ label, path }) => (
+            <Button key={label} href={path}>
+              {label}
+            </Button>
+          ))}
         </Box>
       </StyledBox>
     </StyledDrawer>
