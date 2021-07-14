@@ -50,6 +50,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'react/prop-types': 0,
-    'react/jsx-props-no-spreading': 'off'
+    'react/jsx-props-no-spreading': 'off',
+    'import/no-cycle': 0
   }
 };
