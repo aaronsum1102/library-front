@@ -51,6 +51,6 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/prop-types': 0,
     'react/jsx-props-no-spreading': 'off',
-    'import/no-cycle': [2, { maxDepth: 1 }]
+    'import/no-cycle': 0
   }
 };

@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export { default as useAuth } from './useAuth';
+export { default as useApp } from './useApp';
