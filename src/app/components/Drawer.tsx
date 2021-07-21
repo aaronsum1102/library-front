@@ -23,7 +23,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
   }
 }));
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(({ theme }) => ({
   height: '100%',
   padding: '1rem 1rem 1rem 2rem',
   [theme.breakpoints.up('sm')]: {
@@ -35,6 +35,10 @@ const StyledIcon = styled(ArrowForwardIcon)(({ theme }) => ({
   marginRight: theme.spacing(1)
 }));
 
+const CloseButton = styled(IconButton)({
+  float: 'right'
+});
+
 const AppDrawer = (): JSX.Element => {
   const { drawerOpen, setDrawerOpen } = useApp();
   const { user } = useAuth();
@@ -43,18 +47,20 @@ const AppDrawer = (): JSX.Element => {
 
   return (
     <StyledDrawer anchor="left" open={drawerOpen} onClose={onClose}>
-      <StyledBox>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box>
-            <Button href="/profile">
-              <StyledIcon fontSize="small" color="secondary" />
-              {user?.email}{' '}
-            </Button>
-          </Box>
+      <Container>
+        <Box height="44px">
+          {user && (
+            <Box>
+              <Button href="/profile">
+                <StyledIcon fontSize="small" color="secondary" />
+                {user?.email}{' '}
+              </Button>
+            </Box>
+          )}
 
-          <IconButton edge="start" color="default" aria-label="menu" onClick={onClose}>
+          <CloseButton edge="start" color="default" aria-label="menu" onClick={onClose}>
             <CloseIcon fontSize="small" />
-          </IconButton>
+          </CloseButton>
         </Box>
 
         <Spacer space={Spacings.xLarge} />
@@ -66,7 +72,7 @@ const AppDrawer = (): JSX.Element => {
             </Button>
           ))}
         </Box>
-      </StyledBox>
+      </Container>
     </StyledDrawer>
   );
 };
