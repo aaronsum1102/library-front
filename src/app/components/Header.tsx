@@ -21,8 +21,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => {
     paddingBottom: '1rem',
 
     [breakpoints.up('sm')]: {
-      paddingTop: '2rem',
-      paddingBottom: '2rem'
+      paddingTop: '1.5rem',
+      paddingBottom: '1.5rem'
     }
   };
 });

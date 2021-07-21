@@ -23,15 +23,13 @@ const StyledSpacer = styled('div')(({ space, orientation }: Props) => {
   if (orientation === Orientations.vertical) {
     return {
       width: space,
-      height: '100vh',
-      maxHeight: '100%'
+      minHeight: '100%'
     };
   }
 
   return {
     height: space,
-    width: '100vw',
-    maxWidth: '100%'
+    minWidth: '100%'
   };
 });
 
