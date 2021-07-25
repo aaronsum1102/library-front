@@ -5,7 +5,7 @@ import { Typography, Box, Button } from '@material-ui/core';
 import { generateRouteUrl } from '~src/routes';
 import { useAuth } from '~app/hooks';
 import { Spacer, Spacings } from '~app/components';
-import { ResourceFilters } from '~app/modules';
+import { ResourceFilters, ResourceTable } from '~app/modules';
 
 const HomeView = (): JSX.Element => {
   const { signOut } = useAuth();
@@ -22,6 +22,7 @@ const HomeView = (): JSX.Element => {
       <Spacer space={Spacings.xLarge} />
       <ResourceFilters />
       <Spacer space={Spacings.xLarge} />
+      <ResourceTable />
       <Box>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut turpis a quam suscipit
         vestibulum. Aenean finibus, nunc at consectetur tempus, enim purus volutpat metus, id

@@ -11,7 +11,7 @@ const ResourceFilters = (): JSX.Element => {
   const options = [
     { label: 'All', value: 'all' },
     { label: 'Book', value: 'book' },
-    { label: 'E-book', value: 'e-book' }
+    { label: 'eBook', value: 'eBook' }
   ];
 
   return (
