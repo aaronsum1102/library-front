@@ -1,12 +1,14 @@
 import React from 'react';
 import {
+  Box,
   Table,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
   TableSortLabel,
-  SortDirection
+  SortDirection,
+  styled
 } from '@material-ui/core';
 import { ActionMenu, ActionMenuProps } from './ActionMenu';
 
@@ -75,6 +77,10 @@ HeadCell.defaultProps = {
   onRequestSort: undefined
 };
 
+const Container = styled(Box)({
+  overflowX: 'scroll'
+});
+
 export const DataTabel = <T,>({
   headDetails,
   fields,
@@ -85,38 +91,40 @@ export const DataTabel = <T,>({
   onRequestSort
 }: DataTabelProps<T>): JSX.Element => {
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          {fields.map((field) => (
-            <HeadCell
-              key={field as string}
-              id={field as string}
-              order={order}
-              orderBy={orderBy}
-              {...headDetails[field as keyof T]}
-              onRequestSort={onRequestSort}
-            />
-          ))}
-          <TableCell align="right" width={56}>
-            {null}
-          </TableCell>
-        </TableRow>
-      </TableHead>
-
-      <TableBody>
-        {items.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <TableRow key={index} hover>
+    <Container>
+      <Table>
+        <TableHead>
+          <TableRow>
             {fields.map((field) => (
-              <TableCell key={field as string}>{item[field as keyof T]}</TableCell>
+              <HeadCell
+                key={field as string}
+                id={field as string}
+                order={order}
+                orderBy={orderBy}
+                {...headDetails[field as keyof T]}
+                onRequestSort={onRequestSort}
+              />
             ))}
-            <TableCell>
-              {actions && actions.length > 0 && <ActionMenu id={index} actions={actions} />}
+            <TableCell align="right" width={56}>
+              {null}
             </TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+
+        <TableBody>
+          {items.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <TableRow key={index} hover>
+              {fields.map((field) => (
+                <TableCell key={field as string}>{item[field as keyof T]}</TableCell>
+              ))}
+              <TableCell>
+                {actions && actions.length > 0 && <ActionMenu id={index} actions={actions} />}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Container>
   );
 };

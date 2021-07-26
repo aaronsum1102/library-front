@@ -1,19 +1,33 @@
 import React, { useCallback, ChangeEvent } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, styled } from '@material-ui/core';
 
+const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  marginTop: '0.5rem',
+  marginBottom: '0.5rem',
+
+  [theme.breakpoints.up('sm')]: {
+    marginTop: '1rem',
+    marginBottom: '1rem'
+  }
+}));
+
 export interface DropdownProps {
   id: string;
   label: string;
   value: string;
   options: { label: string; value: string | number }[];
+  minWidth?: string;
   onChange: (value: unknown, name?: string) => void;
 }
 
-const StyledFormControl = styled(FormControl)({
-  minWidth: '120px'
-});
-
-export const Dropdown = ({ id, label, value, options, onChange }: DropdownProps): JSX.Element => {
+export const Dropdown = ({
+  id,
+  label,
+  value,
+  options,
+  minWidth,
+  onChange
+}: DropdownProps): JSX.Element => {
   const handleChange = useCallback(
     (
       e: ChangeEvent<{
@@ -29,7 +43,7 @@ export const Dropdown = ({ id, label, value, options, onChange }: DropdownProps)
   );
 
   return (
-    <StyledFormControl>
+    <StyledFormControl style={{ minWidth: minWidth || '120px' }}>
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select labelId={`${id}-label`} id={id} value={value} onChange={handleChange}>
         {options.map((option) => (

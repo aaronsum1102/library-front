@@ -8,6 +8,20 @@ interface SearchFilterProps {
   onClearSearch: () => void;
 }
 
+const Container = styled(Box)(({ theme }) => ({
+  minWidth: '150px',
+  width: '100%',
+  position: 'relative',
+  marginTop: '0.5rem',
+  marginBottom: '0.5rem',
+
+  [theme.breakpoints.up('sm')]: {
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    width: 'fit-content'
+  }
+}));
+
 const StyledTextField = styled(TextField)({
   width: '100%',
 
@@ -25,7 +39,7 @@ const StyledIconButton = styled(IconButton)({
 
 const SearchFilter = ({ value, onChange, onClearSearch }: SearchFilterProps): JSX.Element => {
   return (
-    <Box width="200px" position="relative">
+    <Container>
       <StyledTextField
         id="resource-filter"
         label="Search resource"
@@ -43,7 +57,7 @@ const SearchFilter = ({ value, onChange, onClearSearch }: SearchFilterProps): JS
           <CloseIcon fontSize="small" />
         </StyledIconButton>
       )}
-    </Box>
+    </Container>
   );
 };
 

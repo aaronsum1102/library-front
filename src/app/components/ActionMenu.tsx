@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState, useCallback } from 'react';
-import { IconButton, Menu, MenuItem, Fade, styled } from '@material-ui/core';
+import { IconButton, Menu, MenuItem, Fade, styled, Tooltip } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 interface Action {
@@ -41,9 +41,11 @@ export const ActionMenu = ({ id, actions }: ActionMenuProps): JSX.Element => {
 
   return (
     <div>
-      <StyledButton aria-controls="action-menu" aria-haspopup="true" onClick={handleClick}>
-        <MoreVertIcon />
-      </StyledButton>
+      <Tooltip title="More">
+        <StyledButton aria-controls="action-menu" aria-haspopup="true" onClick={handleClick}>
+          <MoreVertIcon />
+        </StyledButton>
+      </Tooltip>
 
       <Menu
         id="action-menu"
