@@ -2,6 +2,7 @@ import React, { useCallback, ChangeEvent } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, styled } from '@material-ui/core';
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  width: 'fit-content',
   marginTop: '0.5rem',
   marginBottom: '0.5rem',
 
@@ -17,7 +18,7 @@ export interface DropdownProps {
   value: string;
   options: { label: string; value: string | number }[];
   minWidth?: string;
-  onChange: (value: unknown, name?: string) => void;
+  onChange: (value: string | number, name?: string) => void;
 }
 
 export const Dropdown = ({
@@ -37,7 +38,11 @@ export const Dropdown = ({
     ) => {
       const { value: targetValue, name } = e.target;
 
-      onChange(targetValue, name);
+      if (typeof targetValue === 'string') {
+        onChange(targetValue as string, name);
+      } else {
+        onChange(targetValue as number, name);
+      }
     },
     [onChange]
   );
