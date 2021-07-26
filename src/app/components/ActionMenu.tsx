@@ -4,11 +4,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 interface Action {
   label: string;
-  onClick: (id: string) => void;
+  onClick: (id: number) => void;
 }
 
 export interface ActionMenuProps {
-  id: string;
+  id: number;
   actions: Action[];
 }
 
