@@ -1,16 +1,20 @@
 import React, { useEffect, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
+import { Typography, Box } from '@material-ui/core';
 
-import { Typography } from '@material-ui/core';
-import { generateRouteUrl } from '~src/routes';
+import { generateRouteUrl, NotifyViewRouteState } from '~src/routes';
 import { useAuth } from '~app/hooks';
-
 import { Center, Loader, LoginForm } from '~app/components';
+
+const isVerifyView = (search: string): boolean => {
+  return new RegExp(/\?apiKey=.+oobCode=.+mode=signIn/g).test(search);
+};
 
 const VerifyView = (): JSX.Element => {
   const emailFromLocalStorage = useRef(window.localStorage.getItem('emailForSignIn'));
-
+  const { search } = useLocation();
   const { user, signIn } = useAuth();
+  const authenticated = Boolean(user);
 
   useEffect(() => {
     if (emailFromLocalStorage.current) {
@@ -18,13 +22,17 @@ const VerifyView = (): JSX.Element => {
     }
   }, []);
 
-  if (user) {
+  if (!isVerifyView(search)) {
+    return <Redirect to={generateRouteUrl('login')} />;
+  }
+
+  if (authenticated) {
     if (emailFromLocalStorage.current) {
       return (
         <Redirect
           to={{
             pathname: generateRouteUrl('notify'),
-            state: { fromVerify: true }
+            state: { fromVerify: true } as NotifyViewRouteState
           }}
         />
       );
@@ -34,17 +42,19 @@ const VerifyView = (): JSX.Element => {
   }
 
   return (
-    <Center>
-      {!emailFromLocalStorage.current ? (
-        <LoginForm buttonText="Verify" onSubmitCallback={signIn} />
-      ) : (
-        <>
-          <Loader thickness={6} color="primary">
-            <Typography variant="h5">Verifying</Typography>
-          </Loader>
-        </>
-      )}
-    </Center>
+    <Box height="100vh">
+      <Center>
+        {!emailFromLocalStorage.current ? (
+          <LoginForm buttonText="Verify" onSubmitCallback={signIn} />
+        ) : (
+          <>
+            <Loader thickness={6} color="primary">
+              <Typography variant="h5">Verifying</Typography>
+            </Loader>
+          </>
+        )}
+      </Center>
+    </Box>
   );
 };
 

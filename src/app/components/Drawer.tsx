@@ -6,7 +6,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import { useApp, useAuth } from '~app/hooks';
 import { Spacer, Spacings } from '~app/components';
-import { protectedRoutes } from '~src/routes';
+import { routes } from '~src/routes';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiPaper-root': {
@@ -55,14 +55,14 @@ const AppDrawer = (): JSX.Element => {
     <StyledDrawer anchor="left" open={drawerOpen} onClose={onClose}>
       <Container>
         <Box height="44px" display="flex">
-          {user && (
-            <Box flexGrow={1} display="flex" alignItems="center">
+          <Box flexGrow={1} display="flex" alignItems="center">
+            {user && user.email && (
               <StyledButton href="/profile">
                 <StyledIcon fontSize="small" color="secondary" />
-                {user?.email}{' '}
+                {user.email}
               </StyledButton>
-            </Box>
-          )}
+            )}
+          </Box>
 
           <CloseButton edge="start" color="default" aria-label="menu" onClick={onClose}>
             <CloseIcon fontSize="small" />
@@ -72,11 +72,17 @@ const AppDrawer = (): JSX.Element => {
         <Spacer space={Spacings.xLarge} />
 
         <Box component="nav">
-          {protectedRoutes.map(({ label, path }) => (
-            <Button key={label} href={path}>
-              {label}
-            </Button>
-          ))}
+          {routes.map(({ label, path }) => {
+            if (label) {
+              return (
+                <Button key={label} href={path}>
+                  {label}
+                </Button>
+              );
+            }
+
+            return null;
+          })}
         </Box>
       </Container>
     </StyledDrawer>

@@ -1,7 +1,7 @@
-import { protectedRoutes, authRoutes } from './definition';
+import { routes } from './definition';
 
 const generateRouteUrl = (name: string, parameters: Record<string, string> = {}): string => {
-  const route = [...protectedRoutes, ...authRoutes].find((r) => r.name === name);
+  const route = routes.find((r) => r.name === name);
 
   if (!route) {
     throw new Error(`Cannot build URL for unknown route ${name}.`);
