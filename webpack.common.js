@@ -102,7 +102,7 @@ module.exports = {
           chunks: 'all'
         },
         firebase: {
-          test: /[\\/]node_modules[\\/]@firebase[\\/]auth[\\/]dist[\\/]/,
+          test: /[\\/]node_modules[\\/]@firebase[\\/]/,
           name: 'vendor3',
           chunks: 'all'
         }
