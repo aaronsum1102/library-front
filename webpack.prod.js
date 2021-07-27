@@ -8,19 +8,19 @@ const { BUILD_REPORTS_FOLDER } = require('./webpack.config');
 
 const prod = {
   mode: 'production',
-  devtool: 'hidden-source-map',
+  devtool: 'cheap-module-source-map',
   output: {
     ...common.output,
-    chunkFilename: '[contenthash:8].chunk.js',
-    filename: '[contenthash:8].js'
+    chunkFilename: '[name].[contenthash:8].chunk.js',
+    filename: '[name].[contenthash:8].js'
   },
   plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
       reportFilename: path.resolve(BUILD_REPORTS_FOLDER, `build-report-${Date.now()}.html`)
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
     minimize: true,
