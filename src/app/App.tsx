@@ -6,15 +6,16 @@ import { Header, Drawer, PageContent, Loader } from '~app/components';
 import { useAuth } from '~app/hooks';
 
 const App = (): JSX.Element => {
-  const { isInitAuth } = useAuth();
+  const { isInitAuth, user } = useAuth();
+  const authenticated = Boolean(user);
 
   const userId = window.localStorage.getItem('userId');
 
   return (
     <>
-      <Header />
+      {authenticated && <Header />}
 
-      <Drawer />
+      {authenticated && <Drawer />}
 
       {isInitAuth ? (
         <Loader color="primary" thickness={5} showText={!userId}>
@@ -22,7 +23,7 @@ const App = (): JSX.Element => {
         </Loader>
       ) : (
         <PageContent>
-          <LoadableRouter />
+          <LoadableRouter authenticated={authenticated} />
         </PageContent>
       )}
     </>

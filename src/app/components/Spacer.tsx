@@ -6,7 +6,10 @@ export enum Spacings {
   medium = '1rem',
   large = '1.5rem',
   xLarge = '2rem',
-  xxLarge = '3rem'
+  xxLarge = '3rem',
+  xxxLarge = '4rem',
+  xxxxLarge = '5rem',
+  xxxxxLarge = '6rem'
 }
 
 export enum Orientations {
@@ -22,14 +25,12 @@ interface Props {
 const StyledSpacer = styled('div')(({ space, orientation }: Props) => {
   if (orientation === Orientations.vertical) {
     return {
-      width: space,
-      minHeight: '100%'
+      width: space
     };
   }
 
   return {
-    height: space,
-    minWidth: '100%'
+    height: space
   };
 });
 
