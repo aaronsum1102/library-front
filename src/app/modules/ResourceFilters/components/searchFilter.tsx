@@ -8,15 +8,15 @@ interface SearchFilterProps {
 }
 
 const Container = styled(Box)(({ theme }) => ({
-  minWidth: '150px',
-  position: 'relative',
-  marginTop: '0.5rem',
-  marginBottom: '0.5rem',
+  // minWidth: '150px',
+  position: 'relative'
+  // marginTop: '0.5rem',
+  // marginBottom: '0.5rem',
 
-  [theme.breakpoints.up('sm')]: {
-    marginTop: '1rem',
-    marginBottom: '1rem'
-  }
+  // [theme.breakpoints.up('sm')]: {
+  //   marginTop: '1rem',
+  //   marginBottom: '1rem'
+  // }
 }));
 
 const StyledTextField = styled(TextField)({

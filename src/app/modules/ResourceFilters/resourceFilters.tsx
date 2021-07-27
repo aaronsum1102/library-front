@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import { TypeFilter, AvailabilityFilter } from '~app/contexts';
 import { useResources } from '~app/hooks';
-import { Orientations, Spacer, Spacings, Dropdown } from '~app/components';
+import { Dropdown } from '~app/components';
 import SearchFilter from './components';
 
 interface Option<T> {
@@ -34,25 +34,31 @@ const ResourceFilters = (): JSX.Element => {
   } = useResources();
 
   return (
-    <Box display="flex" flexWrap="wrap">
-      <SearchFilter value={titleFilter} onChange={setTitleFilter} />
-      <Spacer space={Spacings.xLarge} orientation={Orientations.vertical} />
-      <Dropdown
-        id="resource-type-filter"
-        label="Resource type"
-        options={typeOptions}
-        value={typeFilter}
-        onChange={(value) => setTypeFilter(value as TypeFilter)}
-      />
-      <Spacer space={Spacings.xLarge} orientation={Orientations.vertical} />
-      <Dropdown
-        id="availability-filter"
-        label="Availability"
-        options={availabilityOptions}
-        value={availabilityFilter}
-        onChange={(value) => setAvailabilityFilter(value as AvailabilityFilter)}
-      />
-    </Box>
+    <Grid container spacing={2}>
+      <Grid item xs={12} sm={3}>
+        <SearchFilter value={titleFilter} onChange={setTitleFilter} />
+      </Grid>
+
+      <Grid item xs={6} sm={3} lg={2}>
+        <Dropdown
+          id="resource-type-filter"
+          label="Resource type"
+          options={typeOptions}
+          value={typeFilter}
+          onChange={(value) => setTypeFilter(value as TypeFilter)}
+        />
+      </Grid>
+
+      <Grid item xs={6} sm={3} lg={2}>
+        <Dropdown
+          id="availability-filter"
+          label="Availability"
+          options={availabilityOptions}
+          value={availabilityFilter}
+          onChange={(value) => setAvailabilityFilter(value as AvailabilityFilter)}
+        />
+      </Grid>
+    </Grid>
   );
 };
 
