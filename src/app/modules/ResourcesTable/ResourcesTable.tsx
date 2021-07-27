@@ -1,29 +1,54 @@
 import React from 'react';
+import { Box, Typography, styled } from '@material-ui/core';
 
+import { ResourceData } from '~app/contexts';
 import { useResources } from '~app/hooks';
-import { DataTabel } from '~app/components';
-import {
-  stableSort,
-  getComparator,
-  dateComparator,
-  generalDescendingComparator
-} from '~app/helpers';
+import { DataTabel, DataTabelProps } from '~app/components';
 
-const ResourcesTable = () => {
-  const { fields, headDetails, items, actions, order, orderBy, onRequestSort } = useResources();
+const StyledParagraph = styled(Typography)({
+  padding: '1rem'
+});
 
-  const comparator = orderBy === 'availableFrom' ? dateComparator : generalDescendingComparator;
+const fields: Array<keyof ResourceData> = ['title', 'type', 'availability', 'availableFrom'];
+
+const headDetails: DataTabelProps<ResourceData>['headDetails'] = {
+  title: {
+    label: 'Title',
+    sortable: true,
+    width: '40%'
+  },
+  type: {
+    label: 'Resource type'
+  },
+  availability: {
+    label: 'Availability'
+  },
+  availableFrom: {
+    label: 'Available from',
+    sortable: true
+  }
+};
+
+const borrowActionLabel = 'Borrow';
+
+const ResourcesTable = (): JSX.Element => {
+  const { items, order, orderBy, onRequestSort, onRequestBorrow } = useResources();
+
+  const actions = [{ label: borrowActionLabel, onClick: onRequestBorrow }];
 
   return (
-    <DataTabel
-      fields={fields}
-      headDetails={headDetails}
-      items={stableSort(items, getComparator(order, orderBy, comparator))}
-      actions={actions}
-      order={order}
-      orderBy={orderBy}
-      onRequestSort={onRequestSort}
-    />
+    <Box>
+      <DataTabel
+        fields={fields}
+        headDetails={headDetails}
+        items={items}
+        actions={actions}
+        order={order}
+        orderBy={orderBy}
+        onRequestSort={onRequestSort}
+      />
+      {items.length === 0 && <StyledParagraph>No resources availiable</StyledParagraph>}
+    </Box>
   );
 };
 

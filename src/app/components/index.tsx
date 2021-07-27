@@ -7,3 +7,4 @@ export { default as PageContent } from './PageContent';
 export { default as Spacer, Spacings, Orientations } from './Spacer';
 export * from './Dropdown';
 export * from './DataTabel';
+export * from './ActionMenu';

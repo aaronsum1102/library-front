@@ -2,7 +2,7 @@ import React, { MouseEvent, useState, useCallback } from 'react';
 import { IconButton, Menu, MenuItem, Fade, styled, Tooltip } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-interface Action {
+export interface Action {
   label: string;
   onClick: (id: number) => void;
 }
