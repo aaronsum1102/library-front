@@ -4,6 +4,7 @@ export interface RouteDefinition {
   exact: boolean;
   view: string;
   private: boolean;
+  label: string;
 }
 
 export interface VerifyViewRouteState {
@@ -16,11 +17,12 @@ export const protectedRoutes: RouteDefinition[] = [
     path: '/',
     exact: true,
     view: 'HomeView',
-    private: true
+    private: true,
+    label: 'Resources'
   }
 ];
 
-export const authRoutes: RouteDefinition[] = [
+export const authRoutes: Omit<RouteDefinition, 'label'>[] = [
   {
     name: 'login',
     path: '/login',
