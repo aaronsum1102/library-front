@@ -5,7 +5,6 @@ import CloseIcon from '@material-ui/icons/Close';
 interface SearchFilterProps {
   value: string;
   onChange: (value: string) => void;
-  onClearSearch: () => void;
 }
 
 const Container = styled(Box)(({ theme }) => ({
@@ -35,7 +34,7 @@ const StyledIconButton = styled(IconButton)({
   padding: '6px'
 });
 
-const SearchFilter = ({ value, onChange, onClearSearch }: SearchFilterProps): JSX.Element => {
+const SearchFilter = ({ value, onChange }: SearchFilterProps): JSX.Element => {
   return (
     <Container>
       <StyledTextField
@@ -50,7 +49,7 @@ const SearchFilter = ({ value, onChange, onClearSearch }: SearchFilterProps): JS
         <StyledIconButton
           color="default"
           aria-label="clear-resource-filter"
-          onClick={() => onClearSearch()}
+          onClick={() => onChange('')}
         >
           <CloseIcon fontSize="small" />
         </StyledIconButton>

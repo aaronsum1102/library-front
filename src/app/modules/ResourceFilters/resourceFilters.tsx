@@ -1,40 +1,48 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box } from '@material-ui/core';
 
+import { TypeFilter, AvailabilityFilter } from '~app/contexts';
+import { useResources } from '~app/hooks';
 import { Orientations, Spacer, Spacings, Dropdown } from '~app/components';
 import SearchFilter from './components';
 
+interface Option<T> {
+  label: string;
+  value: T;
+}
+
+const typeOptions: Option<TypeFilter>[] = [
+  { label: 'All', value: 'all' },
+  { label: 'Book', value: 'book' },
+  { label: 'eBook', value: 'eBook' }
+];
+
+const availabilityOptions: Option<AvailabilityFilter>[] = [
+  { label: 'All', value: 'all' },
+  { label: 'Yes', value: 'yes' },
+  { label: 'No', value: 'no' }
+];
+
 const ResourceFilters = (): JSX.Element => {
-  const [resourceFilter, setResourceFilter] = useState('');
-  const [resourceTypeFilter, setResourceTypeFilter] = useState('all');
-  const [availabilityFilter, setAvailabilityFilter] = useState('all');
-
-  const options = [
-    { label: 'All', value: 'all' },
-    { label: 'Book', value: 'book' },
-    { label: 'eBook', value: 'eBook' }
-  ];
-
-  const availabilityOptions = [
-    { label: 'All', value: 'all' },
-    { label: 'Yes', value: 'yes' },
-    { label: 'No', value: 'no' }
-  ];
+  const {
+    titleFilter,
+    typeFilter,
+    availabilityFilter,
+    setTitleFilter,
+    setTypeFilter,
+    setAvailabilityFilter
+  } = useResources();
 
   return (
     <Box display="flex" flexWrap="wrap">
-      <SearchFilter
-        value={resourceFilter}
-        onChange={setResourceFilter}
-        onClearSearch={() => setResourceFilter('')}
-      />
+      <SearchFilter value={titleFilter} onChange={setTitleFilter} />
       <Spacer space={Spacings.xLarge} orientation={Orientations.vertical} />
       <Dropdown
         id="resource-type-filter"
         label="Resource type"
-        options={options}
-        value={resourceTypeFilter}
-        onChange={(value) => setResourceTypeFilter(value as string)}
+        options={typeOptions}
+        value={typeFilter}
+        onChange={(value) => setTypeFilter(value as TypeFilter)}
       />
       <Spacer space={Spacings.xLarge} orientation={Orientations.vertical} />
       <Dropdown
@@ -42,7 +50,7 @@ const ResourceFilters = (): JSX.Element => {
         label="Availability"
         options={availabilityOptions}
         value={availabilityFilter}
-        onChange={(value) => setAvailabilityFilter(value as string)}
+        onChange={(value) => setAvailabilityFilter(value as AvailabilityFilter)}
       />
     </Box>
   );

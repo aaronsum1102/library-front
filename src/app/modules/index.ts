@@ -1,2 +1,2 @@
-/* eslint-disable import/prefer-default-export */
 export { default as ResourceFilters } from './ResourceFilters';
+export { default as ResourcesTable } from './ResourcesTable';
