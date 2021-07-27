@@ -31,6 +31,12 @@ const Container = styled(Box)(({ theme }) => ({
   }
 }));
 
+const StyledButton = styled(Button)({
+  '& .MuiButton-label': {
+    wordBreak: 'break-word'
+  }
+});
+
 const StyledIcon = styled(ArrowForwardIcon)(({ theme }) => ({
   marginRight: theme.spacing(1)
 }));
@@ -48,13 +54,13 @@ const AppDrawer = (): JSX.Element => {
   return (
     <StyledDrawer anchor="left" open={drawerOpen} onClose={onClose}>
       <Container>
-        <Box height="44px">
+        <Box height="44px" display="flex">
           {user && (
-            <Box>
-              <Button href="/profile">
+            <Box flexGrow={1} display="flex" alignItems="center">
+              <StyledButton href="/profile">
                 <StyledIcon fontSize="small" color="secondary" />
                 {user?.email}{' '}
-              </Button>
+              </StyledButton>
             </Box>
           )}
 
