@@ -15,7 +15,6 @@ const prod = {
     filename: '[name].[contenthash:8].js'
   },
   plugins: [
-    // new webpack.optimize.ModuleConcatenationPlugin(),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
