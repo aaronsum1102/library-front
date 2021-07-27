@@ -27,10 +27,6 @@ const LoginView = (): JSX.Element => {
     return <Redirect to={generateRouteUrl('home')} />;
   }
 
-  if (window.localStorage.getItem('userId')) {
-    return <></>;
-  }
-
   return (
     <Center>
       {!isWaitingForVerification ? (

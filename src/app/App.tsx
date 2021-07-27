@@ -6,7 +6,8 @@ import { Header, Drawer, PageContent, Loader } from '~app/components';
 import { useAuth } from '~app/hooks';
 
 const App = (): JSX.Element => {
-  const { isInitAuth } = useAuth();
+  const { isInitAuth, user } = useAuth();
+  const authenticated = Boolean(user);
 
   const userId = window.localStorage.getItem('userId');
 
@@ -22,7 +23,7 @@ const App = (): JSX.Element => {
         </Loader>
       ) : (
         <PageContent>
-          <LoadableRouter />
+          <LoadableRouter authenticated={authenticated} />
         </PageContent>
       )}
     </>

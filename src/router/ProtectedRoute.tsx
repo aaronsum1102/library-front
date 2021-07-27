@@ -1,12 +1,15 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { generateRouteUrl } from '../routes';
-import { useAuth } from '~app/hooks';
 
-const ProtectedRoute = (props: RouteProps): JSX.Element => {
-  const { user } = useAuth();
+interface ProtectedRouteProps extends RouteProps {
+  authenticated: boolean;
+}
 
-  if (!user) {
+const ProtectedRoute = (props: ProtectedRouteProps): JSX.Element => {
+  const { authenticated } = props;
+
+  if (!authenticated) {
     return <Redirect to={generateRouteUrl('login')} />;
   }
 
