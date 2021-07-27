@@ -7,17 +7,9 @@ interface SearchFilterProps {
   onChange: (value: string) => void;
 }
 
-const Container = styled(Box)(({ theme }) => ({
-  // minWidth: '150px',
+const Container = styled(Box)({
   position: 'relative'
-  // marginTop: '0.5rem',
-  // marginBottom: '0.5rem',
-
-  // [theme.breakpoints.up('sm')]: {
-  //   marginTop: '1rem',
-  //   marginBottom: '1rem'
-  // }
-}));
+});
 
 const StyledTextField = styled(TextField)({
   width: '100%',

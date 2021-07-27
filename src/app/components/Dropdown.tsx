@@ -1,16 +1,9 @@
 import React, { useCallback, ChangeEvent } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, styled } from '@material-ui/core';
 
-const StyledFormControl = styled(FormControl)(({ theme }) => ({
+const StyledFormControl = styled(FormControl)({
   width: '100%'
-  // marginTop: '0.5rem',
-  // marginBottom: '0.5rem',
-
-  // [theme.breakpoints.up('sm')]: {
-  //   marginTop: '1rem',
-  //   marginBottom: '1rem'
-  // }
-}));
+});
 
 export interface DropdownProps {
   id: string;
