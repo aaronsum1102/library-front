@@ -55,14 +55,14 @@ const AppDrawer = (): JSX.Element => {
     <StyledDrawer anchor="left" open={drawerOpen} onClose={onClose}>
       <Container>
         <Box height="44px" display="flex">
-          {user && (
-            <Box flexGrow={1} display="flex" alignItems="center">
+          <Box flexGrow={1} display="flex" alignItems="center">
+            {user && user.email && (
               <StyledButton href="/profile">
                 <StyledIcon fontSize="small" color="secondary" />
-                {user?.email}{' '}
+                {user.email}
               </StyledButton>
-            </Box>
-          )}
+            )}
+          </Box>
 
           <CloseButton edge="start" color="default" aria-label="menu" onClick={onClose}>
             <CloseIcon fontSize="small" />

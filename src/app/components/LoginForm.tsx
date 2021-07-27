@@ -14,14 +14,18 @@ interface EmailField {
   helperText: string;
 }
 
+const Container = styled(Box)({
+  width: '100%',
+  maxWidth: '300px'
+});
+
 const StyledTextField = styled(TextField)({
-  minWidth: '100%',
-  maxWidth: '100%'
+  width: '100%'
 });
 
 const StyledButton = styled(Button)({
-  minWidth: '100%',
-  maxWidth: '100%'
+  width: '100%',
+  padding: '0.5rem 1rem 0.5rem 1rem'
 });
 
 const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
@@ -92,9 +96,11 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
 
   return (
     <>
-      <Typography variant="h3">Log in to Library</Typography>
+      <Typography variant="h3" align="center">
+        Log in to Library
+      </Typography>
       <Spacer space={Spacings.xLarge} />
-      <Box component="form" maxWidth={320} onSubmit={onLogin}>
+      <Container component="form" onSubmit={onLogin}>
         {authError && (
           <>
             <Box bgcolor="error.main" color="error.contrastText" padding={2} minWidth="100%">
@@ -124,7 +130,7 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
         >
           {buttonText}
         </StyledButton>
-      </Box>
+      </Container>
     </>
   );
 };

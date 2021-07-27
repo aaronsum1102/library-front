@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 
 import { generateRouteUrl, NotifyViewRouteState } from '~src/routes';
 import { useAuth } from '~app/hooks';
@@ -42,17 +42,19 @@ const VerifyView = (): JSX.Element => {
   }
 
   return (
-    <Center>
-      {!emailFromLocalStorage.current ? (
-        <LoginForm buttonText="Verify" onSubmitCallback={signIn} />
-      ) : (
-        <>
-          <Loader thickness={6} color="primary">
-            <Typography variant="h5">Verifying</Typography>
-          </Loader>
-        </>
-      )}
-    </Center>
+    <Box height="100vh">
+      <Center>
+        {!emailFromLocalStorage.current ? (
+          <LoginForm buttonText="Verify" onSubmitCallback={signIn} />
+        ) : (
+          <>
+            <Loader thickness={6} color="primary">
+              <Typography variant="h5">Verifying</Typography>
+            </Loader>
+          </>
+        )}
+      </Center>
+    </Box>
   );
 };
 

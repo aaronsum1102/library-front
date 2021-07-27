@@ -13,9 +13,9 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <Header />
+      {authenticated && <Header />}
 
-      <Drawer />
+      {authenticated && <Drawer />}
 
       {isInitAuth ? (
         <Loader color="primary" thickness={5} showText={!userId}>

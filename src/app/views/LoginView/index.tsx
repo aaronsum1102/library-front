@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Box } from '@material-ui/core';
+
 import { Center, LoginForm } from '~app/components';
 import { AuthenticatingInfo } from './components';
 import { useAuth } from '~app/hooks';
@@ -28,13 +30,15 @@ const LoginView = (): JSX.Element => {
   }
 
   return (
-    <Center>
-      {!isWaitingForVerification ? (
-        <LoginForm buttonText="Log in" onSubmitCallback={sendSignInLinkCallback} />
-      ) : (
-        <AuthenticatingInfo email={email} />
-      )}
-    </Center>
+    <Box height="100vh">
+      <Center>
+        {!isWaitingForVerification ? (
+          <LoginForm buttonText="Log in" onSubmitCallback={sendSignInLinkCallback} />
+        ) : (
+          <AuthenticatingInfo email={email} />
+        )}
+      </Center>
+    </Box>
   );
 };
 
