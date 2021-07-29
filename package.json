@@ -82,7 +82,8 @@
   },
   "resolutions": {
     "css-what": ">=5.0.1",
-    "glob-parent": ">=5.1.2"
+    "glob-parent": ">=5.1.2",
+    "ws": ">=5.2.3 <6.0.0 || >=6.2.2 <7.0.0 || >=7.4.6"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx}": [
