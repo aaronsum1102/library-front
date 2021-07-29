@@ -1,0 +1,3 @@
+mutation verifyUser($email: String!) {
+  verifyUser(email: $email)
+}
