@@ -21,6 +21,14 @@ export const routes: RouteDefinition[] = [
     label: 'Resources'
   },
   {
+    name: 'admin',
+    path: '/admin',
+    exact: true,
+    view: 'AdminView',
+    private: true,
+    label: 'Admin'
+  },
+  {
     name: 'login',
     path: '/login',
     exact: true,

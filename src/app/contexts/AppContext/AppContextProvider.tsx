@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { createMuiTheme, CssBaseline, ThemeProvider, Box, styled } from '@material-ui/core';
+import { createTheme, CssBaseline, ThemeProvider, Box, styled } from '@material-ui/core';
 
 import { AppContext, AppState } from './AppContext';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
