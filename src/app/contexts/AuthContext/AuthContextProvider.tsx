@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { useVerifyUserMutation } from '~app/apollo/generated/graphql';
+import { User, useVerifyUserMutation } from '~app/apollo/generated/graphql';
 
-import { AuthContext, User, AuthActionResult } from './AuthContext';
+import { AuthContext, AuthActionResult } from './AuthContext';
 import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
@@ -29,10 +29,17 @@ const AuthContextProvider: React.FC = ({ children }) => {
       isInitAuth.current = false;
 
       if (newUserState?.email) {
-        setUser({
-          ...user,
-          email: newUserState.email
-        } as User);
+        newUserState.getIdTokenResult().then((idTokenResult) => {
+          const admin = !!idTokenResult.claims.admin;
+
+          setUser({
+            uid: newUserState.uid,
+            email: newUserState.email as string,
+            displayName: newUserState.displayName,
+            phoneNumber: newUserState.phoneNumber,
+            admin
+          });
+        });
 
         window.localStorage.setItem('userId', newUserState.uid);
       } else {

@@ -56,10 +56,10 @@ const AppDrawer = (): JSX.Element => {
       <Container>
         <Box height="44px" display="flex">
           <Box flexGrow={1} display="flex" alignItems="center">
-            {user && user.email && (
+            {user && (
               <StyledButton href="/profile">
                 <StyledIcon fontSize="small" color="secondary" />
-                {user.email}
+                {user.displayName || user.email}
               </StyledButton>
             )}
           </Box>

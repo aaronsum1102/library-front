@@ -1,0 +1,9 @@
+query users {
+  users {
+    uid
+    email
+    displayName
+    phoneNumber
+    admin
+  }
+}

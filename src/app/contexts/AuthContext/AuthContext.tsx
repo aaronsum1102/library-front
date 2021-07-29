@@ -1,9 +1,5 @@
 import { createContext } from 'react';
-
-export interface User {
-  email: string;
-  isNewUser: boolean;
-}
+import { User } from '~app/apollo/generated/graphql';
 
 export interface AuthActionResult {
   success: boolean;
