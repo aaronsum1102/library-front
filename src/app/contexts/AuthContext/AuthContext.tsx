@@ -5,12 +5,17 @@ export interface User {
   isNewUser: boolean;
 }
 
+export interface AuthActionResult {
+  success: boolean;
+  errorMessage?: string;
+}
+
 export interface AuthState {
   user: User | null | undefined;
-  sendSignInLink: (email: string) => Promise<boolean>;
+  sendSignInLink: (email: string) => Promise<AuthActionResult>;
   isSignInWithEmailLink: boolean;
-  signIn: (email: string) => Promise<boolean>;
-  signOut: () => Promise<boolean>;
+  signIn: (email: string) => Promise<AuthActionResult>;
+  signOut: () => Promise<AuthActionResult>;
   isInitAuth: boolean;
 }
 

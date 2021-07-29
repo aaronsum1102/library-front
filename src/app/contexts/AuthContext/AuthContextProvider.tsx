@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { useVerifyUserMutation } from '~app/apollo/generated/graphql';
 
-import { AuthContext, User } from './AuthContext';
+import { AuthContext, User, AuthActionResult } from './AuthContext';
 import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
@@ -20,6 +21,8 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const isInitAuth = useRef(true);
 
   const [user, setUser] = useState<User | null | undefined>(undefined);
+
+  const [verifyUser] = useVerifyUserMutation();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((newUserState) => {
@@ -40,19 +43,35 @@ const AuthContextProvider: React.FC = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const sendSignInLink = async (email: string) => {
+  const sendSignInLink = async (email: string): Promise<AuthActionResult> => {
     try {
-      await auth.sendSignInLinkToEmail(email, actionCodeSettings);
-      window.localStorage.setItem('emailForSignIn', email);
-      return true;
+      const { data } = await verifyUser({ variables: { email } });
+
+      if (data?.verifyUser) {
+        await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+        window.localStorage.setItem('emailForSignIn', email);
+
+        return {
+          success: true
+        };
+      }
+
+      return {
+        success: false,
+        errorMessage:
+          'Not account associated for this email. Please contact admin to create an account.'
+      };
     } catch (error) {
-      return false;
+      return {
+        success: false,
+        errorMessage: error.message
+      };
     }
   };
 
   const isSignInWithEmailLink = auth.isSignInWithEmailLink(window.location.href);
 
-  const signIn = async (email: string): Promise<boolean> => {
+  const signIn = async (email: string): Promise<AuthActionResult> => {
     if (isSignInWithEmailLink) {
       try {
         const result = await auth.signInWithEmailLink(email, window.location.href);
@@ -63,22 +82,36 @@ const AuthContextProvider: React.FC = ({ children }) => {
           isNewUser: result.additionalUserInfo?.isNewUser
         } as User);
 
-        return true;
+        return {
+          success: true
+        };
       } catch (error) {
-        return false;
+        return {
+          success: false,
+          errorMessage: error.message
+        };
       }
     }
-    return false;
+
+    return {
+      success: false
+    };
   };
 
-  const signOut = async () => {
+  const signOut = async (): Promise<AuthActionResult> => {
     try {
       await auth.signOut();
       setUser(null);
       window.localStorage.removeItem('userId');
-      return true;
+
+      return {
+        success: true
+      };
     } catch (error) {
-      return false;
+      return {
+        success: false,
+        errorMessage: error.message
+      };
     }
   };
 

@@ -18,7 +18,9 @@ const LoginView = (): JSX.Element => {
       setEmail(finalEmail);
       const result = await sendSignInLink(finalEmail);
 
-      if (result) setIsWaitingForVerification(true);
+      if (result.success) {
+        setIsWaitingForVerification(true);
+      }
 
       return result;
     },
