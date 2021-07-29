@@ -71,13 +71,16 @@ const AppDrawer = (): JSX.Element => {
 
         <Spacer space={Spacings.xLarge} />
 
-        <Box component="nav">
+        <Box component="nav" display="flex" flexDirection="column" alignItems="flex-start">
           {routes.map(({ label, path }) => {
             if (label) {
               return (
-                <Button key={label} href={path}>
-                  {label}
-                </Button>
+                <>
+                  <Button key={label} href={path}>
+                    {label}
+                  </Button>
+                  <Spacer />
+                </>
               );
             }
 
