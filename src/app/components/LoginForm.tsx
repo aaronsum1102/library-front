@@ -1,11 +1,13 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { Typography, TextField, TextFieldProps, Button, Box, styled } from '@material-ui/core';
+
+import { AuthActionResult } from '~app/contexts';
 import Loader from './Loader';
 import Spacer, { Spacings } from './Spacer';
 
 interface Props {
   buttonText: string;
-  onSubmitCallback: (email: string) => Promise<boolean>;
+  onSubmitCallback: (email: string) => Promise<AuthActionResult>;
 }
 
 interface EmailField {
@@ -37,7 +39,9 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
     helperText: ''
   });
   const [loading, setLoading] = useState(false);
-  const [authError, setAuthError] = useState<boolean | undefined>(undefined);
+  const [authError, setAuthError] = useState<{ error: boolean; message?: string } | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     return () => {
@@ -73,13 +77,13 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
       if (!error) {
         const result = await onSubmitCallback(emailField.value);
 
-        if (!result && isMounted.current) {
+        if (!result.success && isMounted.current) {
           setEmailField({
             ...emailField,
-            error: true
+            error: false
           });
 
-          setAuthError(true);
+          setAuthError({ error: !result.success, message: result.errorMessage });
         }
       } else {
         setEmailField({
@@ -101,10 +105,10 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
       </Typography>
       <Spacer space={Spacings.xLarge} />
       <Container component="form" onSubmit={onLogin}>
-        {authError && (
+        {authError?.error && (
           <>
             <Box bgcolor="error.main" color="error.contrastText" padding={2} minWidth="100%">
-              Authentication failed. Please try again later.
+              {authError.message || 'Authentication failed. Please try again later.'}
             </Box>
             <Spacer space={Spacings.xLarge} />
           </>

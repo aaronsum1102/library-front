@@ -1,0 +1,15 @@
+overwrite: true
+generates:
+  src/app/apollo/generated/graphql.tsx:
+    documents: src/app/**/*.gql
+    schema: ${CODEGEN_API_ADMIN_URL}
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      reactApolloVersion: 3
+      withMutationFn: true
+      withRefetchFn: true
+      apolloReactCommonImportFrom: '@apollo/client'
+      apolloReactHooksImportFrom: '@apollo/client'

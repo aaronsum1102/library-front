@@ -1,0 +1,11 @@
+query user($email: String!) {
+  user(email: $email) {
+    uid
+    email
+    displayName
+    phoneNumber
+    customClaims {
+      admin
+    }
+  }
+}
