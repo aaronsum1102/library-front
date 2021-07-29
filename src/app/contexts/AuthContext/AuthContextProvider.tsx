@@ -8,7 +8,7 @@ import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
 
-firebase.initializeApp(firebaseConfig);
+export const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 

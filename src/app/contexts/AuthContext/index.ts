@@ -1,2 +1,2 @@
-export { default as AuthContextProvider } from './AuthContextProvider';
+export { default as AuthContextProvider, firebaseApp } from './AuthContextProvider';
 export * from './AuthContext';

@@ -5,7 +5,7 @@ import { ApolloProvider } from '@apollo/client';
 
 import { AuthContextProvider, AppContextProvider } from './contexts';
 import App from './App';
-import apolloClient from '~app/apollo/apollo-client';
+import apolloClient from './apollo/apollo-client';
 
 render(
   <ApolloProvider client={apolloClient}>
