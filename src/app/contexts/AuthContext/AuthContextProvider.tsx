@@ -71,7 +71,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        errorMessage: error.message
+        errorMessage: 'Something went wrong. Please try again later.'
       };
     }
   };
@@ -95,7 +95,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
       } catch (error) {
         return {
           success: false,
-          errorMessage: error.message
+          errorMessage: 'Something went wrong. Please try again later.'
         };
       }
     }
@@ -117,7 +117,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        errorMessage: error.message
+        errorMessage: 'Something went wrong. Please try again later.'
       };
     }
   };
