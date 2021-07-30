@@ -5,6 +5,7 @@ export interface RouteDefinition {
   view: string;
   private: boolean;
   label?: string;
+  restricted?: boolean;
 }
 
 export interface NotifyViewRouteState {
@@ -12,6 +13,15 @@ export interface NotifyViewRouteState {
 }
 
 export const routes: RouteDefinition[] = [
+  {
+    name: 'admin',
+    path: '/admin',
+    exact: true,
+    view: 'AdminView',
+    private: true,
+    label: 'Admin',
+    restricted: true
+  },
   {
     name: 'home',
     path: '/',

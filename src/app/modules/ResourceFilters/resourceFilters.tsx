@@ -3,8 +3,7 @@ import { Grid } from '@material-ui/core';
 
 import { TypeFilter, AvailabilityFilter } from '~app/contexts';
 import { useResources } from '~app/hooks';
-import { Dropdown } from '~app/components';
-import SearchFilter from './components';
+import { Dropdown, SearchField } from '~app/components';
 
 interface Option<T> {
   label: string;
@@ -36,7 +35,12 @@ const ResourceFilters = (): JSX.Element => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={3}>
-        <SearchFilter value={titleFilter} onChange={setTitleFilter} />
+        <SearchField
+          id="resource-filter"
+          label="Search resource"
+          value={titleFilter}
+          onChange={setTitleFilter}
+        />
       </Grid>
 
       <Grid item xs={6} sm={3} lg={2}>
