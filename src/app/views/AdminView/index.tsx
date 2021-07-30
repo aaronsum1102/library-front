@@ -7,7 +7,7 @@ import { UsersTable, AddUser } from '~app/modules';
 
 const AdminView = (): JSX.Element => {
   return (
-    <>
+    <UserProvider>
       <Box display="flex">
         <Box flexGrow={1}>
           <Typography variant="h4">Admin</Typography>
@@ -16,11 +16,9 @@ const AdminView = (): JSX.Element => {
         <AddUser />
       </Box>
       <Spacer space={Spacings.xLarge} />
-      <UserProvider>
-        <UsersTable />
-      </UserProvider>
+      <UsersTable />
       <Spacer space={Spacings.xLarge} />
-    </>
+    </UserProvider>
   );
 };
 

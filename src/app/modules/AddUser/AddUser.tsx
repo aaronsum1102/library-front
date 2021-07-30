@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, DialogContentText, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useAddUserMutation } from '~app/apollo/generated/graphql';
 import { FormDialog, Dropdown, DropdownOption, Spacer, Spacings, Loader } from '~app/components';
-import { useSnackbar } from '~app/hooks';
+import { useUser } from '~app/hooks';
 
 const options: DropdownOption<boolean>[] = [
   {
@@ -26,21 +25,9 @@ const validationSchema = yup.object({
 
 const AddUser = (): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const { addSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
 
-  const [addUser, { loading }] = useAddUserMutation({
-    onCompleted() {
-      addSnackbar({
-        content: 'User has been added.'
-      });
-    },
-    onError() {
-      addSnackbar({
-        content: 'Failed to add user',
-        error: true
-      });
-    }
-  });
+  const { addUser, refetchUsers } = useUser();
 
   const formik = useFormik({
     initialValues: {
@@ -49,15 +36,25 @@ const AddUser = (): JSX.Element => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setLoading(true);
+
       await addUser({
         variables: {
           input: values
         }
       });
 
+      setLoading(false);
+      refetchUsers();
       setOpen(false);
     }
   });
+
+  useEffect(() => {
+    if (open === false) {
+      formik.resetForm();
+    }
+  }, [open]);
 
   return (
     <FormDialog
@@ -68,7 +65,6 @@ const AddUser = (): JSX.Element => {
       handleClickOpen={() => setOpen(true)}
       handleClose={() => setOpen(false)}
       onSubmit={formik.handleSubmit}
-      onCloseCallback={() => formik.resetForm()}
       content={
         <>
           <DialogContentText>

@@ -72,8 +72,12 @@ const AppDrawer = (): JSX.Element => {
         <Spacer space={Spacings.xLarge} />
 
         <Box component="nav" display="flex" flexDirection="column" alignItems="flex-start">
-          {routes.map(({ label, path }) => {
+          {routes.map(({ label, path, restricted }) => {
             if (label) {
+              if (restricted && !user?.admin) {
+                return null;
+              }
+
               return (
                 <Fragment key={label}>
                   <Button href={path}>{label}</Button>

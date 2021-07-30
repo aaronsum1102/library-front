@@ -19,7 +19,6 @@ export interface FormDialogProps {
   handleClickOpen: () => void;
   handleClose: () => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  onCloseCallback: () => void;
   labelStartIcon?: ReactNode;
   labelEndIcon?: ReactNode;
 }

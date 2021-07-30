@@ -1,7 +1,9 @@
 import { createContext } from 'react';
-import { ApolloError } from '@apollo/client';
+import { ApolloError, ApolloQueryResult } from '@apollo/client';
 
-import { User } from '~app/apollo/generated/graphql';
+import { User, UsersQuery, AddUserMutationHookResult } from '~app/apollo/generated/graphql';
+
+type AddUserMutate = AddUserMutationHookResult[0];
 
 export interface UserState {
   users: User[] | null;
@@ -11,6 +13,8 @@ export interface UserState {
   userTypeFilter: boolean | null;
   setUserFilter: (value: string) => void;
   setUserTypeFilter: (value: boolean | null) => void;
+  addUser: AddUserMutate;
+  refetchUsers: () => Promise<ApolloQueryResult<UsersQuery>>;
 }
 
 export const UserContext = createContext<UserState | null>(null);

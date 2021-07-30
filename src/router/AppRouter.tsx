@@ -6,6 +6,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 interface AppRouterProps {
   authenticated: boolean;
+  admin: boolean;
   routes: RouteDefinition[];
   getView: (
     routeDefinition: RouteDefinition | null,
@@ -19,6 +20,7 @@ interface AppRouterProps {
 
 const AppRouter = ({
   authenticated,
+  admin,
   routes,
   getView,
   getNotFoundView
@@ -34,7 +36,13 @@ const AppRouter = ({
             exact={route.exact}
             path={route.path}
             authenticated={authenticated}
-            render={(props: RouteComponentProps) => getView(route, props)}
+            render={(props: RouteComponentProps) => {
+              if (route.restricted && !admin) {
+                return getNotFoundView(null, props);
+              }
+
+              return getView(route, props);
+            }}
           />
         );
       })}

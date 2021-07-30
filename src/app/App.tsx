@@ -23,7 +23,7 @@ const App = (): JSX.Element => {
         </Loader>
       ) : (
         <PageContent>
-          <LoadableRouter authenticated={authenticated} />
+          <LoadableRouter authenticated={authenticated} admin={user?.admin || false} />
         </PageContent>
       )}
     </>

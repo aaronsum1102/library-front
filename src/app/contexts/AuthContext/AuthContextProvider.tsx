@@ -66,7 +66,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
       return {
         success: false,
         errorMessage:
-          'Not account associated for this email. Please contact admin to create an account.'
+          'No account associated with this email. Please contact admin to create an account.'
       };
     } catch (error) {
       return {

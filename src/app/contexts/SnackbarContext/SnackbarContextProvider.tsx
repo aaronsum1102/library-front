@@ -6,7 +6,7 @@ import { SnackbarContext, ExtendedSnackbarProps } from './SnackbarContext';
 
 const SnackbarProvider: React.FC = ({ children }) => {
   const [snackbars, setSnackbars] = useState<ExtendedSnackbarProps[]>([]);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<ExtendedSnackbarProps | undefined>(undefined);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const SnackbarProvider: React.FC = ({ children }) => {
         }}
         open={open}
         onClose={() => setOpen(false)}
-        message={current ? current.content : 'asdasddasd'}
+        message={current ? current.content : undefined}
         TransitionProps={{
           onExited: () => setCurrent(undefined)
         }}
