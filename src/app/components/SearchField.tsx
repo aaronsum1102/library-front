@@ -2,8 +2,10 @@ import React from 'react';
 import { Box, TextField, IconButton, styled } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-interface SearchFilterProps {
+interface SearchFieldProps {
+  label: string;
   value: string;
+  id?: string;
   onChange: (value: string) => void;
 }
 
@@ -26,13 +28,19 @@ const StyledIconButton = styled(IconButton)({
   padding: '6px'
 });
 
-const SearchFilter = ({ value, onChange }: SearchFilterProps): JSX.Element => {
+const generateIdFromLabel = (value: string): string => {
+  return `${value.toLowerCase().replace(' ', '-')}-filter`;
+};
+
+const SearchField = ({ label, value, id, onChange }: SearchFieldProps): JSX.Element => {
+  const inputId = id || generateIdFromLabel(label);
+
   return (
     <Container>
       <StyledTextField
-        id="resource-filter"
-        label="Search resource"
-        inputProps={{ 'aria-label': 'resource-filter' }}
+        id={inputId}
+        label={label}
+        inputProps={{ 'aria-label': inputId }}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -40,7 +48,7 @@ const SearchFilter = ({ value, onChange }: SearchFilterProps): JSX.Element => {
       {value && (
         <StyledIconButton
           color="default"
-          aria-label="clear-resource-filter"
+          aria-label={`clear-${inputId}`}
           onClick={() => onChange('')}
         >
           <CloseIcon fontSize="small" />
@@ -50,4 +58,8 @@ const SearchFilter = ({ value, onChange }: SearchFilterProps): JSX.Element => {
   );
 };
 
-export default SearchFilter;
+SearchField.defaultProps = {
+  id: undefined
+};
+
+export default SearchField;

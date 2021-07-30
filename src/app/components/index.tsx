@@ -8,3 +8,4 @@ export { default as Spacer, Spacings, Orientations } from './Spacer';
 export * from './Dropdown';
 export * from './DataTabel';
 export * from './ActionMenu';
+export { default as SearchField } from './SearchField';
