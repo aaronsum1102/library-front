@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, DialogContentText, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 import {
   FormDialog,
@@ -10,6 +12,7 @@ import {
   Spacings,
   Orientations
 } from '~app/components';
+import { FormatItalicTwoTone } from '@material-ui/icons';
 
 const options: DropdownOption<boolean>[] = [
   {
@@ -22,8 +25,22 @@ const options: DropdownOption<boolean>[] = [
   }
 ];
 
+const validationSchema = yup.object({
+  email: yup.string().email('Enter a valid email').required('Email is required'),
+  admin: yup.bool()
+});
+
 const AddUser = (): JSX.Element => {
-  const [admin, setAdmin] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      admin: false
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    }
+  });
 
   return (
     <FormDialog
@@ -34,6 +51,8 @@ const AddUser = (): JSX.Element => {
           <AddIcon />
         </>
       }
+      onSubmit={formik.handleSubmit}
+      onCloseCallback={() => formik.resetForm()}
       content={
         <>
           <DialogContentText>
@@ -44,25 +63,28 @@ const AddUser = (): JSX.Element => {
             margin="dense"
             id="email"
             label="Email Address"
-            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             fullWidth
           />
           <Spacer space={Spacings.large} />
           <Dropdown
             id="user-type"
             label="User type"
-            value={admin}
+            value={formik.values.admin}
             options={options}
-            onChange={setAdmin}
+            onChange={(value) => formik.setFieldValue('admin', value)}
           />
           <Spacer space={Spacings.xLarge} />
         </>
       }
-      action={(onClose) => (
-        <Button onClick={onClose} color="primary" variant="contained">
+      action={
+        <Button color="primary" variant="contained" type="submit">
           Add
         </Button>
-      )}
+      }
     />
   );
 };

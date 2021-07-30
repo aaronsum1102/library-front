@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, FormEvent, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -13,8 +13,10 @@ import CloseIcon from '@material-ui/icons/Close';
 export interface FormDialogProps {
   title: string;
   label: ReactNode;
-  action: (onClose: () => void) => ReactNode;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onCloseCallback: () => void;
   content: ReactNode;
+  action: ReactNode;
 }
 
 const StyledIconButton = styled(IconButton)({
@@ -24,7 +26,14 @@ const StyledIconButton = styled(IconButton)({
   right: '0px'
 });
 
-export const FormDialog = ({ title, label, action, content }: FormDialogProps): JSX.Element => {
+export const FormDialog = ({
+  title,
+  label,
+  onSubmit,
+  onCloseCallback,
+  action,
+  content
+}: FormDialogProps): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -33,6 +42,7 @@ export const FormDialog = ({ title, label, action, content }: FormDialogProps): 
 
   const handleClose = () => {
     setOpen(false);
+    onCloseCallback();
   };
 
   return (
@@ -48,8 +58,10 @@ export const FormDialog = ({ title, label, action, content }: FormDialogProps): 
             <CloseIcon />
           </StyledIconButton>
         </DialogTitle>
-        <DialogContent>{content}</DialogContent>
-        <DialogActions>{action(handleClose)}</DialogActions>
+        <form onSubmit={onSubmit}>
+          <DialogContent>{content}</DialogContent>
+          <DialogActions>{action}</DialogActions>
+        </form>
       </Dialog>
     </div>
   );
