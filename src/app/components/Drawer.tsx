@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Box, Drawer, Button, styled } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -56,10 +56,10 @@ const AppDrawer = (): JSX.Element => {
       <Container>
         <Box height="44px" display="flex">
           <Box flexGrow={1} display="flex" alignItems="center">
-            {user && user.email && (
+            {user && (
               <StyledButton href="/profile">
                 <StyledIcon fontSize="small" color="secondary" />
-                {user.email}
+                {user.displayName || user.email}
               </StyledButton>
             )}
           </Box>
@@ -71,13 +71,18 @@ const AppDrawer = (): JSX.Element => {
 
         <Spacer space={Spacings.xLarge} />
 
-        <Box component="nav">
-          {routes.map(({ label, path }) => {
+        <Box component="nav" display="flex" flexDirection="column" alignItems="flex-start">
+          {routes.map(({ label, path, restricted }) => {
             if (label) {
+              if (restricted && !user?.admin) {
+                return null;
+              }
+
               return (
-                <Button key={label} href={path}>
-                  {label}
-                </Button>
+                <Fragment key={label}>
+                  <Button href={path}>{label}</Button>
+                  <Spacer />
+                </Fragment>
               );
             }
 

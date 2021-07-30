@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { useVerifyUserMutation } from '~app/apollo/generated/graphql';
+import { User, useVerifyUserMutation } from '~app/apollo/generated/graphql';
 
-import { AuthContext, User, AuthActionResult } from './AuthContext';
+import { AuthContext, AuthActionResult } from './AuthContext';
 import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
@@ -29,10 +29,17 @@ const AuthContextProvider: React.FC = ({ children }) => {
       isInitAuth.current = false;
 
       if (newUserState?.email) {
-        setUser({
-          ...user,
-          email: newUserState.email
-        } as User);
+        newUserState.getIdTokenResult().then((idTokenResult) => {
+          const admin = !!idTokenResult.claims.admin;
+
+          setUser({
+            uid: newUserState.uid,
+            email: newUserState.email as string,
+            displayName: newUserState.displayName,
+            phoneNumber: newUserState.phoneNumber,
+            admin
+          });
+        });
 
         window.localStorage.setItem('userId', newUserState.uid);
       } else {
@@ -59,12 +66,12 @@ const AuthContextProvider: React.FC = ({ children }) => {
       return {
         success: false,
         errorMessage:
-          'Not account associated for this email. Please contact admin to create an account.'
+          'No account associated with this email. Please contact admin to create an account.'
       };
     } catch (error) {
       return {
         success: false,
-        errorMessage: error.message
+        errorMessage: 'Something went wrong. Please try again later.'
       };
     }
   };
@@ -88,7 +95,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
       } catch (error) {
         return {
           success: false,
-          errorMessage: error.message
+          errorMessage: 'Something went wrong. Please try again later.'
         };
       }
     }
@@ -110,7 +117,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        errorMessage: error.message
+        errorMessage: 'Something went wrong. Please try again later.'
       };
     }
   };

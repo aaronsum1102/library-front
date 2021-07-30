@@ -11,9 +11,10 @@ const LoadableView = loadable(
 
 interface LoadableRouterProps {
   authenticated: boolean;
+  admin: boolean;
 }
 
-const LoadableRouter = ({ authenticated }: LoadableRouterProps): JSX.Element => {
+const LoadableRouter = ({ authenticated, admin }: LoadableRouterProps): JSX.Element => {
   const getView = (routeDefinition: RouteDefinition | null, routeProps: RouteComponentProps) => (
     <LoadableView {...routeProps} view={routeDefinition?.view || 'NotFoundView'} />
   );
@@ -26,6 +27,7 @@ const LoadableRouter = ({ authenticated }: LoadableRouterProps): JSX.Element => 
   return (
     <AppRouter
       authenticated={authenticated}
+      admin={admin}
       routes={routes}
       getView={getView}
       getNotFoundView={getNotFoundView}
