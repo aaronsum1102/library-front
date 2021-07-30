@@ -6,6 +6,7 @@ interface SearchFieldProps {
   label: string;
   value: string;
   id?: string;
+  helperText?: string;
   onChange: (value: string) => void;
 }
 
@@ -24,7 +25,7 @@ const StyledTextField = styled(TextField)({
 const StyledIconButton = styled(IconButton)({
   position: 'absolute',
   right: '0px',
-  bottom: '0px',
+  top: '16px',
   padding: '6px'
 });
 
@@ -32,7 +33,7 @@ const generateIdFromLabel = (value: string): string => {
   return `${value.toLowerCase().replace(' ', '-')}-filter`;
 };
 
-const SearchField = ({ label, value, id, onChange }: SearchFieldProps): JSX.Element => {
+const SearchField = ({ label, value, id, helperText, onChange }: SearchFieldProps): JSX.Element => {
   const inputId = id || generateIdFromLabel(label);
 
   return (
@@ -43,6 +44,7 @@ const SearchField = ({ label, value, id, onChange }: SearchFieldProps): JSX.Elem
         inputProps={{ 'aria-label': inputId }}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        helperText={helperText}
       />
 
       {value && (
@@ -59,7 +61,8 @@ const SearchField = ({ label, value, id, onChange }: SearchFieldProps): JSX.Elem
 };
 
 SearchField.defaultProps = {
-  id: undefined
+  id: undefined,
+  helperText: undefined
 };
 
 export default SearchField;

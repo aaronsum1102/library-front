@@ -3,11 +3,12 @@ import { Box, Typography, styled } from '@material-ui/core';
 
 import { User } from '~app/apollo/generated/graphql';
 import { useUser } from '~app/hooks';
-import { DataTabel, DataTabelProps, Loader } from '~app/components';
+import { DataTabel, DataTabelProps, Loader, Spacer, Spacings, Option } from '~app/components';
+import TableAction from './components';
 
-// const StyledParagraph = styled(Typography)({
-//   padding: '1rem'
-// });
+const StyledParagraph = styled(Typography)({
+  padding: '1rem'
+});
 
 interface UserItem extends Omit<User, 'uid' | '__typename' | 'admin'> {
   admin: string;
@@ -34,8 +35,15 @@ const headDetails: DataTabelProps<UserItem>['headDetails'] = {
   }
 };
 
+const userTypeOptions: Option<boolean | null>[] = [
+  { label: 'All', value: null },
+  { label: 'Admin', value: true },
+  { label: 'Normal user', value: false }
+];
+
 const UsersTable = (): JSX.Element => {
-  const { users, loading, error } = useUser();
+  const { users, loading, error, userFilter, userTypeFilter, setUserFilter, setUserTypeFilter } =
+    useUser();
 
   if (loading) {
     return <Loader />;
@@ -53,9 +61,20 @@ const UsersTable = (): JSX.Element => {
   }));
 
   return (
-    <Box>
-      <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
-    </Box>
+    <>
+      <TableAction
+        value={userFilter}
+        userTypeFilter={userTypeFilter}
+        userTypeOptions={userTypeOptions}
+        onValueChange={setUserFilter}
+        onUserTypeFilterChange={setUserTypeFilter}
+      />
+      <Spacer space={Spacings.xLarge} />
+      <Box>
+        <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
+        {items.length === 0 && <StyledParagraph>No user availiable</StyledParagraph>}
+      </Box>
+    </>
   );
 };
 

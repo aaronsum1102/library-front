@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Box, Drawer, Button, styled } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -75,12 +75,10 @@ const AppDrawer = (): JSX.Element => {
           {routes.map(({ label, path }) => {
             if (label) {
               return (
-                <>
-                  <Button key={label} href={path}>
-                    {label}
-                  </Button>
+                <Fragment key={label}>
+                  <Button href={path}>{label}</Button>
                   <Spacer />
-                </>
+                </Fragment>
               );
             }
 

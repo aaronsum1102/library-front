@@ -1,27 +1,46 @@
-import React, { useCallback, ChangeEvent } from 'react';
+import React, { useCallback, ChangeEvent, useMemo } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, styled } from '@material-ui/core';
+
+import { isEqual } from '../helpers';
 
 const StyledFormControl = styled(FormControl)({
   width: '100%'
 });
 
-export interface DropdownProps {
-  id: string;
+export interface Option<T> {
   label: string;
-  value: string;
-  options: { label: string; value: string | number }[];
-  minWidth?: string;
-  onChange: (value: string | number, name?: string) => void;
+  value: T;
 }
 
-export const Dropdown = ({
+export interface DropdownProps<T> {
+  id: string;
+  label: string;
+  value: T;
+  options: Option<T>[];
+  minWidth?: string;
+  onChange: (value: T, name?: string) => void;
+}
+
+export const Dropdown = <T,>({
   id,
   label,
   value,
   options,
   minWidth,
   onChange
-}: DropdownProps): JSX.Element => {
+}: DropdownProps<T>): JSX.Element => {
+  const currentValue = useMemo(() => {
+    if (typeof value === 'object' && value) {
+      return options.findIndex(
+        (option) =>
+          typeof option.value === 'object' &&
+          isEqual(option.value as Record<string, unknown>, value as Record<string, unknown>)
+      );
+    }
+
+    return options.findIndex((option) => option.value === value);
+  }, [value, options]);
+
   const handleChange = useCallback(
     (
       e: ChangeEvent<{
@@ -30,12 +49,9 @@ export const Dropdown = ({
       }>
     ) => {
       const { value: targetValue, name } = e.target;
+      const data = options[targetValue as number].value;
 
-      if (typeof targetValue === 'string') {
-        onChange(targetValue as string, name);
-      } else {
-        onChange(targetValue as number, name);
-      }
+      onChange(data, name);
     },
     [onChange]
   );
@@ -43,9 +59,9 @@ export const Dropdown = ({
   return (
     <StyledFormControl style={{ minWidth: minWidth || '120px' }}>
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
-      <Select labelId={`${id}-label`} id={id} value={value} onChange={handleChange}>
-        {options.map((option) => (
-          <MenuItem key={option.label} aria-label={option.label} value={option.value}>
+      <Select labelId={`${id}-label`} id={id} value={currentValue} onChange={handleChange}>
+        {options.map((option, index) => (
+          <MenuItem key={option.label} aria-label={option.label} value={index}>
             {option.label}
           </MenuItem>
         ))}
