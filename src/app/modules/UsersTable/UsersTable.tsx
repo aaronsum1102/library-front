@@ -3,7 +3,14 @@ import { Box, Typography, styled } from '@material-ui/core';
 
 import { User } from '~app/apollo/generated/graphql';
 import { useUser } from '~app/hooks';
-import { DataTabel, DataTabelProps, Loader, Spacer, Spacings, Option } from '~app/components';
+import {
+  DataTabel,
+  DataTabelProps,
+  Loader,
+  Spacer,
+  Spacings,
+  DropdownOption
+} from '~app/components';
 import TableAction from './components';
 
 const StyledParagraph = styled(Typography)({
@@ -35,7 +42,7 @@ const headDetails: DataTabelProps<UserItem>['headDetails'] = {
   }
 };
 
-const userTypeOptions: Option<boolean | null>[] = [
+const userTypeOptions: DropdownOption<boolean | null>[] = [
   { label: 'All', value: null },
   { label: 'Admin', value: true },
   { label: 'Normal user', value: false }
@@ -45,20 +52,14 @@ const UsersTable = (): JSX.Element => {
   const { users, loading, error, userFilter, userTypeFilter, setUserFilter, setUserTypeFilter } =
     useUser();
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error || !users) {
-    return <Typography>Failed to load user. Please try again later.</Typography>;
-  }
-
-  const items = users.map((user) => ({
-    ...user,
-    displayName: user.displayName || '-',
-    phoneNumber: user.phoneNumber || '-',
-    admin: user.admin ? 'Yes' : 'No'
-  }));
+  const items = users
+    ? users.map((user) => ({
+        ...user,
+        displayName: user.displayName || '-',
+        phoneNumber: user.phoneNumber || '-',
+        admin: user.admin ? 'Yes' : 'No'
+      }))
+    : [];
 
   return (
     <>
@@ -70,10 +71,18 @@ const UsersTable = (): JSX.Element => {
         onUserTypeFilterChange={setUserTypeFilter}
       />
       <Spacer space={Spacings.xLarge} />
-      <Box>
-        <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
-        {items.length === 0 && <StyledParagraph>No user availiable</StyledParagraph>}
-      </Box>
+      {loading && <Loader />}
+
+      {!loading && (error || !users) && (
+        <Typography>Failed to load user. Please try again later.</Typography>
+      )}
+
+      {!loading && !error && (
+        <Box>
+          <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
+          {items.length === 0 && <StyledParagraph>No user availiable</StyledParagraph>}
+        </Box>
+      )}
     </>
   );
 };

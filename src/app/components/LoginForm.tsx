@@ -2,6 +2,7 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { Typography, TextField, TextFieldProps, Button, Box, styled } from '@material-ui/core';
 
 import { AuthActionResult } from '~app/contexts';
+import { validateEmail } from '~app/helpers';
 import Loader from './Loader';
 import Spacer, { Spacings } from './Spacer';
 
@@ -48,10 +49,6 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
       isMounted.current = false;
     };
   }, []);
-
-  const validateEmail = (value: string): boolean => {
-    return new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(value);
-  };
 
   const onChange: TextFieldProps['onChange'] = (element) => {
     const { value } = element.target;

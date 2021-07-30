@@ -7,7 +7,7 @@ const StyledFormControl = styled(FormControl)({
   width: '100%'
 });
 
-export interface Option<T> {
+export interface DropdownOption<T> {
   label: string;
   value: T;
 }
@@ -16,7 +16,7 @@ export interface DropdownProps<T> {
   id: string;
   label: string;
   value: T;
-  options: Option<T>[];
+  options: DropdownOption<T>[];
   minWidth?: string;
   onChange: (value: T, name?: string) => void;
 }

@@ -9,3 +9,4 @@ export * from './Dropdown';
 export * from './DataTabel';
 export * from './ActionMenu';
 export { default as SearchField } from './SearchField';
+export * from './FormDialog';
