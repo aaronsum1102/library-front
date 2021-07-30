@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createTheme, CssBaseline, ThemeProvider, Box, styled } from '@material-ui/core';
 
 import { AppContext, AppState } from './AppContext';
+import { SnackbarProvider } from '../SnackbarContext';
 
 const theme = createTheme({
   overrides: {
@@ -55,7 +56,9 @@ const AppContextProvider: React.FC = ({ children }) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppContext.Provider value={value}>
-        <StyledBox>{children}</StyledBox>
+        <SnackbarProvider>
+          <StyledBox>{children}</StyledBox>
+        </SnackbarProvider>
       </AppContext.Provider>
     </ThemeProvider>
   );

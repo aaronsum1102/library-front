@@ -1,4 +1,4 @@
-import React, { ReactNode, FormEvent, useState } from 'react';
+import React, { ReactNode, FormEvent } from 'react';
 import {
   Button,
   Dialog,
@@ -13,10 +13,15 @@ import CloseIcon from '@material-ui/icons/Close';
 export interface FormDialogProps {
   title: string;
   label: ReactNode;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  onCloseCallback: () => void;
   content: ReactNode;
   action: ReactNode;
+  open: boolean;
+  handleClickOpen: () => void;
+  handleClose: () => void;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onCloseCallback: () => void;
+  labelStartIcon?: ReactNode;
+  labelEndIcon?: ReactNode;
 }
 
 const StyledIconButton = styled(IconButton)({
@@ -29,25 +34,24 @@ const StyledIconButton = styled(IconButton)({
 export const FormDialog = ({
   title,
   label,
-  onSubmit,
-  onCloseCallback,
   action,
-  content
+  content,
+  open,
+  handleClickOpen,
+  handleClose,
+  onSubmit,
+  labelStartIcon,
+  labelEndIcon
 }: FormDialogProps): JSX.Element => {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    onCloseCallback();
-  };
-
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}
+        startIcon={labelStartIcon}
+        endIcon={labelEndIcon}
+      >
         {label}
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

@@ -4,15 +4,9 @@ import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import {
-  FormDialog,
-  Dropdown,
-  DropdownOption,
-  Spacer,
-  Spacings,
-  Orientations
-} from '~app/components';
-import { FormatItalicTwoTone } from '@material-ui/icons';
+import { useAddUserMutation } from '~app/apollo/generated/graphql';
+import { FormDialog, Dropdown, DropdownOption, Spacer, Spacings, Loader } from '~app/components';
+import { useSnackbar } from '~app/hooks';
 
 const options: DropdownOption<boolean>[] = [
   {
@@ -31,26 +25,48 @@ const validationSchema = yup.object({
 });
 
 const AddUser = (): JSX.Element => {
+  const [open, setOpen] = useState(false);
+  const { addSnackbar } = useSnackbar();
+
+  const [addUser, { loading }] = useAddUserMutation({
+    onCompleted() {
+      addSnackbar({
+        content: 'User has been added.'
+      });
+    },
+    onError() {
+      addSnackbar({
+        content: 'Failed to add user',
+        error: true
+      });
+    }
+  });
+
   const formik = useFormik({
     initialValues: {
       email: '',
       admin: false
     },
     validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      await addUser({
+        variables: {
+          input: values
+        }
+      });
+
+      setOpen(false);
     }
   });
 
   return (
     <FormDialog
       title="Add user"
-      label={
-        <>
-          Add user <Spacer orientation={Orientations.vertical} space={Spacings.small} />
-          <AddIcon />
-        </>
-      }
+      label="Add user"
+      labelEndIcon={<AddIcon />}
+      open={open}
+      handleClickOpen={() => setOpen(true)}
+      handleClose={() => setOpen(false)}
       onSubmit={formik.handleSubmit}
       onCloseCallback={() => formik.resetForm()}
       content={
@@ -81,7 +97,12 @@ const AddUser = (): JSX.Element => {
         </>
       }
       action={
-        <Button color="primary" variant="contained" type="submit">
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          startIcon={loading && <Loader showText={false} size="1rem" />}
+        >
           Add
         </Button>
       }
