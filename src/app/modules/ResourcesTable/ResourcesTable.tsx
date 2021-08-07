@@ -1,13 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { Box, Typography, styled } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 
 import { ResourceTableData } from '~app/contexts';
 import { useResources, useResourceAction, useAuth } from '~app/hooks';
 import { DataTabel, DataTabelProps, Loader } from '~app/components';
-
-// const StyledParagraph = styled(Typography)({
-//   padding: '1rem'
-// });
 
 const fields: Array<keyof ResourceTableData> = ['title', 'ebook', 'available', 'availableFrom'];
 

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import { useLoansQuery } from '~app/apollo/generated/graphql';
 import { useAuth } from '~app/hooks';
-import { addDays, formatDate } from '~app/helpers';
+import { addDays, formatDate, stableSort, getComparator, dateComparator } from '~app/helpers';
 import { LoansContext } from './LoansContext';
 
 const LoansProvider: React.FC = ({ children }) => {
@@ -18,12 +18,14 @@ const LoansProvider: React.FC = ({ children }) => {
   const loans = useMemo(() => {
     if (!data) return [];
 
-    return data.loans.map((loanData) => {
+    const items = data.loans.map((loanData) => {
       return {
         ...loanData,
         dueDate: formatDate(addDays(loanData.dateBorrowed, 10), navigator.language)
       };
     });
+
+    return stableSort(items, getComparator('asc', 'dueDate', dateComparator));
   }, [data]);
 
   return (

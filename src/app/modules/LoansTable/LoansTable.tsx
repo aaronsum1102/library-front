@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, styled } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 
 import { LoanTableData } from '~app/contexts';
 import { useLoans } from '~app/hooks';
