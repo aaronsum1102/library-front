@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Box, Typography, styled } from '@material-ui/core';
 
 import { ResourceTableData } from '~app/contexts';
@@ -30,11 +30,12 @@ const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
 };
 
 const borrowActionLabel = 'Borrow';
+const removeActionLabel = 'Remove';
 
 const ResourcesTable = (): JSX.Element => {
   const { resources, loading, error, order, orderBy, onRequestSort, refetchResources } =
     useResources();
-  const { borrow } = useResourceAction();
+  const { borrow, remove } = useResourceAction();
   const { user } = useAuth();
 
   const onRequestBorrow = useCallback(
@@ -58,13 +59,44 @@ const ResourcesTable = (): JSX.Element => {
           }
         });
 
-        refetchResources();
+        await refetchResources();
       }
     },
-    [resources, borrow, user]
+    [resources, borrow, user, refetchResources]
   );
 
-  const actions = [{ label: borrowActionLabel, onClick: onRequestBorrow }];
+  const onRequestRemove = useCallback(
+    async (id: number) => {
+      const { title, createdDate } = resources[id];
+
+      await remove({
+        variables: {
+          input: {
+            title,
+            createdDate
+          }
+        }
+      });
+
+      await refetchResources();
+    },
+    [resources, remove, refetchResources]
+  );
+
+  const actions = useMemo(() => {
+    const defaultAction = [{ label: borrowActionLabel, onClick: onRequestBorrow }];
+
+    if (user?.admin) {
+      return [
+        {
+          label: removeActionLabel,
+          onClick: onRequestRemove
+        },
+        ...defaultAction
+      ];
+    }
+    return defaultAction;
+  }, [user, onRequestBorrow, onRequestRemove]);
 
   const items = resources.map(
     (item) => ({

@@ -57,6 +57,7 @@ export type Mutation = {
   addResource: Resource;
   borrowResource: Resource;
   returnResource: Resource;
+  removeResource: Scalars['Boolean'];
 };
 
 export type MutationVerifyUserArgs = {
@@ -83,6 +84,10 @@ export type MutationReturnResourceArgs = {
   input: ReturnResourceInput;
 };
 
+export type MutationRemoveResourceArgs = {
+  input: RemoveResourceInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   users: Array<Maybe<User>>;
@@ -97,6 +102,11 @@ export type QueryUserArgs = {
 
 export type QueryResourcesByUserArgs = {
   borrowerId: Scalars['String'];
+};
+
+export type RemoveResourceInput = {
+  title: Scalars['String'];
+  createdDate: Scalars['Float'];
 };
 
 export type Resource = {
@@ -158,6 +168,12 @@ export type BorrowResourceMutation = { __typename?: 'Mutation' } & {
     'title' | 'createdDate' | 'dateBorrowed'
   >;
 };
+
+export type RemoveResourceMutationVariables = Exact<{
+  input: RemoveResourceInput;
+}>;
+
+export type RemoveResourceMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'removeResource'>;
 
 export type VerifyUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -329,6 +345,51 @@ export type BorrowResourceMutationResult = ApolloReactCommon.MutationResult<Borr
 export type BorrowResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
   BorrowResourceMutation,
   BorrowResourceMutationVariables
+>;
+export const RemoveResourceDocument = gql`
+  mutation removeResource($input: RemoveResourceInput!) {
+    removeResource(input: $input)
+  }
+`;
+export type RemoveResourceMutationFn = ApolloReactCommon.MutationFunction<
+  RemoveResourceMutation,
+  RemoveResourceMutationVariables
+>;
+
+/**
+ * __useRemoveResourceMutation__
+ *
+ * To run a mutation, you first call `useRemoveResourceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveResourceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeResourceMutation, { data, loading, error }] = useRemoveResourceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRemoveResourceMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    RemoveResourceMutation,
+    RemoveResourceMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<RemoveResourceMutation, RemoveResourceMutationVariables>(
+    RemoveResourceDocument,
+    options
+  );
+}
+export type RemoveResourceMutationHookResult = ReturnType<typeof useRemoveResourceMutation>;
+export type RemoveResourceMutationResult = ApolloReactCommon.MutationResult<RemoveResourceMutation>;
+export type RemoveResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  RemoveResourceMutation,
+  RemoveResourceMutationVariables
 >;
 export const VerifyUserDocument = gql`
   mutation verifyUser($email: String!) {

@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { useBorrowResourceMutation, useAddResourceMutation } from '~app/apollo/generated/graphql';
+import {
+  useBorrowResourceMutation,
+  useAddResourceMutation,
+  useRemoveResourceMutation
+} from '~app/apollo/generated/graphql';
 import { useSnackbar } from '~app/hooks';
 import { ResourceActionContext } from '.';
 
@@ -35,8 +39,22 @@ const ResourceActionProvider: React.FC = ({ children }) => {
     }
   });
 
+  const [remove] = useRemoveResourceMutation({
+    onCompleted() {
+      addSnackbar({
+        content: 'Resource has been removed.'
+      });
+    },
+    onError() {
+      addSnackbar({
+        content: 'Failed to remove resource. Please try again later.',
+        error: true
+      });
+    }
+  });
+
   return (
-    <ResourceActionContext.Provider value={{ borrow, add }}>
+    <ResourceActionContext.Provider value={{ borrow, add, remove }}>
       {children}
     </ResourceActionContext.Provider>
   );
