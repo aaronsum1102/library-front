@@ -45,6 +45,10 @@ const addDays = (date: string, days: number) => {
   return result;
 };
 
+const formatDate = (date: Date, locale: string) => {
+  return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
 const ResourcesProvider: React.FC = ({ children }) => {
   const [titleFilter, setTitleFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>(null);
@@ -69,9 +73,10 @@ const ResourcesProvider: React.FC = ({ children }) => {
 
     const items = resourcesData.resources.map((data) => ({
       ...data,
-      availableFrom: data.dateBorrowed
-        ? addDays(data.dateBorrowed, 10).toISOString()
-        : new Date().toISOString()
+      availableFrom: formatDate(
+        data.dateBorrowed ? addDays(data.dateBorrowed, 10) : new Date(),
+        navigator.language
+      )
     }));
 
     let results = filterByTitle(items, titleFilter);
