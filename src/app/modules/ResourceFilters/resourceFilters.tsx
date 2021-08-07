@@ -55,8 +55,8 @@ const ResourceFilters = (): JSX.Element => {
 
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
-          id="availability-filter"
-          label="Availability"
+          id="available-filter"
+          label="Available"
           options={availabilityOptions}
           value={availabilityFilter}
           onChange={(value) => setAvailabilityFilter(value as AvailabilityFilter)}

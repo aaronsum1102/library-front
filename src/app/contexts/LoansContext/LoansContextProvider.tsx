@@ -1,18 +1,35 @@
 import React, { useMemo } from 'react';
 
-import { useLoansQuery } from '~app/apollo/generated/graphql';
-import { useAuth } from '~app/hooks';
+import { useLoansQuery, useReturnMaterialMutation } from '~app/apollo/generated/graphql';
+import { useAuth, useSnackbar } from '~app/hooks';
 import { addDays, formatDate, stableSort, getComparator, dateComparator } from '~app/helpers';
 import { LoansContext } from './LoansContext';
 
 const LoansProvider: React.FC = ({ children }) => {
   const { user } = useAuth();
+  const { addSnackbar } = useSnackbar();
 
   const { data, loading, error, refetch } = useLoansQuery({
     variables: {
       borrowerId: user!.uid
     },
     skip: !user
+  });
+
+  const [returnMaterial] = useReturnMaterialMutation({
+    onCompleted() {
+      addSnackbar({
+        content: 'Material has been returned.'
+      });
+
+      refetch();
+    },
+    onError() {
+      addSnackbar({
+        content: 'Failed to return material. Please try again later.',
+        error: true
+      });
+    }
   });
 
   const loans = useMemo(() => {
@@ -29,7 +46,9 @@ const LoansProvider: React.FC = ({ children }) => {
   }, [data]);
 
   return (
-    <LoansContext.Provider value={{ loans, loading, error }}>{children}</LoansContext.Provider>
+    <LoansContext.Provider value={{ loans, loading, error, returnMaterial }}>
+      {children}
+    </LoansContext.Provider>
   );
 };
 

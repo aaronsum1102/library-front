@@ -19,7 +19,7 @@ export const routes: RouteDefinition[] = [
     exact: true,
     view: 'AdminView',
     private: true,
-    label: 'Admin',
+    label: 'Admin - User management',
     restricted: true
   },
   {

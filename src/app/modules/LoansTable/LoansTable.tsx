@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Box, Typography } from '@material-ui/core';
 
 import { LoanTableData } from '~app/contexts';
@@ -16,7 +16,7 @@ const headDetails: DataTabelProps<LoanTableData>['headDetails'] = {
     label: 'Material type'
   },
   available: {
-    label: 'Availability'
+    label: 'Available'
   },
   dueDate: {
     label: 'Due date'
@@ -24,7 +24,7 @@ const headDetails: DataTabelProps<LoanTableData>['headDetails'] = {
 };
 
 const LoansTable = (): JSX.Element => {
-  const { loans, loading, error } = useLoans();
+  const { loans, loading, error, returnMaterial } = useLoans();
 
   const items = loans.map((loan) => ({
     title: loan.title,
@@ -33,9 +33,32 @@ const LoansTable = (): JSX.Element => {
     dueDate: loan.dueDate
   }));
 
+  const onRequestReturn = useCallback(
+    (index: number) => {
+      const { title, createdDate, ebook } = loans[index];
+
+      returnMaterial({
+        variables: {
+          input: {
+            title,
+            createdDate,
+            ebook,
+            available: false
+          }
+        }
+      });
+    },
+    [returnMaterial]
+  );
+
   return (
     <Box>
-      <DataTabel fields={fields} headDetails={headDetails} items={items} />
+      <DataTabel
+        fields={fields}
+        headDetails={headDetails}
+        items={items}
+        actions={[{ label: 'Return', onClick: onRequestReturn }]}
+      />
 
       <Box padding="1rem">
         {loading && <Loader />}

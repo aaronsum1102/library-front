@@ -17,7 +17,7 @@ const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
     label: 'Material type'
   },
   available: {
-    label: 'Availability'
+    label: 'Available'
   },
   availableFrom: {
     label: 'Available from',

@@ -186,6 +186,14 @@ export type RemoveResourceMutationVariables = Exact<{
 
 export type RemoveResourceMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'removeResource'>;
 
+export type ReturnMaterialMutationVariables = Exact<{
+  input: ReturnResourceInput;
+}>;
+
+export type ReturnMaterialMutation = { __typename?: 'Mutation' } & {
+  returnMaterial: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
+};
+
 export type VerifyUserMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -414,6 +422,54 @@ export type RemoveResourceMutationResult = ApolloReactCommon.MutationResult<Remo
 export type RemoveResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
   RemoveResourceMutation,
   RemoveResourceMutationVariables
+>;
+export const ReturnMaterialDocument = gql`
+  mutation returnMaterial($input: ReturnResourceInput!) {
+    returnMaterial: returnResource(input: $input) {
+      title
+      createdDate
+    }
+  }
+`;
+export type ReturnMaterialMutationFn = ApolloReactCommon.MutationFunction<
+  ReturnMaterialMutation,
+  ReturnMaterialMutationVariables
+>;
+
+/**
+ * __useReturnMaterialMutation__
+ *
+ * To run a mutation, you first call `useReturnMaterialMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReturnMaterialMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [returnMaterialMutation, { data, loading, error }] = useReturnMaterialMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useReturnMaterialMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    ReturnMaterialMutation,
+    ReturnMaterialMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<ReturnMaterialMutation, ReturnMaterialMutationVariables>(
+    ReturnMaterialDocument,
+    options
+  );
+}
+export type ReturnMaterialMutationHookResult = ReturnType<typeof useReturnMaterialMutation>;
+export type ReturnMaterialMutationResult = ApolloReactCommon.MutationResult<ReturnMaterialMutation>;
+export type ReturnMaterialMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  ReturnMaterialMutation,
+  ReturnMaterialMutationVariables
 >;
 export const VerifyUserDocument = gql`
   mutation verifyUser($email: String!) {
