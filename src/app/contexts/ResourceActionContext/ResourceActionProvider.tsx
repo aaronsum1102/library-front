@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useBorrowResourceMutation } from '~app/apollo/generated/graphql';
+import { useBorrowResourceMutation, useAddResourceMutation } from '~app/apollo/generated/graphql';
 import { useSnackbar } from '~app/hooks';
 import { ResourceActionContext } from '.';
 
@@ -21,8 +21,24 @@ const ResourceActionProvider: React.FC = ({ children }) => {
     }
   });
 
+  const [add] = useAddResourceMutation({
+    onCompleted() {
+      addSnackbar({
+        content: 'Resource has been added.'
+      });
+    },
+    onError() {
+      addSnackbar({
+        content: 'Failed to add resource. Please try again later.',
+        error: true
+      });
+    }
+  });
+
   return (
-    <ResourceActionContext.Provider value={{ borrow }}>{children}</ResourceActionContext.Provider>
+    <ResourceActionContext.Provider value={{ borrow, add }}>
+      {children}
+    </ResourceActionContext.Provider>
   );
 };
 

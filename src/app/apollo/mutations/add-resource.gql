@@ -1,0 +1,6 @@
+mutation addResource($input: AddResourceInput!) {
+  addResource(input: $input) {
+    title
+    createdDate
+  }
+}

@@ -132,6 +132,14 @@ export type User = {
   admin: Scalars['Boolean'];
 };
 
+export type AddResourceMutationVariables = Exact<{
+  input: AddResourceInput;
+}>;
+
+export type AddResourceMutation = { __typename?: 'Mutation' } & {
+  addResource: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
+};
+
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
 }>;
@@ -181,6 +189,54 @@ export type UsersQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export const AddResourceDocument = gql`
+  mutation addResource($input: AddResourceInput!) {
+    addResource(input: $input) {
+      title
+      createdDate
+    }
+  }
+`;
+export type AddResourceMutationFn = ApolloReactCommon.MutationFunction<
+  AddResourceMutation,
+  AddResourceMutationVariables
+>;
+
+/**
+ * __useAddResourceMutation__
+ *
+ * To run a mutation, you first call `useAddResourceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddResourceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addResourceMutation, { data, loading, error }] = useAddResourceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddResourceMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    AddResourceMutation,
+    AddResourceMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<AddResourceMutation, AddResourceMutationVariables>(
+    AddResourceDocument,
+    options
+  );
+}
+export type AddResourceMutationHookResult = ReturnType<typeof useAddResourceMutation>;
+export type AddResourceMutationResult = ApolloReactCommon.MutationResult<AddResourceMutation>;
+export type AddResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  AddResourceMutation,
+  AddResourceMutationVariables
+>;
 export const AddUserDocument = gql`
   mutation addUser($input: AddUserInput!) {
     addUser(input: $input) {
