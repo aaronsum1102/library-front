@@ -52,7 +52,7 @@ const ResourcesProvider: React.FC = ({ children }) => {
   const [order, setOrder] = useState<SortDirection>('asc');
   const [orderBy, setOrderBy] = useState<keyof ResourceTableData>('title');
 
-  const { data: resourcesData, loading, error } = useResourcesQuery();
+  const { data: resourcesData, loading, error, refetch: refetchResources } = useResourcesQuery();
 
   const onRequestSort = useCallback(
     (property: keyof ResourceTableData) => {
@@ -83,14 +83,6 @@ const ResourcesProvider: React.FC = ({ children }) => {
     return stableSort(results, getComparator(order, orderBy, comparator));
   }, [resourcesData, titleFilter, typeFilter, availabilityFilter, order, orderBy]);
 
-  const onRequestBorrow = useCallback(
-    (id: number) => {
-      const data = resources[id];
-      console.log('onRequestBorrow', data);
-    },
-    [resources]
-  );
-
   const value: ResourcesState = {
     titleFilter,
     typeFilter,
@@ -105,7 +97,7 @@ const ResourcesProvider: React.FC = ({ children }) => {
     setTypeFilter,
     setAvailabilityFilter,
     onRequestSort,
-    onRequestBorrow
+    refetchResources
   };
 
   return <ResourcesContext.Provider value={value}>{children}</ResourcesContext.Provider>;

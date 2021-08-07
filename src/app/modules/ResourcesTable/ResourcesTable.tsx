@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Box, Typography, styled } from '@material-ui/core';
 
 import { ResourceTableData } from '~app/contexts';
-import { useResources } from '~app/hooks';
+import { useResources, useResourceAction, useAuth } from '~app/hooks';
 import { DataTabel, DataTabelProps, Loader } from '~app/components';
 
 const StyledParagraph = styled(Typography)({
@@ -32,8 +32,37 @@ const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
 const borrowActionLabel = 'Borrow';
 
 const ResourcesTable = (): JSX.Element => {
-  const { resources, loading, error, order, orderBy, onRequestSort, onRequestBorrow } =
+  const { resources, loading, error, order, orderBy, onRequestSort, refetchResources } =
     useResources();
+  const { borrow } = useResourceAction();
+  const { user } = useAuth();
+
+  const onRequestBorrow = useCallback(
+    async (id: number) => {
+      if (user) {
+        const { title, createdDate, ebook } = resources[id];
+        // TODO chcek for display name and phone number
+        await borrow({
+          variables: {
+            input: {
+              title,
+              createdDate,
+              ebook,
+              available: false,
+              borrowerId: user.uid,
+              borrower: {
+                name: user.displayName || '',
+                phoneNumber: user.phoneNumber || ''
+              }
+            }
+          }
+        });
+
+        refetchResources();
+      }
+    },
+    [resources, borrow, user]
+  );
 
   const actions = [{ label: borrowActionLabel, onClick: onRequestBorrow }];
 

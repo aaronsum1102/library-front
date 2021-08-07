@@ -1,9 +1,8 @@
 import { createContext } from 'react';
 import { SortDirection } from '@material-ui/core';
-import { ApolloError } from '@apollo/client';
+import { ApolloError, ApolloQueryResult } from '@apollo/client';
 
-import { Resource } from '~app/apollo/generated/graphql';
-import { Action } from '~app/components';
+import { Resource, ResourcesQuery } from '~app/apollo/generated/graphql';
 
 export type TypeFilter = boolean | null;
 export type AvailabilityFilter = boolean | null;
@@ -34,7 +33,7 @@ export interface ResourcesState {
   setTypeFilter: (value: TypeFilter) => void;
   setAvailabilityFilter: (value: AvailabilityFilter) => void;
   onRequestSort: (property: keyof ResourceTableData) => void;
-  onRequestBorrow: Action['onClick'];
+  refetchResources: () => Promise<ApolloQueryResult<ResourcesQuery>>;
 }
 
 export const ResourcesContext = createContext<ResourcesState | null>(null);

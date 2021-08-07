@@ -140,6 +140,17 @@ export type AddUserMutation = { __typename?: 'Mutation' } & {
   addUser: { __typename?: 'User' } & Pick<User, 'uid'>;
 };
 
+export type BorrowResourceMutationVariables = Exact<{
+  input: BorrowResourceInput;
+}>;
+
+export type BorrowResourceMutation = { __typename?: 'Mutation' } & {
+  borrowResource: { __typename?: 'Resource' } & Pick<
+    Resource,
+    'title' | 'createdDate' | 'dateBorrowed'
+  >;
+};
+
 export type VerifyUserMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -213,6 +224,55 @@ export type AddUserMutationResult = ApolloReactCommon.MutationResult<AddUserMuta
 export type AddUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
   AddUserMutation,
   AddUserMutationVariables
+>;
+export const BorrowResourceDocument = gql`
+  mutation borrowResource($input: BorrowResourceInput!) {
+    borrowResource(input: $input) {
+      title
+      createdDate
+      dateBorrowed
+    }
+  }
+`;
+export type BorrowResourceMutationFn = ApolloReactCommon.MutationFunction<
+  BorrowResourceMutation,
+  BorrowResourceMutationVariables
+>;
+
+/**
+ * __useBorrowResourceMutation__
+ *
+ * To run a mutation, you first call `useBorrowResourceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBorrowResourceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [borrowResourceMutation, { data, loading, error }] = useBorrowResourceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useBorrowResourceMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    BorrowResourceMutation,
+    BorrowResourceMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<BorrowResourceMutation, BorrowResourceMutationVariables>(
+    BorrowResourceDocument,
+    options
+  );
+}
+export type BorrowResourceMutationHookResult = ReturnType<typeof useBorrowResourceMutation>;
+export type BorrowResourceMutationResult = ApolloReactCommon.MutationResult<BorrowResourceMutation>;
+export type BorrowResourceMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  BorrowResourceMutation,
+  BorrowResourceMutationVariables
 >;
 export const VerifyUserDocument = gql`
   mutation verifyUser($email: String!) {
