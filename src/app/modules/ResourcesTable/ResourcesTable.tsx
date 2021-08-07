@@ -18,7 +18,7 @@ const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
     width: '40%'
   },
   ebook: {
-    label: 'Resource type'
+    label: 'Material type'
   },
   available: {
     label: 'Availability'

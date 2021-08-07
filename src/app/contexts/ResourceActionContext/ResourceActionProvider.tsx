@@ -14,12 +14,12 @@ const ResourceActionProvider: React.FC = ({ children }) => {
   const [borrow] = useBorrowResourceMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Resource has been checked out.'
+        content: 'Material has been checked out.'
       });
     },
     onError() {
       addSnackbar({
-        content: 'Failed to borrow resource. Please try again later.',
+        content: 'Failed to borrow material. Please try again later.',
         error: true
       });
     }
@@ -28,12 +28,12 @@ const ResourceActionProvider: React.FC = ({ children }) => {
   const [add] = useAddResourceMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Resource has been added.'
+        content: 'Material has been added.'
       });
     },
     onError() {
       addSnackbar({
-        content: 'Failed to add resource. Please try again later.',
+        content: 'Failed to add material. Please try again later.',
         error: true
       });
     }
@@ -42,12 +42,12 @@ const ResourceActionProvider: React.FC = ({ children }) => {
   const [remove] = useRemoveResourceMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Resource has been removed.'
+        content: 'Material has been removed.'
       });
     },
     onError() {
       addSnackbar({
-        content: 'Failed to remove resource. Please try again later.',
+        content: 'Failed to remove material. Please try again later.',
         error: true
       });
     }

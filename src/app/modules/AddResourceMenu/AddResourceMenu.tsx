@@ -66,8 +66,8 @@ const AddResourceMenu = (): JSX.Element => {
 
   return (
     <FormDialog
-      title="Add resource"
-      label="Add resource"
+      title="Add material"
+      label="Add material"
       labelEndIcon={<AddIcon />}
       open={open}
       handleClickOpen={() => setOpen(true)}
@@ -76,7 +76,7 @@ const AddResourceMenu = (): JSX.Element => {
       content={
         <>
           <DialogContentText>
-            Please enter the title of the new resource and select the type.
+            Please enter the title of the new material and select the material type.
           </DialogContentText>
           <TextField
             autoFocus
@@ -91,7 +91,7 @@ const AddResourceMenu = (): JSX.Element => {
           />
           <Spacer space={Spacings.large} />
           <Dropdown
-            id="resource-type"
+            id="material-type"
             label="Type"
             value={formik.values.ebook}
             options={options}

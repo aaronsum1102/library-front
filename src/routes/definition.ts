@@ -28,7 +28,7 @@ export const routes: RouteDefinition[] = [
     exact: true,
     view: 'HomeView',
     private: true,
-    label: 'Resources'
+    label: 'Catalogue'
   },
   {
     name: 'login',

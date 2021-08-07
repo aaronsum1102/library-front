@@ -37,7 +37,7 @@ const ResourceFilters = (): JSX.Element => {
       <Grid item xs={12} sm={3}>
         <SearchField
           id="resource-filter"
-          label="Search resource"
+          label="Search material"
           value={titleFilter}
           onChange={setTitleFilter}
         />
@@ -46,7 +46,7 @@ const ResourceFilters = (): JSX.Element => {
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
           id="resource-type-filter"
-          label="Resource type"
+          label="Material type"
           options={typeOptions}
           value={typeFilter}
           onChange={(value) => setTypeFilter(value as TypeFilter)}
