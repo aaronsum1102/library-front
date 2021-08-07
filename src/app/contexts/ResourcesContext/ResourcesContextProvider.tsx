@@ -14,7 +14,9 @@ import {
   stableSort,
   getComparator,
   dateComparator,
-  generalDescendingComparator
+  generalDescendingComparator,
+  addDays,
+  formatDate
 } from '~app/helpers';
 
 const filterByTitle = (resources: ResourceData[], filter: string): ResourceData[] => {
@@ -36,17 +38,6 @@ const filterByAvailabilityFilter = (
   if (filter === null) return resources;
 
   return resources.filter((resource) => resource.available === filter);
-};
-
-const addDays = (date: string, days: number) => {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-
-  return result;
-};
-
-const formatDate = (date: Date, locale: string) => {
-  return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
 const ResourcesProvider: React.FC = ({ children }) => {

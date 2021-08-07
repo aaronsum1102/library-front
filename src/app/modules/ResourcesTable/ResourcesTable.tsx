@@ -5,9 +5,9 @@ import { ResourceTableData } from '~app/contexts';
 import { useResources, useResourceAction, useAuth } from '~app/hooks';
 import { DataTabel, DataTabelProps, Loader } from '~app/components';
 
-const StyledParagraph = styled(Typography)({
-  padding: '1rem'
-});
+// const StyledParagraph = styled(Typography)({
+//   padding: '1rem'
+// });
 
 const fields: Array<keyof ResourceTableData> = ['title', 'ebook', 'available', 'availableFrom'];
 
@@ -98,15 +98,12 @@ const ResourcesTable = (): JSX.Element => {
     return defaultAction;
   }, [user, onRequestBorrow, onRequestRemove]);
 
-  const items = resources.map(
-    (item) => ({
-      title: item.title,
-      ebook: item.ebook ? 'eBook' : 'book',
-      available: item.available ? 'Yes' : 'No',
-      availableFrom: item.availableFrom
-    }),
-    []
-  );
+  const items = resources.map((item) => ({
+    title: item.title,
+    ebook: item.ebook ? 'eBook' : 'book',
+    available: item.available ? 'Yes' : 'No',
+    availableFrom: item.availableFrom
+  }));
 
   return (
     <Box>
@@ -128,7 +125,7 @@ const ResourcesTable = (): JSX.Element => {
         )}
 
         {!loading && !error && items.length === 0 && (
-          <StyledParagraph>No resources availiable</StyledParagraph>
+          <Typography>No resources availiable</Typography>
         )}
       </Box>
     </Box>

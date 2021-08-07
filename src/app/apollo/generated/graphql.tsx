@@ -49,6 +49,17 @@ export type BorrowerInput = {
   phoneNumber: Scalars['String'];
 };
 
+export type LoanResource = {
+  __typename?: 'LoanResource';
+  title: Scalars['String'];
+  createdDate: Scalars['Float'];
+  ebook: Scalars['Boolean'];
+  available: Scalars['Boolean'];
+  borrowerId: Scalars['String'];
+  borrower: Borrower;
+  dateBorrowed: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   verifyUser: Scalars['Boolean'];
@@ -93,7 +104,7 @@ export type Query = {
   users: Array<Maybe<User>>;
   user?: Maybe<User>;
   resources: Array<Resource>;
-  resourcesByUser: Array<Resource>;
+  resourcesByUser: Array<LoanResource>;
 };
 
 export type QueryUserArgs = {
@@ -180,6 +191,19 @@ export type VerifyUserMutationVariables = Exact<{
 }>;
 
 export type VerifyUserMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'verifyUser'>;
+
+export type LoansQueryVariables = Exact<{
+  borrowerId: Scalars['String'];
+}>;
+
+export type LoansQuery = { __typename?: 'Query' } & {
+  loans: Array<
+    { __typename?: 'LoanResource' } & Pick<
+      LoanResource,
+      'title' | 'createdDate' | 'ebook' | 'available' | 'dateBorrowed'
+    >
+  >;
+};
 
 export type ResourcesQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -436,6 +460,52 @@ export type VerifyUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
   VerifyUserMutation,
   VerifyUserMutationVariables
 >;
+export const LoansDocument = gql`
+  query loans($borrowerId: String!) {
+    loans: resourcesByUser(borrowerId: $borrowerId) {
+      title
+      createdDate
+      ebook
+      available
+      dateBorrowed
+    }
+  }
+`;
+
+/**
+ * __useLoansQuery__
+ *
+ * To run a query within a React component, call `useLoansQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLoansQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLoansQuery({
+ *   variables: {
+ *      borrowerId: // value for 'borrowerId'
+ *   },
+ * });
+ */
+export function useLoansQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<LoansQuery, LoansQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<LoansQuery, LoansQueryVariables>(LoansDocument, options);
+}
+export function useLoansLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<LoansQuery, LoansQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<LoansQuery, LoansQueryVariables>(LoansDocument, options);
+}
+export type LoansQueryHookResult = ReturnType<typeof useLoansQuery>;
+export type LoansLazyQueryHookResult = ReturnType<typeof useLoansLazyQuery>;
+export type LoansQueryResult = ApolloReactCommon.QueryResult<LoansQuery, LoansQueryVariables>;
+export function refetchLoansQuery(variables?: LoansQueryVariables) {
+  return { query: LoansDocument, variables: variables };
+}
 export const ResourcesDocument = gql`
   query resources {
     resources {
