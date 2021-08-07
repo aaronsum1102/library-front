@@ -71,18 +71,22 @@ const UsersTable = (): JSX.Element => {
         onUserTypeFilterChange={setUserTypeFilter}
       />
       <Spacer space={Spacings.xLarge} />
-      {loading && <Loader />}
 
-      {!loading && (error || !users) && (
-        <Typography>Failed to load user. Please try again later.</Typography>
-      )}
+      <Box>
+        <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
+      </Box>
 
-      {!loading && !error && (
-        <Box>
-          <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
-          {items.length === 0 && <StyledParagraph>No user availiable</StyledParagraph>}
-        </Box>
-      )}
+      <Box padding="1rem">
+        {loading && <Loader />}
+
+        {!loading && (error || !items) && (
+          <Typography>Failed to load user. Please try again later.</Typography>
+        )}
+
+        {!loading && !error && items.length === 0 && (
+          <StyledParagraph>No user availiable</StyledParagraph>
+        )}
+      </Box>
     </>
   );
 };

@@ -1,26 +1,26 @@
 import React from 'react';
 import { Box, Typography, styled } from '@material-ui/core';
 
-import { ResourceData } from '~app/contexts';
+import { ResourceTableData } from '~app/contexts';
 import { useResources } from '~app/hooks';
-import { DataTabel, DataTabelProps } from '~app/components';
+import { DataTabel, DataTabelProps, Loader } from '~app/components';
 
 const StyledParagraph = styled(Typography)({
   padding: '1rem'
 });
 
-const fields: Array<keyof ResourceData> = ['title', 'type', 'availability', 'availableFrom'];
+const fields: Array<keyof ResourceTableData> = ['title', 'ebook', 'available', 'availableFrom'];
 
-const headDetails: DataTabelProps<ResourceData>['headDetails'] = {
+const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
   title: {
     label: 'Title',
     sortable: true,
     width: '40%'
   },
-  type: {
+  ebook: {
     label: 'Resource type'
   },
-  availability: {
+  available: {
     label: 'Availability'
   },
   availableFrom: {
@@ -32,9 +32,20 @@ const headDetails: DataTabelProps<ResourceData>['headDetails'] = {
 const borrowActionLabel = 'Borrow';
 
 const ResourcesTable = (): JSX.Element => {
-  const { items, order, orderBy, onRequestSort, onRequestBorrow } = useResources();
+  const { resources, loading, error, order, orderBy, onRequestSort, onRequestBorrow } =
+    useResources();
 
   const actions = [{ label: borrowActionLabel, onClick: onRequestBorrow }];
+
+  const items = resources.map(
+    (item) => ({
+      title: item.title,
+      ebook: item.ebook ? 'eBook' : 'book',
+      available: item.available ? 'Yes' : 'No',
+      availableFrom: item.availableFrom
+    }),
+    []
+  );
 
   return (
     <Box>
@@ -47,7 +58,18 @@ const ResourcesTable = (): JSX.Element => {
         orderBy={orderBy}
         onRequestSort={onRequestSort}
       />
-      {items.length === 0 && <StyledParagraph>No resources availiable</StyledParagraph>}
+
+      <Box padding="1rem">
+        {loading && <Loader />}
+
+        {!loading && error && (
+          <Typography>Failed to load resources. Please try again later.</Typography>
+        )}
+
+        {!loading && !error && items.length === 0 && (
+          <StyledParagraph>No resources availiable</StyledParagraph>
+        )}
+      </Box>
     </Box>
   );
 };

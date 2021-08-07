@@ -15,9 +15,38 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddResourceInput = {
+  title: Scalars['String'];
+  createdDate?: Maybe<Scalars['Float']>;
+  ebook: Scalars['Boolean'];
+  available?: Maybe<Scalars['Boolean']>;
+  borrowerId?: Maybe<Scalars['String']>;
+  borrower?: Maybe<BorrowerInput>;
+};
+
 export type AddUserInput = {
   email: Scalars['String'];
   admin: Scalars['Boolean'];
+};
+
+export type BorrowResourceInput = {
+  title: Scalars['String'];
+  createdDate: Scalars['Float'];
+  ebook: Scalars['Boolean'];
+  available: Scalars['Boolean'];
+  borrowerId: Scalars['String'];
+  borrower: BorrowerInput;
+};
+
+export type Borrower = {
+  __typename?: 'Borrower';
+  name?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
+export type BorrowerInput = {
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
 };
 
 export type Mutation = {
@@ -25,6 +54,9 @@ export type Mutation = {
   verifyUser: Scalars['Boolean'];
   addUser: User;
   updateUserInfo: User;
+  addResource: Resource;
+  borrowResource: Resource;
+  returnResource: Resource;
 };
 
 export type MutationVerifyUserArgs = {
@@ -39,14 +71,50 @@ export type MutationUpdateUserInfoArgs = {
   input: UpdateUserInput;
 };
 
+export type MutationAddResourceArgs = {
+  input: AddResourceInput;
+};
+
+export type MutationBorrowResourceArgs = {
+  input: BorrowResourceInput;
+};
+
+export type MutationReturnResourceArgs = {
+  input: ReturnResourceInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   users: Array<Maybe<User>>;
   user?: Maybe<User>;
+  resources: Array<Resource>;
+  resourcesByUser: Array<Resource>;
 };
 
 export type QueryUserArgs = {
   email: Scalars['String'];
+};
+
+export type QueryResourcesByUserArgs = {
+  borrowerId: Scalars['String'];
+};
+
+export type Resource = {
+  __typename?: 'Resource';
+  title: Scalars['String'];
+  createdDate: Scalars['Float'];
+  ebook: Scalars['Boolean'];
+  available: Scalars['Boolean'];
+  borrowerId?: Maybe<Scalars['String']>;
+  borrower?: Maybe<Borrower>;
+  dateBorrowed?: Maybe<Scalars['String']>;
+};
+
+export type ReturnResourceInput = {
+  title: Scalars['String'];
+  createdDate: Scalars['Float'];
+  ebook: Scalars['Boolean'];
+  available: Scalars['Boolean'];
 };
 
 export type UpdateUserInput = {
@@ -77,6 +145,17 @@ export type VerifyUserMutationVariables = Exact<{
 }>;
 
 export type VerifyUserMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'verifyUser'>;
+
+export type ResourcesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ResourcesQuery = { __typename?: 'Query' } & {
+  resources: Array<
+    { __typename?: 'Resource' } & Pick<
+      Resource,
+      'title' | 'createdDate' | 'ebook' | 'available' | 'borrowerId' | 'dateBorrowed'
+    > & { borrower?: Maybe<{ __typename?: 'Borrower' } & Pick<Borrower, 'name' | 'phoneNumber'>> }
+  >;
+};
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -180,6 +259,65 @@ export type VerifyUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
   VerifyUserMutation,
   VerifyUserMutationVariables
 >;
+export const ResourcesDocument = gql`
+  query resources {
+    resources {
+      title
+      createdDate
+      ebook
+      available
+      borrowerId
+      borrower {
+        name
+        phoneNumber
+      }
+      dateBorrowed
+    }
+  }
+`;
+
+/**
+ * __useResourcesQuery__
+ *
+ * To run a query within a React component, call `useResourcesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useResourcesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useResourcesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useResourcesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<ResourcesQuery, ResourcesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<ResourcesQuery, ResourcesQueryVariables>(
+    ResourcesDocument,
+    options
+  );
+}
+export function useResourcesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ResourcesQuery, ResourcesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<ResourcesQuery, ResourcesQueryVariables>(
+    ResourcesDocument,
+    options
+  );
+}
+export type ResourcesQueryHookResult = ReturnType<typeof useResourcesQuery>;
+export type ResourcesLazyQueryHookResult = ReturnType<typeof useResourcesLazyQuery>;
+export type ResourcesQueryResult = ApolloReactCommon.QueryResult<
+  ResourcesQuery,
+  ResourcesQueryVariables
+>;
+export function refetchResourcesQuery(variables?: ResourcesQueryVariables) {
+  return { query: ResourcesDocument, variables: variables };
+}
 export const UsersDocument = gql`
   query users {
     users {

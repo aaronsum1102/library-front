@@ -1,15 +1,21 @@
 import { createContext } from 'react';
 import { SortDirection } from '@material-ui/core';
+import { ApolloError } from '@apollo/client';
 
+import { Resource } from '~app/apollo/generated/graphql';
 import { Action } from '~app/components';
 
-export type TypeFilter = 'all' | 'book' | 'eBook';
-export type AvailabilityFilter = 'all' | 'yes' | 'no';
+export type TypeFilter = boolean | null;
+export type AvailabilityFilter = boolean | null;
 
-export interface ResourceData {
+export interface ResourceData extends Resource {
+  availableFrom: string;
+}
+
+export interface ResourceTableData {
   title: string;
-  type: string;
-  availability: string;
+  ebook: boolean;
+  available: boolean;
   availableFrom: string;
 }
 
@@ -18,14 +24,16 @@ export interface ResourcesState {
   typeFilter: TypeFilter;
   availabilityFilter: AvailabilityFilter;
 
-  items: ResourceData[];
+  resources: ResourceData[];
+  loading: boolean;
+  error?: ApolloError;
   order: SortDirection;
-  orderBy: keyof ResourceData;
+  orderBy: keyof ResourceTableData;
 
   setTitleFilter: (value: string) => void;
   setTypeFilter: (value: TypeFilter) => void;
   setAvailabilityFilter: (value: AvailabilityFilter) => void;
-  onRequestSort: (property: keyof ResourceData) => void;
+  onRequestSort: (property: keyof ResourceTableData) => void;
   onRequestBorrow: Action['onClick'];
 }
 

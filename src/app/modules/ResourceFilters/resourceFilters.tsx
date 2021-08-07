@@ -11,15 +11,15 @@ interface Option<T> {
 }
 
 const typeOptions: Option<TypeFilter>[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Book', value: 'book' },
-  { label: 'eBook', value: 'eBook' }
+  { label: 'All', value: null },
+  { label: 'Book', value: false },
+  { label: 'eBook', value: true }
 ];
 
 const availabilityOptions: Option<AvailabilityFilter>[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Yes', value: 'yes' },
-  { label: 'No', value: 'no' }
+  { label: 'All', value: null },
+  { label: 'Yes', value: true },
+  { label: 'No', value: false }
 ];
 
 const ResourceFilters = (): JSX.Element => {
