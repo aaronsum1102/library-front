@@ -39,6 +39,13 @@ export const routes: RouteDefinition[] = [
     label: 'Loans'
   },
   {
+    name: 'profile',
+    path: '/profile',
+    exact: true,
+    view: 'ProfileView',
+    private: true
+  },
+  {
     name: 'login',
     path: '/login',
     exact: true,

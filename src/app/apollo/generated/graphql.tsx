@@ -194,6 +194,17 @@ export type ReturnMaterialMutation = { __typename?: 'Mutation' } & {
   returnMaterial: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
 };
 
+export type UpdateUserInfoMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+export type UpdateUserInfoMutation = { __typename?: 'Mutation' } & {
+  updateUserInfo: { __typename?: 'User' } & Pick<
+    User,
+    'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'
+  >;
+};
+
 export type VerifyUserMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -221,6 +232,16 @@ export type ResourcesQuery = { __typename?: 'Query' } & {
       Resource,
       'title' | 'createdDate' | 'ebook' | 'available' | 'borrowerId' | 'dateBorrowed'
     > & { borrower?: Maybe<{ __typename?: 'Borrower' } & Pick<Borrower, 'name' | 'phoneNumber'>> }
+  >;
+};
+
+export type UserQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+export type UserQuery = { __typename?: 'Query' } & {
+  user?: Maybe<
+    { __typename?: 'User' } & Pick<User, 'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'>
   >;
 };
 
@@ -471,6 +492,57 @@ export type ReturnMaterialMutationOptions = ApolloReactCommon.BaseMutationOption
   ReturnMaterialMutation,
   ReturnMaterialMutationVariables
 >;
+export const UpdateUserInfoDocument = gql`
+  mutation updateUserInfo($input: UpdateUserInput!) {
+    updateUserInfo(input: $input) {
+      uid
+      email
+      displayName
+      phoneNumber
+      admin
+    }
+  }
+`;
+export type UpdateUserInfoMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateUserInfoMutation,
+  UpdateUserInfoMutationVariables
+>;
+
+/**
+ * __useUpdateUserInfoMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserInfoMutation, { data, loading, error }] = useUpdateUserInfoMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserInfoMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateUserInfoMutation,
+    UpdateUserInfoMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<UpdateUserInfoMutation, UpdateUserInfoMutationVariables>(
+    UpdateUserInfoDocument,
+    options
+  );
+}
+export type UpdateUserInfoMutationHookResult = ReturnType<typeof useUpdateUserInfoMutation>;
+export type UpdateUserInfoMutationResult = ApolloReactCommon.MutationResult<UpdateUserInfoMutation>;
+export type UpdateUserInfoMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateUserInfoMutation,
+  UpdateUserInfoMutationVariables
+>;
 export const VerifyUserDocument = gql`
   mutation verifyUser($email: String!) {
     verifyUser(email: $email)
@@ -620,6 +692,52 @@ export type ResourcesQueryResult = ApolloReactCommon.QueryResult<
 >;
 export function refetchResourcesQuery(variables?: ResourcesQueryVariables) {
   return { query: ResourcesDocument, variables: variables };
+}
+export const UserDocument = gql`
+  query user($email: String!) {
+    user(email: $email) {
+      uid
+      email
+      displayName
+      phoneNumber
+      admin
+    }
+  }
+`;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useUserQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<UserQuery, UserQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+}
+export function useUserLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserQuery, UserQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+}
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = ApolloReactCommon.QueryResult<UserQuery, UserQueryVariables>;
+export function refetchUserQuery(variables?: UserQueryVariables) {
+  return { query: UserDocument, variables: variables };
 }
 export const UsersDocument = gql`
   query users {
