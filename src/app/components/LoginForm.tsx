@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Typography, TextField, Button, Box, styled } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import { AuthActionResult } from '~app/contexts';
 
@@ -15,16 +16,13 @@ interface Props {
 
 const Container = styled('form')({
   width: '100%',
+  minWidth: '250px',
   maxWidth: '300px'
 });
 
 const StyledButton = styled(Button)({
   width: '100%',
   padding: '0.5rem 1rem 0.5rem 1rem'
-});
-
-const validationSchema = yup.object({
-  email: yup.string().email('Invalid email provided').required('Email is required')
 });
 
 const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
@@ -35,11 +33,17 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
     undefined
   );
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     return () => {
       isMounted.current = false;
     };
   }, []);
+
+  const validationSchema = yup.object({
+    email: yup.string().email(t('form:invalidEmail')).required(t('form:emailRequired'))
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -61,32 +65,36 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
 
   return (
     <>
-      <Typography variant="h3" align="center">
-        Log in to Library
+      <Typography variant="h4" align="center">
+        {t('login:signIn')}
+      </Typography>
+
+      <Typography variant="h6" align="center">
+        {t('login:continueToLibrary')}
       </Typography>
       <Spacer space={Spacings.xLarge} />
       <Container onSubmit={formik.handleSubmit}>
         {authError?.error && (
           <>
             <Box bgcolor="error.main" color="error.contrastText" padding={2} minWidth="100%">
-              {authError.message || 'Authentication failed. Please try again later.'}
+              {authError.message || t('login:authError')}
             </Box>
             <Spacer space={Spacings.xLarge} />
           </>
         )}
         <TextField
           id="email"
-          label="Email"
+          label={t('form:email')}
           variant="outlined"
-          inputProps={{ 'aria-label': 'email' }}
+          inputProps={{ 'aria-label': t('form:email') }}
           value={formik.values.email}
           onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
           fullWidth
         />
         <Spacer space={Spacings.large} />
+
         <StyledButton
           type="submit"
           variant="contained"

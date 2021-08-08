@@ -1,0 +1,26 @@
+{
+  "login": {
+    "signIn": "Sign in",
+    "continueToLibrary": "Continue to Library",
+    "authError": "Authentication failed. Please try again later.",
+    "noAccountError": "You does not seems to have an account. Please contact admin to create an account.",
+    "awaitingConfirmation": "Awaiting Confirmation",
+    "infoText": "Do not close this window untill opening of the email link",
+    "sendEmailInfoText": "We just sent an email to "
+  },
+  "form": {
+    "email": "Email",
+    "invalidEmail": "Invalid email provided",
+    "emailRequired": "Enter an email"
+  },
+  "button": {
+    "continue": "Continue"
+  },
+  "error": {
+    "general": "Something went wrong. Please try again later."
+  },
+  "user": {
+    "informationSaved": "Information has been saved.",
+    "errorSaveInformation": "Failed to save information. Please try again later."
+  }
+}

@@ -28,7 +28,7 @@ const NotifyView = (): JSX.Element => {
   return (
     <Container>
       <Center>
-        <Typography variant="h3" align="center">
+        <Typography variant="h4" align="center">
           Email Address Confirmed
         </Typography>
         <Spacer space={Spacings.xLarge} />

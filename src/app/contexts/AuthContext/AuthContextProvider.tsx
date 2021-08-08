@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { useTranslation } from 'react-i18next';
+
 import {
   User,
   useVerifyUserMutation,
   useUpdateUserInfoMutation
 } from '~app/apollo/generated/graphql';
-
 import { AuthContext, AuthActionResult } from './AuthContext';
 import { useSnackbar } from '~app/hooks';
 import getConfig from '~config/index';
@@ -28,6 +29,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null | undefined>(undefined);
 
   const { addSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const [verifyUser] = useVerifyUserMutation();
   const [updateUserInfo] = useUpdateUserInfoMutation({
@@ -44,12 +46,12 @@ const AuthContextProvider: React.FC = ({ children }) => {
       });
 
       addSnackbar({
-        content: 'Information has been saved.'
+        content: t('user:informationSaved')
       });
     },
     onError() {
       addSnackbar({
-        content: 'Failed to save information. Please try again later.',
+        content: t('user:errorSaveInformation'),
         error: true
       });
     }
@@ -86,6 +88,9 @@ const AuthContextProvider: React.FC = ({ children }) => {
       const { data } = await verifyUser({ variables: { email } });
 
       if (data?.verifyUser) {
+        const language = window.localStorage.getItem('userLanguage');
+        auth.languageCode = language;
+
         await auth.sendSignInLinkToEmail(email, actionCodeSettings);
         window.localStorage.setItem('emailForSignIn', email);
 
@@ -96,13 +101,12 @@ const AuthContextProvider: React.FC = ({ children }) => {
 
       return {
         success: false,
-        errorMessage:
-          'No account associated with this email. Please contact admin to create an account.'
+        errorMessage: t('login:noAccountError')
       };
     } catch (error) {
       return {
         success: false,
-        errorMessage: 'Something went wrong. Please try again later.'
+        errorMessage: t('error:general')
       };
     }
   };
@@ -126,7 +130,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
       } catch (error) {
         return {
           success: false,
-          errorMessage: 'Something went wrong. Please try again later.'
+          errorMessage: t('error:general')
         };
       }
     }
@@ -148,7 +152,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        errorMessage: 'Something went wrong. Please try again later.'
+        errorMessage: t('error:general')
       };
     }
   };

@@ -1,0 +1,26 @@
+{
+  "login": {
+    "signIn": "登入",
+    "continueToLibrary": "繼續使用 Library",
+    "authError": "登入失敗， 請稍候再試。",
+    "noAccountError": "您似乎沒有賬戶。請聯繫管理員以創建一個帳戶。",
+    "awaitingConfirmation": "等待確認中",
+    "infoText": "請不要關閉視窗直到您打開電郵裏的連結",
+    "sendEmailInfoText": "我們已發了一封電郵至 "
+  },
+  "form": {
+    "email": "電子郵件地址",
+    "invalidEmail": "您提供的電子郵件地址不正確",
+    "emailRequired": "請輸入電子郵件地址"
+  },
+  "button": {
+    "continue": "繼續"
+  },
+  "error": {
+    "general": "出現問題了，請稍候再試。"
+  },
+  "user": {
+    "informationSaved": "資訊以保存。",
+    "errorSaveInformation": "資訊保存失敗，請稍候再試。"
+  }
+}
