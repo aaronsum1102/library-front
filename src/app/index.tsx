@@ -10,11 +10,11 @@ import apolloClient from './apollo/apollo-client';
 render(
   <ApolloProvider client={apolloClient}>
     <BrowserRouter>
-      <AuthContextProvider>
-        <AppContextProvider>
+      <AppContextProvider>
+        <AuthContextProvider>
           <App />
-        </AppContextProvider>
-      </AuthContextProvider>
+        </AuthContextProvider>
+      </AppContextProvider>
     </BrowserRouter>
   </ApolloProvider>,
   document.getElementById('root')

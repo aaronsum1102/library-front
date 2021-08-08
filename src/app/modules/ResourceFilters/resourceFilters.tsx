@@ -11,15 +11,15 @@ interface Option<T> {
 }
 
 const typeOptions: Option<TypeFilter>[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Book', value: 'book' },
-  { label: 'eBook', value: 'eBook' }
+  { label: 'All', value: null },
+  { label: 'Book', value: false },
+  { label: 'eBook', value: true }
 ];
 
 const availabilityOptions: Option<AvailabilityFilter>[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Yes', value: 'yes' },
-  { label: 'No', value: 'no' }
+  { label: 'All', value: null },
+  { label: 'Yes', value: true },
+  { label: 'No', value: false }
 ];
 
 const ResourceFilters = (): JSX.Element => {
@@ -37,7 +37,7 @@ const ResourceFilters = (): JSX.Element => {
       <Grid item xs={12} sm={3}>
         <SearchField
           id="resource-filter"
-          label="Search resource"
+          label="Search material"
           value={titleFilter}
           onChange={setTitleFilter}
         />
@@ -46,7 +46,7 @@ const ResourceFilters = (): JSX.Element => {
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
           id="resource-type-filter"
-          label="Resource type"
+          label="Material type"
           options={typeOptions}
           value={typeFilter}
           onChange={(value) => setTypeFilter(value as TypeFilter)}
@@ -55,8 +55,8 @@ const ResourceFilters = (): JSX.Element => {
 
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
-          id="availability-filter"
-          label="Availability"
+          id="available-filter"
+          label="Available"
           options={availabilityOptions}
           value={availabilityFilter}
           onChange={(value) => setAvailabilityFilter(value as AvailabilityFilter)}

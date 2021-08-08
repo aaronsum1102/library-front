@@ -1,0 +1,9 @@
+mutation updateUserInfo($input: UpdateUserInput!) {
+  updateUserInfo(input: $input) {
+    uid
+    email
+    displayName
+    phoneNumber
+    admin
+  }
+}

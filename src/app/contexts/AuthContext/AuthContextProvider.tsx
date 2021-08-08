@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { User, useVerifyUserMutation } from '~app/apollo/generated/graphql';
+import {
+  User,
+  useVerifyUserMutation,
+  useUpdateUserInfoMutation
+} from '~app/apollo/generated/graphql';
 
 import { AuthContext, AuthActionResult } from './AuthContext';
+import { useSnackbar } from '~app/hooks';
 import getConfig from '~config/index';
 
 const { firebase: firebaseConfig, app } = getConfig();
@@ -22,7 +27,33 @@ const AuthContextProvider: React.FC = ({ children }) => {
 
   const [user, setUser] = useState<User | null | undefined>(undefined);
 
+  const { addSnackbar } = useSnackbar();
+
   const [verifyUser] = useVerifyUserMutation();
+  const [updateUserInfo] = useUpdateUserInfoMutation({
+    onCompleted(data) {
+      setUser((prevUser) => {
+        if (prevUser) {
+          return {
+            ...prevUser,
+            ...data.updateUserInfo
+          };
+        }
+
+        return prevUser;
+      });
+
+      addSnackbar({
+        content: 'Information has been saved.'
+      });
+    },
+    onError() {
+      addSnackbar({
+        content: 'Failed to save information. Please try again later.',
+        error: true
+      });
+    }
+  });
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((newUserState) => {
@@ -128,7 +159,8 @@ const AuthContextProvider: React.FC = ({ children }) => {
     isSignInWithEmailLink,
     signIn,
     signOut,
-    isInitAuth: isInitAuth.current
+    isInitAuth: isInitAuth.current,
+    updateUserInfo
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

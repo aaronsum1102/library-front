@@ -5,47 +5,51 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { FormDialog, Dropdown, DropdownOption, Spacer, Spacings, Loader } from '~app/components';
-import { useUser } from '~app/hooks';
+import { useResourceAction, useResources, useAuth } from '~app/hooks';
+
+const validationSchema = yup.object({
+  title: yup.string().required('Title is required'),
+  ebook: yup.bool()
+});
 
 const options: DropdownOption<boolean>[] = [
   {
-    label: 'Normal User',
+    label: 'Book',
     value: false
   },
   {
-    label: 'Admin',
+    label: 'Ebook',
     value: true
   }
 ];
 
-const validationSchema = yup.object({
-  email: yup.string().email('Enter a valid email').required('Email is required'),
-  admin: yup.bool()
-});
-
-const AddUser = (): JSX.Element => {
+const AddResourceMenu = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { addUser, refetchUsers } = useUser();
+  const { user } = useAuth();
+  const { add } = useResourceAction();
+  const { refetchResources } = useResources();
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      admin: false
+      title: '',
+      ebook: false
     },
     validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
 
-      await addUser({
+      await add({
         variables: {
-          input: values
+          input: {
+            ...values
+          }
         }
       });
 
       setLoading(false);
-      refetchUsers();
+      refetchResources();
       setOpen(false);
     }
   });
@@ -56,10 +60,14 @@ const AddUser = (): JSX.Element => {
     }
   }, [open]);
 
+  if (!user?.admin) {
+    return <></>;
+  }
+
   return (
     <FormDialog
-      title="Add user"
-      label="Add user"
+      title="Add material"
+      label="Add material"
       labelEndIcon={<AddIcon />}
       open={open}
       handleClickOpen={() => setOpen(true)}
@@ -68,27 +76,27 @@ const AddUser = (): JSX.Element => {
       content={
         <>
           <DialogContentText>
-            Please enter the email address of a new user and select user type
+            Please enter the title of the new material and select the material type.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
-            id="email"
-            label="Email Address"
-            value={formik.values.email}
+            id="title"
+            label="Title"
+            value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
+            error={formik.touched.title && Boolean(formik.errors.title)}
+            helperText={formik.touched.title && formik.errors.title}
             fullWidth
           />
           <Spacer space={Spacings.large} />
           <Dropdown
-            id="user-type"
-            label="User type"
-            value={formik.values.admin}
+            id="material-type"
+            label="Type"
+            value={formik.values.ebook}
             options={options}
-            onChange={(value) => formik.setFieldValue('admin', value)}
+            onChange={(value) => formik.setFieldValue('ebook', value)}
           />
           <Spacer space={Spacings.xLarge} />
         </>
@@ -107,4 +115,4 @@ const AddUser = (): JSX.Element => {
   );
 };
 
-export default AddUser;
+export default AddResourceMenu;

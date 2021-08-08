@@ -1,64 +1,23 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { SortDirection } from '@material-ui/core';
 
+import { useResourcesQuery } from '~app/apollo/generated/graphql';
 import {
   ResourcesContext,
   ResourcesState,
   TypeFilter,
   AvailabilityFilter,
-  ResourceData
+  ResourceData,
+  ResourceTableData
 } from './ResourcesContext';
 import {
   stableSort,
   getComparator,
   dateComparator,
-  generalDescendingComparator
+  generalDescendingComparator,
+  addDays,
+  formatDate
 } from '~app/helpers';
-
-const mockData: ResourceData[] = [
-  {
-    title: 'Test Title',
-    type: 'book',
-    availability: 'Yes',
-    availableFrom: new Date().toDateString()
-  },
-  {
-    title: 'Lorem ipsum',
-    type: 'eBook',
-    availability: 'No',
-    availableFrom: new Date('2021-08-02').toDateString()
-  },
-  {
-    title: 'Lorem ipsum2',
-    type: 'book',
-    availability: 'No',
-    availableFrom: new Date('2021-08-01').toDateString()
-  },
-  {
-    title: 'Lorem ipsum2',
-    type: 'book',
-    availability: 'No',
-    availableFrom: new Date('2021-08-01').toDateString()
-  },
-  {
-    title: 'Lorem ipsum2',
-    type: 'book',
-    availability: 'No',
-    availableFrom: new Date('2021-08-01').toDateString()
-  },
-  {
-    title: 'Lorem ipsum2',
-    type: 'book',
-    availability: 'No',
-    availableFrom: new Date('2021-08-01').toDateString()
-  },
-  {
-    title: '論語',
-    type: 'book',
-    availability: 'Yes',
-    availableFrom: new Date('2021-08-01').toDateString()
-  }
-];
 
 const filterByTitle = (resources: ResourceData[], filter: string): ResourceData[] => {
   return resources.filter((resource) =>
@@ -67,29 +26,31 @@ const filterByTitle = (resources: ResourceData[], filter: string): ResourceData[
 };
 
 const filterByType = (resources: ResourceData[], filter: TypeFilter): ResourceData[] => {
-  if (filter === 'all') return resources;
+  if (filter === null) return resources;
 
-  return resources.filter((resource) => resource.type === filter);
+  return resources.filter((resource) => resource.ebook === filter);
 };
 
 const filterByAvailabilityFilter = (
   resources: ResourceData[],
   filter: AvailabilityFilter
 ): ResourceData[] => {
-  if (filter === 'all') return resources;
+  if (filter === null) return resources;
 
-  return resources.filter((resource) => resource.availability.toLowerCase() === filter);
+  return resources.filter((resource) => resource.available === filter);
 };
 
 const ResourcesProvider: React.FC = ({ children }) => {
   const [titleFilter, setTitleFilter] = useState('');
-  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
-  const [availabilityFilter, setAvailabilityFilter] = useState<AvailabilityFilter>('all');
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>(null);
+  const [availabilityFilter, setAvailabilityFilter] = useState<AvailabilityFilter>(null);
   const [order, setOrder] = useState<SortDirection>('asc');
-  const [orderBy, setOrderBy] = useState<keyof ResourceData>('title');
+  const [orderBy, setOrderBy] = useState<keyof ResourceTableData>('title');
+
+  const { data: resourcesData, loading, error, refetch: refetchResources } = useResourcesQuery();
 
   const onRequestSort = useCallback(
-    (property: keyof ResourceData) => {
+    (property: keyof ResourceTableData) => {
       const isAsc = orderBy === property && order === 'asc';
 
       setOrder(isAsc ? 'desc' : 'asc');
@@ -98,29 +59,33 @@ const ResourcesProvider: React.FC = ({ children }) => {
     [orderBy, order]
   );
 
-  const items = useMemo(() => {
-    let results = filterByTitle(mockData, titleFilter);
+  const resources = useMemo(() => {
+    if (!resourcesData) return [];
+
+    const items = resourcesData.resources.map((data) => ({
+      ...data,
+      availableFrom: formatDate(
+        data.dateBorrowed ? addDays(data.dateBorrowed, 10) : new Date(),
+        navigator.language
+      )
+    }));
+
+    let results = filterByTitle(items, titleFilter);
     results = filterByType(results, typeFilter);
     results = filterByAvailabilityFilter(results, availabilityFilter);
 
     const comparator = orderBy === 'availableFrom' ? dateComparator : generalDescendingComparator;
 
     return stableSort(results, getComparator(order, orderBy, comparator));
-  }, [titleFilter, typeFilter, availabilityFilter, order, orderBy]);
-
-  const onRequestBorrow = useCallback(
-    (id: number) => {
-      const data = items[id];
-      console.log('onRequestBorrow', data);
-    },
-    [items]
-  );
+  }, [resourcesData, titleFilter, typeFilter, availabilityFilter, order, orderBy]);
 
   const value: ResourcesState = {
     titleFilter,
     typeFilter,
     availabilityFilter,
-    items,
+    loading,
+    error,
+    resources,
     order,
     orderBy,
 
@@ -128,7 +93,7 @@ const ResourcesProvider: React.FC = ({ children }) => {
     setTypeFilter,
     setAvailabilityFilter,
     onRequestSort,
-    onRequestBorrow
+    refetchResources
   };
 
   return <ResourcesContext.Provider value={value}>{children}</ResourcesContext.Provider>;

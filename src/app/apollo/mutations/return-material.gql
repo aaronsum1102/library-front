@@ -1,0 +1,6 @@
+mutation returnMaterial($input: ReturnResourceInput!) {
+  returnMaterial: returnResource(input: $input) {
+    title
+    createdDate
+  }
+}

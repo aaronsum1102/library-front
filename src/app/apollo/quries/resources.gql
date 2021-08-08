@@ -1,0 +1,14 @@
+query resources {
+  resources {
+    title
+    createdDate
+    ebook
+    available
+    borrowerId
+    borrower {
+      name
+      phoneNumber
+    }
+    dateBorrowed
+  }
+}

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { User } from '~app/apollo/generated/graphql';
+import { User, UpdateUserInfoMutationHookResult } from '~app/apollo/generated/graphql';
 
 export interface AuthActionResult {
   success: boolean;
@@ -13,6 +13,7 @@ export interface AuthState {
   signIn: (email: string) => Promise<AuthActionResult>;
   signOut: () => Promise<AuthActionResult>;
   isInitAuth: boolean;
+  updateUserInfo: UpdateUserInfoMutationHookResult[0];
 }
 
 const defaultContext = {} as AuthState;

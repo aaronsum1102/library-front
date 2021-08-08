@@ -70,7 +70,22 @@ const httpLink = createHttpLink({
 const client = new ApolloClient({
   link: ApolloLink.from([authTokenLink, authMiddleware, httpLink]),
   cache: new InMemoryCache({
-    addTypename: false
+    addTypename: false,
+    typePolicies: {
+      Query: {
+        fields: {
+          resourcesByUser: {
+            merge(existing = [], incoming: unknown[]) {
+              if (existing.length !== incoming.length) {
+                return [...incoming];
+              }
+
+              return [...existing, ...incoming];
+            }
+          }
+        }
+      }
+    }
   })
 });
 
