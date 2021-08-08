@@ -1,0 +1,9 @@
+query loans($borrowerId: String!) {
+  loans: resourcesByUser(borrowerId: $borrowerId) {
+    title
+    createdDate
+    ebook
+    available
+    dateBorrowed
+  }
+}

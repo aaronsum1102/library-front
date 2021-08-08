@@ -1,0 +1,7 @@
+mutation borrowResource($input: BorrowResourceInput!) {
+  borrowResource(input: $input) {
+    title
+    createdDate
+    dateBorrowed
+  }
+}
