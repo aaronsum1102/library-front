@@ -6,13 +6,19 @@ import { useResources, useResourceAction, useAuth } from '~app/hooks';
 import { DataTabel, DataTabelProps, Loader } from '~app/components';
 import UserInfoForm from '../UserInfoForm';
 
-const fields: Array<keyof ResourceTableData> = ['title', 'ebook', 'available', 'availableFrom'];
+const fields: Array<keyof ResourceTableData> = [
+  'title',
+  'ebook',
+  'available',
+  'availableFrom',
+  'borrowerPhoneNumber'
+];
 
 const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
   title: {
     label: 'Title',
     sortable: true,
-    width: '40%'
+    width: '35%'
   },
   ebook: {
     label: 'Material type'
@@ -23,6 +29,10 @@ const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
   availableFrom: {
     label: 'Available from',
     sortable: true
+  },
+  borrowerPhoneNumber: {
+    label: 'Borrower contact number',
+    hide: true
   }
 };
 
@@ -142,8 +152,13 @@ const ResourcesTable = (): JSX.Element => {
     title: item.title,
     ebook: item.ebook ? 'eBook' : 'book',
     available: item.available ? 'Yes' : 'No',
-    availableFrom: item.availableFrom
+    availableFrom: item.availableFrom,
+    borrowerPhoneNumber: item.borrower?.phoneNumber || '-'
   }));
+
+  if (user?.admin) {
+    headDetails.borrowerPhoneNumber.hide = false;
+  }
 
   return (
     <>

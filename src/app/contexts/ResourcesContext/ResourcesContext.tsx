@@ -16,6 +16,7 @@ export interface ResourceTableData {
   ebook: boolean;
   available: boolean;
   availableFrom: string;
+  borrowerPhoneNumber: string;
 }
 
 export interface ResourcesState {

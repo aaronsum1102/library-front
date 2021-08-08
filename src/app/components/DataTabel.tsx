@@ -17,6 +17,7 @@ interface HeadDetails {
   sortable?: boolean;
   alignRight?: boolean;
   width?: number | string;
+  hide?: boolean;
 }
 
 interface HeadCellProps<T> extends HeadDetails {
@@ -42,10 +43,13 @@ const HeadCell = <T,>({
   sortable,
   alignRight,
   width,
+  hide,
   order,
   orderBy,
   onRequestSort
 }: HeadCellProps<T>): JSX.Element => {
+  if (hide) return <></>;
+
   return (
     <TableCell
       key={label}
@@ -74,7 +78,8 @@ HeadCell.defaultProps = {
   width: undefined,
   order: undefined,
   orderBy: undefined,
-  onRequestSort: undefined
+  onRequestSort: undefined,
+  hide: false
 };
 
 const Container = styled(Box)({
@@ -95,16 +100,18 @@ export const DataTabel = <T,>({
       <Table>
         <TableHead>
           <TableRow>
-            {fields.map((field) => (
-              <HeadCell
-                key={field as string}
-                id={field as string}
-                order={order}
-                orderBy={orderBy}
-                {...headDetails[field as keyof T]}
-                onRequestSort={onRequestSort}
-              />
-            ))}
+            {fields.map((field) => {
+              return (
+                <HeadCell
+                  key={field as string}
+                  id={field as string}
+                  order={order}
+                  orderBy={orderBy}
+                  {...headDetails[field as keyof T]}
+                  onRequestSort={onRequestSort}
+                />
+              );
+            })}
             <TableCell align="right" width={56}>
               {null}
             </TableCell>
@@ -115,9 +122,11 @@ export const DataTabel = <T,>({
           {items.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <TableRow key={index} hover>
-              {fields.map((field) => (
-                <TableCell key={field as string}>{item[field as keyof T]}</TableCell>
-              ))}
+              {fields.map((field) => {
+                if (headDetails[field as keyof typeof headDetails].hide) return null;
+
+                return <TableCell key={field as string}>{item[field as keyof T]}</TableCell>;
+              })}
               <TableCell>
                 {actions && actions.length > 0 && <ActionMenu id={index} actions={actions} />}
               </TableCell>
