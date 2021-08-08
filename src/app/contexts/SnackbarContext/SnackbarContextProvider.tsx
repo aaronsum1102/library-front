@@ -54,7 +54,7 @@ const SnackbarProvider: React.FC = ({ children }) => {
             color: !current?.error ? 'inherit' : undefined
           }
         }}
-        autoHideDuration={current?.autoHideDuration || 5000}
+        autoHideDuration={current?.autoHideDuration || 3000}
       />
     </SnackbarContext.Provider>
   );

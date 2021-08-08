@@ -17,11 +17,18 @@ const ResourceActionProvider: React.FC = ({ children }) => {
         content: 'Material has been checked out.'
       });
     },
-    onError() {
-      addSnackbar({
-        content: 'Failed to borrow material. Please try again later.',
-        error: true
-      });
+    onError(error) {
+      if (error.message === 'RESOURCE_UNAVAILABLE') {
+        addSnackbar({
+          content: 'The material is unavailable.',
+          error: true
+        });
+      } else {
+        addSnackbar({
+          content: 'Failed to borrow material. Please try again later.',
+          error: true
+        });
+      }
     }
   });
 

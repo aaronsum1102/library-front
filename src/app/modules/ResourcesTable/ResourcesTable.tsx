@@ -68,6 +68,7 @@ const ResourcesTable = (): JSX.Element => {
         });
 
         materialToCheckout.current = null;
+
         await refetchResources();
       }
     },
