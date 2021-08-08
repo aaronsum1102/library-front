@@ -43,12 +43,12 @@ const LoansTable = (): JSX.Element => {
             title,
             createdDate,
             ebook,
-            available: false
+            available: true
           }
         }
       });
     },
-    [returnMaterial]
+    [returnMaterial, loans]
   );
 
   return (

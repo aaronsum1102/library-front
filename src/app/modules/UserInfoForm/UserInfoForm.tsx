@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   IconButton,
   Button,
@@ -12,7 +13,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import gPhoneNumber from 'google-libphonenumber';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 import { useAuth } from '~app/hooks';
 import { Spacer, Spacings, Loader } from '~app/components';
@@ -24,81 +25,13 @@ const StyledIconButton = styled(IconButton)({
   right: '0px'
 });
 
-interface UserInfoFormProps {
-  open: boolean;
-  handleClose: () => void;
-}
-
-const phoneUtil = gPhoneNumber.PhoneNumberUtil.getInstance();
-
-yup.addMethod(yup.string, 'phone', function yupPhone(this: yup.StringSchema, message: string) {
-  return this.test(
-    {
-      name: 'phone',
-      message,
-      test: (value, context) => {
-        const { path, createError } = context;
-        createError({
-          path,
-          message
-        });
-        try {
-          const phoneNumber = phoneUtil.parse(value);
-
-          const result = phoneUtil.isValidNumber(phoneNumber);
-
-          if (!result) {
-            console.log('createError', result);
-            createError({
-              path,
-              message
-            });
-          }
-
-          return !result;
-        } catch (error) {
-          console.log('chas');
-          createError({
-            path,
-            message
-          });
-
-          return false;
-        }
-        // if (!phoneUtil.isPossibleNumber(phoneNumber)) {
-        //   return createError({
-        //     path,
-        //     message
-        //   });
-        // }
-
-        // return
-      }
-    }
-    // 'phone',
-    // message,
-    // function validate(this: yup.StringSchema, value: string, context: unknown) {
-    //   const { path, createError } = this;
-    //   const phoneNumber = phoneUtil.parse(value);
-    //   if (!phoneUtil.isPossibleNumber(phoneNumber)) {
-    //     return createError({
-    //       path,
-    //       message
-    //     });
-    //   }
-
-    //   return true;
-    // }
-  );
-});
+const phoneUtil = PhoneNumberUtil.getInstance();
 
 const validationSchema = yup.object({
   displayName: yup.string().required('Name is required'),
   phoneNumber: yup
     .string()
-    .test('validation', 'Phone number is invalid', function (value) {
-      const { path, createError } = this;
-
+    .test('validation', 'Phone number is invalid', (value) => {
       try {
         const phoneNumber = phoneUtil.parse(value);
 
@@ -116,7 +49,19 @@ const validationSchema = yup.object({
     .required('Phone number is required')
 });
 
-const UserInfoForm = ({ open, handleClose }: UserInfoFormProps): JSX.Element => {
+interface UserInfoFormProps {
+  open: boolean;
+  handleClose: () => void;
+  onSubmitCallback: (name: string, phoneNumber: string) => void;
+  helperText?: string;
+}
+
+const UserInfoForm = ({
+  open,
+  handleClose,
+  onSubmitCallback,
+  helperText
+}: UserInfoFormProps): JSX.Element => {
   const [loading, setLoading] = useState(false);
 
   const { user, updateUserInfo } = useAuth();
@@ -142,7 +87,7 @@ const UserInfoForm = ({ open, handleClose }: UserInfoFormProps): JSX.Element => 
         });
 
         setLoading(false);
-        handleClose();
+        onSubmitCallback(values.displayName, values.phoneNumber);
       }
     }
   });
@@ -163,6 +108,7 @@ const UserInfoForm = ({ open, handleClose }: UserInfoFormProps): JSX.Element => 
       </DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
+          {helperText && <DialogContentText>{helperText}</DialogContentText>}
           <TextField
             autoFocus
             margin="dense"
@@ -178,7 +124,6 @@ const UserInfoForm = ({ open, handleClose }: UserInfoFormProps): JSX.Element => 
           <Spacer space={Spacings.large} />
 
           <TextField
-            autoFocus
             margin="dense"
             id="phoneNumber"
             label="Phone number (include contry code)"
@@ -204,6 +149,10 @@ const UserInfoForm = ({ open, handleClose }: UserInfoFormProps): JSX.Element => 
       </form>
     </Dialog>
   );
+};
+
+UserInfoForm.defaultProps = {
+  helperText: undefined
 };
 
 export default UserInfoForm;

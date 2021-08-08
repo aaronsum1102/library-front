@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { Box, Typography } from '@material-ui/core';
 
-import { ResourceTableData } from '~app/contexts';
+import { ResourceTableData, ResourceData } from '~app/contexts';
 import { useResources, useResourceAction, useAuth } from '~app/hooks';
 import { DataTabel, DataTabelProps, Loader } from '~app/components';
+import UserInfoForm from '../UserInfoForm';
 
 const fields: Array<keyof ResourceTableData> = ['title', 'ebook', 'available', 'availableFrom'];
 
@@ -29,16 +30,27 @@ const borrowActionLabel = 'Borrow';
 const removeActionLabel = 'Remove';
 
 const ResourcesTable = (): JSX.Element => {
+  const materialToCheckout = useRef<ResourceData | null>(null);
+
   const { resources, loading, error, order, orderBy, onRequestSort, refetchResources } =
     useResources();
   const { borrow, remove } = useResourceAction();
   const { user } = useAuth();
 
+  const [open, setOpen] = useState(false);
+
   const onRequestBorrow = useCallback(
     async (id: number) => {
       if (user) {
-        const { title, createdDate, ebook } = resources[id];
-        // TODO chcek for display name and phone number
+        const material = resources[id];
+        materialToCheckout.current = material;
+        const { title, createdDate, ebook } = materialToCheckout.current;
+
+        if (!user.displayName || !user.phoneNumber) {
+          setOpen(true);
+          return;
+        }
+
         await borrow({
           variables: {
             input: {
@@ -48,17 +60,48 @@ const ResourcesTable = (): JSX.Element => {
               available: false,
               borrowerId: user.uid,
               borrower: {
-                name: user.displayName || '',
-                phoneNumber: user.phoneNumber || ''
+                name: user.displayName,
+                phoneNumber: user.phoneNumber
               }
             }
           }
         });
 
+        materialToCheckout.current = null;
         await refetchResources();
       }
     },
     [resources, borrow, user, refetchResources]
+  );
+
+  const userInfoUpdated = useCallback(
+    async (name: string, phoneNumber: string) => {
+      if (user && materialToCheckout.current) {
+        setOpen(false);
+
+        const { title, createdDate, ebook } = materialToCheckout.current;
+
+        await borrow({
+          variables: {
+            input: {
+              title,
+              createdDate,
+              ebook,
+              available: false,
+              borrowerId: user.uid,
+              borrower: {
+                name,
+                phoneNumber
+              }
+            }
+          }
+        });
+
+        materialToCheckout.current = null;
+        await refetchResources();
+      }
+    },
+    [borrow, user, refetchResources]
   );
 
   const onRequestRemove = useCallback(
@@ -102,29 +145,37 @@ const ResourcesTable = (): JSX.Element => {
   }));
 
   return (
-    <Box>
-      <DataTabel
-        fields={fields}
-        headDetails={headDetails}
-        items={items}
-        actions={actions}
-        order={order}
-        orderBy={orderBy}
-        onRequestSort={onRequestSort}
-      />
+    <>
+      <Box>
+        <DataTabel
+          fields={fields}
+          headDetails={headDetails}
+          items={items}
+          actions={actions}
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={onRequestSort}
+        />
 
-      <Box padding="1rem">
-        {loading && <Loader />}
+        <Box padding="1rem">
+          {loading && <Loader />}
 
-        {!loading && error && (
-          <Typography>Failed to load resources. Please try again later.</Typography>
-        )}
+          {!loading && error && (
+            <Typography>Failed to load resources. Please try again later.</Typography>
+          )}
 
-        {!loading && !error && items.length === 0 && (
-          <Typography>No resources availiable</Typography>
-        )}
+          {!loading && !error && items.length === 0 && (
+            <Typography>No resources availiable</Typography>
+          )}
+        </Box>
       </Box>
-    </Box>
+      <UserInfoForm
+        open={open}
+        handleClose={() => setOpen(false)}
+        onSubmitCallback={userInfoUpdated}
+        helperText="Please provider your name and contact number."
+      />
+    </>
   );
 };
 

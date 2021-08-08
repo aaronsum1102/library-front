@@ -65,12 +65,17 @@ const ProfileView = (): JSX.Element => {
           <Spacer space={Spacings.large} />
         </Grid>
       </Grid>
+      <Spacer space={Spacings.large} />
 
-      <Button style={{ marginLeft: '-8px' }} onClick={() => setOpen(true)}>
+      <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
         Edit information
       </Button>
 
-      <UserInfoForm open={open} handleClose={() => setOpen(false)} />
+      <UserInfoForm
+        open={open}
+        handleClose={() => setOpen(false)}
+        onSubmitCallback={() => setOpen(false)}
+      />
     </>
   );
 };
