@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { Typography, Box } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { generateRouteUrl, NotifyViewRouteState } from '~src/routes';
 import { useAuth } from '~app/hooks';
@@ -15,6 +16,8 @@ const VerifyView = (): JSX.Element => {
   const { search } = useLocation();
   const { user, signIn } = useAuth();
   const authenticated = Boolean(user);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (emailFromLocalStorage.current) {
@@ -45,11 +48,11 @@ const VerifyView = (): JSX.Element => {
     <Box height="100vh">
       <Center>
         {!emailFromLocalStorage.current ? (
-          <LoginForm buttonText="Verify" onSubmitCallback={signIn} />
+          <LoginForm buttonText={t('button:continue')} onSubmitCallback={signIn} />
         ) : (
           <>
             <Loader thickness={6} color="primary">
-              <Typography variant="h5">Verifying</Typography>
+              <Typography variant="h5">{t('login:verifying')}</Typography>
             </Loader>
           </>
         )}

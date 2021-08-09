@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Box, Card, CardContent, styled } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
@@ -17,17 +17,13 @@ const StyledCardContent = styled(CardContent)({
 });
 
 const LoginView = (): JSX.Element => {
-  const userLangugage = window.localStorage.getItem('userLanguage');
+  const userLanguage = window.localStorage.getItem('userLanguage');
   const [isWaitingForVerification, setIsWaitingForVerification] = useState(false);
   const [email, setEmail] = useState('');
-  const [langugage, setLanguage] = useState(userLangugage || 'en');
+  const [language, setLanguage] = useState(userLanguage || 'en');
 
   const { user, sendSignInLink } = useAuth();
   const { t, i18n } = useTranslation();
-
-  useEffect(() => {
-    i18n.changeLanguage(langugage);
-  }, []);
 
   const sendSignInLinkCallback = useCallback(
     async (finalEmail: string) => {
@@ -68,9 +64,9 @@ const LoginView = (): JSX.Element => {
             </Card>
             <Spacer />
             <Dropdown
-              id="langugage-selector"
+              id="language-selector"
               label=""
-              value={langugage}
+              value={language}
               options={[
                 { label: 'English', value: 'en' },
                 { label: '繁體中文', value: 'zh-TW' }

@@ -6,7 +6,10 @@
     "noAccountError": "您似乎沒有賬戶。請聯繫管理員以創建一個帳戶。",
     "awaitingConfirmation": "等待確認中",
     "infoText": "請不要關閉視窗直到您打開電郵裏的連結",
-    "sendEmailInfoText": "我們已發了一封電郵至 "
+    "sendEmailInfoText": "我們已發了一封電郵至 ",
+    "verifying": "驗證中",
+    "emailConfirmed": "電子郵件地址已確認",
+    "emailConfirmedMessage": "驗證成功，您可以關閉此視窗。"
   },
   "form": {
     "email": "電子郵件地址",
@@ -14,13 +17,18 @@
     "emailRequired": "請輸入電子郵件地址"
   },
   "button": {
-    "continue": "繼續"
+    "continue": "繼續",
+    "clickHere": "點擊這裡"
   },
   "error": {
-    "general": "出現問題了，請稍候再試。"
+    "general": "出現問題了，請稍候再試。",
+    "notFound": "頁面不存在"
   },
   "user": {
     "informationSaved": "資訊以保存。",
     "errorSaveInformation": "資訊保存失敗，請稍候再試。"
+  },
+  "general": {
+    "toHomePage": "以回到主頁"
   }
 }
