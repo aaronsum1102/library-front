@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useLoansQuery, useReturnMaterialMutation } from '~app/apollo/generated/graphql';
 import { useAuth, useSnackbar } from '~app/hooks';
@@ -8,6 +9,7 @@ import { LoansContext } from './LoansContext';
 const LoansProvider: React.FC = ({ children }) => {
   const { user } = useAuth();
   const { addSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const { data, loading, error, refetch } = useLoansQuery({
     variables: {
@@ -19,14 +21,14 @@ const LoansProvider: React.FC = ({ children }) => {
   const [returnMaterial] = useReturnMaterialMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Material has been returned.'
+        content: t('material:returnSuccessMessage')
       });
 
       refetch();
     },
     onError() {
       addSnackbar({
-        content: 'Failed to return material. Please try again later.',
+        content: t('material:returnFailureMessage'),
         error: true
       });
     }

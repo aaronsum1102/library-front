@@ -1,14 +1,17 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { LoansProvider } from '~app/contexts';
 import { Spacer, Spacings } from '~app/components';
 import { LoansTable } from '~app/modules';
 
 const HomeView = (): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <LoansProvider>
-      <Typography variant="h4">Loans</Typography>
+      <Typography variant="h4">{t('loan:loans')}</Typography>
       <Spacer space={Spacings.xLarge} />
 
       <LoansTable />

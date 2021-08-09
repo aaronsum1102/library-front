@@ -19,7 +19,7 @@ export const routes: RouteDefinition[] = [
     exact: true,
     view: 'AdminView',
     private: true,
-    label: 'Admin - User management',
+    label: 'admin:userManagement',
     restricted: true
   },
   {
@@ -28,7 +28,7 @@ export const routes: RouteDefinition[] = [
     exact: true,
     view: 'HomeView',
     private: true,
-    label: 'Catalogue'
+    label: 'catalogue:Catalogue'
   },
   {
     name: 'loans',
@@ -36,7 +36,7 @@ export const routes: RouteDefinition[] = [
     exact: true,
     view: 'LoansView',
     private: true,
-    label: 'Loans'
+    label: 'loan:loans'
   },
   {
     name: 'profile',

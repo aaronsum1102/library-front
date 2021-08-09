@@ -7,7 +7,7 @@ import { Header, Drawer, PageContent, Loader } from '~app/components';
 import { useAuth } from '~app/hooks';
 
 const App = (): JSX.Element => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isInitAuth, user } = useAuth();
   const authenticated = Boolean(user);
 
@@ -28,7 +28,7 @@ const App = (): JSX.Element => {
 
       {isInitAuth ? (
         <Loader color="primary" thickness={5} showText={!userId}>
-          <Typography variant="h6">Authenticating</Typography>
+          <Typography variant="h6">{t('login:authenticating')}</Typography>
         </Loader>
       ) : (
         <PageContent>

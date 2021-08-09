@@ -9,16 +9,22 @@
     "sendEmailInfoText": "We just sent an email to ",
     "verifying": "Verifying",
     "emailConfirmed": "Email Address Confirmed",
-    "emailConfirmedMessage": "You have been successfully authenticated and may close this window now."
+    "emailConfirmedMessage": "You have been successfully authenticated and may close this window now.",
+    "signOutError": "Failed to sign out. Please try again later.",
+    "authenticating": "Authenticating"
   },
   "form": {
     "email": "Email",
     "invalidEmail": "Invalid email provided",
-    "emailRequired": "Enter an email"
+    "emailRequired": "Enter an email",
+    "displayName": "Display name",
+    "phoneNumber": "Phone number"
   },
   "button": {
     "continue": "Continue",
-    "clickHere": "Click here"
+    "clickHere": "Click here",
+    "editInformation": "Edit information",
+    "signOut": "Sign Out"
   },
   "error": {
     "general": "Something went wrong. Please try again later.",
@@ -26,9 +32,37 @@
   },
   "user": {
     "informationSaved": "Information has been saved.",
-    "errorSaveInformation": "Failed to save information. Please try again later."
+    "errorSaveInformation": "Failed to save information. Please try again later.",
+    "addUserSuccessMessage": "User has been added.",
+    "addUserFailureMessage": "Failed to add user. Please try again later.",
+    "existingUserErrorMessage": "The email address is in use by another account."
   },
   "general": {
-    "toHomePage": "to go to home page"
+    "toHomePage": "to go to home page",
+    "loading": "Loading"
+  },
+  "profile": {
+    "profile": "Profile",
+    "welcome": "Welcome"
+  },
+  "loan": {
+    "loans": "Loans"
+  },
+  "material": {
+    "returnSuccessMessage": "Material has been returned.",
+    "returnFailureMessage": "Failed to return material. Please try again later.",
+    "borrowSuccessMessage": "Material has been checked out.",
+    "borrowFailureMessage": "Failed to checked out the material. Please try again later.",
+    "materialUnavailable": "The material is unavailable.",
+    "addSuccessMessage": "Material has been added.",
+    "addFailureMessage": "Failed to add material. Please try again later.",
+    "removeSuccessMessage": "Material has been removed.",
+    "removeFailureMessage": "Failed to remove material. Please try again later."
+  },
+  "catalogue": {
+    "catalogue": "Catalogue"
+  },
+  "admin": {
+    "userManagement": "User management"
   }
 }
