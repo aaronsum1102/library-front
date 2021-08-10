@@ -101,7 +101,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
 
       return {
         success: false,
-        errorMessage: t('login:noAccountError')
+        errorMessage: t('auth:noAccountError')
       };
     } catch (error) {
       return {

@@ -66,7 +66,12 @@ const AppDrawer = (): JSX.Element => {
             )}
           </Box>
 
-          <CloseButton edge="start" color="default" aria-label="menu" onClick={onClose}>
+          <CloseButton
+            edge="start"
+            color="default"
+            aria-label={t('button:close')}
+            onClick={onClose}
+          >
             <CloseIcon fontSize="small" />
           </CloseButton>
         </Box>

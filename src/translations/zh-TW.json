@@ -1,34 +1,97 @@
 {
-  "login": {
+  "auth": {
     "signIn": "登入",
     "continueToLibrary": "繼續使用 Library",
-    "authError": "登入失敗， 請稍候再試。",
+    "authError": "登入失敗， 請稍後再試。",
     "noAccountError": "您似乎沒有賬戶。請聯繫管理員以創建一個帳戶。",
     "awaitingConfirmation": "等待確認中",
     "infoText": "請不要關閉視窗直到您打開電郵裏的連結",
     "sendEmailInfoText": "我們已發了一封電郵至 ",
     "verifying": "驗證中",
     "emailConfirmed": "電子郵件地址已確認",
-    "emailConfirmedMessage": "驗證成功，您可以關閉此視窗。"
+    "emailConfirmedMessage": "驗證成功，您可以關閉此視窗。",
+    "signOutError": "登入失敗。請稍後再試。",
+    "authenticating": "認證中"
+  },
+  "user": {
+    "profile": "個人資料",
+    "welcome": "歡迎",
+    "informationSaved": "資訊已保存。",
+    "errorSaveInformation": "無法保存資訊，請稍後再試。",
+    "addUserSuccessMessage": "已添加新的用戶",
+    "addUserFailureMessage": "無法添加用戶。請稍後再試。",
+    "existingUserErrorMessage": "此電子郵件已用於另一個帳戶。",
+    "nameRequired": "姓名为必填项",
+    "phoneNumberInvalid": "电话号码无效",
+    "phoneNumberRequired": "电话号码为必填项",
+    "yourDetails": "您的資料",
+    "searchUser": "搜尋用戶",
+    "searchUserHelperText": "按電子郵件或姓名搜尋用戶",
+    "userType": "用戶類別",
+    "loadUserError": "無法加載用戶。請稍後再試。",
+    "noUser": "沒有相關用戶",
+    "userManagement": "用戶管理",
+    "addUser": "添加用戶",
+    "addUserText": "請輸入新用戶的電子郵件地址和選擇用戶類別"
+  },
+  "material": {
+    "returnSuccessMessage": "資料已歸還",
+    "returnFailureMessage": "無法歸還資料。請稍後再試。",
+    "borrowSuccessMessage": "資料已借出。",
+    "borrowFailureMessage": "無法借出資料。請稍後再試。",
+    "materialUnavailable": "無法借出此資料",
+    "addSuccessMessage": "已添加資料",
+    "addFailureMessage": "無法添加資料。請稍後再試。",
+    "removeSuccessMessage": "資料已移除",
+    "removeFailureMessage": "無法移除資料。請稍後再試。",
+    "addMaterial": "添加資料",
+    "addMaterialHelperText": "請輸入資料名稱與選擇資料類別。",
+    "searchMaterial": "搜尋資料",
+    "availableFrom": "可借出日期",
+    "borrowerPhoneNumber": "借書人聯絡電話",
+    "borrow": "借出",
+    "remove": "移除",
+    "catalogue": "目錄",
+    "loans": "借书",
+    "dueDate": "還書截止日期",
+    "return": "歸還",
+    "loadLoansError": "無法加載資料。請稍後再試。",
+    "noLoans": "沒有相關資料"
   },
   "form": {
-    "email": "電子郵件地址",
     "invalidEmail": "您提供的電子郵件地址不正確",
-    "emailRequired": "請輸入電子郵件地址"
+    "emailRequired": "請輸入電子郵件地址",
+    "userType": "用戶類別",
+    "phoneNumberWithCountryCode": "電話號碼包含國家地區代碼"
   },
   "button": {
     "continue": "繼續",
-    "clickHere": "點擊這裡"
+    "clickHere": "點擊這裡",
+    "editInformation": "編輯信息",
+    "signOut": "登出",
+    "add": "添加",
+    "save": "保存",
+    "close": "關閉"
   },
   "error": {
-    "general": "出現問題了，請稍候再試。",
+    "general": "出現問題了，請稍後再試。",
     "notFound": "頁面不存在"
   },
-  "user": {
-    "informationSaved": "資訊以保存。",
-    "errorSaveInformation": "資訊保存失敗，請稍候再試。"
-  },
   "general": {
-    "toHomePage": "以回到主頁"
+    "email": "電子郵件地址",
+    "phoneNumber": "電話號碼",
+    "displayName": "顯示姓名",
+    "toHomePage": "以回到主頁",
+    "loading": "加載中",
+    "title": "名稱",
+    "materialType": "資料類別",
+    "all": "全部",
+    "available": "可借出",
+    "eBook": "電子書",
+    "book": "紙本書",
+    "yes": "是",
+    "no": "否",
+    "admin": "管理員",
+    "normalUser": "一般用戶"
   }
 }

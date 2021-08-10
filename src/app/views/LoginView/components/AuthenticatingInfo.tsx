@@ -13,14 +13,14 @@ const AuthenticatingInfo = ({ email }: Props): JSX.Element => {
 
   return (
     <>
-      <Typography variant="h4">{t('login:awaitingConfirmation')}</Typography>
+      <Typography variant="h4">{t('auth:awaitingConfirmation')}</Typography>
       <Spacer space={Spacings.xLarge} />
       <Typography>
-        <b>{t('login:infoText')}</b>
+        <b>{t('auth:infoText')}</b>
       </Typography>
       <Spacer />
       <Typography color="textSecondary" paragraph>
-        {t('login:sendEmailInfoText')}
+        {t('auth:sendEmailInfoText')}
         <Typography variant="body1" component="span" color="textPrimary">
           <b>{email}</b>
         </Typography>

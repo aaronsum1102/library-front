@@ -52,7 +52,7 @@ const VerifyView = (): JSX.Element => {
         ) : (
           <>
             <Loader thickness={6} color="primary">
-              <Typography variant="h5">{t('login:verifying')}</Typography>
+              <Typography variant="h5">{t('auth:verifying')}</Typography>
             </Loader>
           </>
         )}

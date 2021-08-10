@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { TypeFilter, AvailabilityFilter } from '~app/contexts';
 import { useResources } from '~app/hooks';
@@ -10,18 +11,6 @@ interface Option<T> {
   value: T;
 }
 
-const typeOptions: Option<TypeFilter>[] = [
-  { label: 'All', value: null },
-  { label: 'Book', value: false },
-  { label: 'eBook', value: true }
-];
-
-const availabilityOptions: Option<AvailabilityFilter>[] = [
-  { label: 'All', value: null },
-  { label: 'Yes', value: true },
-  { label: 'No', value: false }
-];
-
 const ResourceFilters = (): JSX.Element => {
   const {
     titleFilter,
@@ -31,13 +20,26 @@ const ResourceFilters = (): JSX.Element => {
     setTypeFilter,
     setAvailabilityFilter
   } = useResources();
+  const { t } = useTranslation();
+
+  const typeOptions: Option<TypeFilter>[] = [
+    { label: t('general:all'), value: null },
+    { label: t('general:book'), value: false },
+    { label: t('general:eBook'), value: true }
+  ];
+
+  const availabilityOptions: Option<AvailabilityFilter>[] = [
+    { label: t('general:all'), value: null },
+    { label: t('general:yes'), value: true },
+    { label: t('general:no'), value: false }
+  ];
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={3}>
         <SearchField
           id="resource-filter"
-          label="Search material"
+          label={t('material:searchMaterial')}
           value={titleFilter}
           onChange={setTitleFilter}
         />
@@ -46,7 +48,7 @@ const ResourceFilters = (): JSX.Element => {
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
           id="resource-type-filter"
-          label="Material type"
+          label={t('general:materialType')}
           options={typeOptions}
           value={typeFilter}
           onChange={(value) => setTypeFilter(value as TypeFilter)}
@@ -56,7 +58,7 @@ const ResourceFilters = (): JSX.Element => {
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
           id="available-filter"
-          label="Available"
+          label={t('general:available')}
           options={availabilityOptions}
           value={availabilityFilter}
           onChange={(value) => setAvailabilityFilter(value as AvailabilityFilter)}

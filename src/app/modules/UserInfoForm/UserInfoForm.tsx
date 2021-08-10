@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '~app/hooks';
 import { Spacer, Spacings, Loader } from '~app/components';
@@ -26,28 +27,6 @@ const StyledIconButton = styled(IconButton)({
 });
 
 const phoneUtil = PhoneNumberUtil.getInstance();
-
-const validationSchema = yup.object({
-  displayName: yup.string().required('Name is required'),
-  phoneNumber: yup
-    .string()
-    .test('validation', 'Phone number is invalid', (value) => {
-      try {
-        const phoneNumber = phoneUtil.parse(value);
-
-        const result = phoneUtil.isValidNumber(phoneNumber);
-
-        if (!result) {
-          return false;
-        }
-
-        return true;
-      } catch (error) {
-        return false;
-      }
-    })
-    .required('Phone number is required')
-});
 
 interface UserInfoFormProps {
   open: boolean;
@@ -65,6 +44,29 @@ const UserInfoForm = ({
   const [loading, setLoading] = useState(false);
 
   const { user, updateUserInfo } = useAuth();
+  const { t } = useTranslation();
+
+  const validationSchema = yup.object({
+    displayName: yup.string().required(t('user:nameRequired')),
+    phoneNumber: yup
+      .string()
+      .test('validation', t('user:phoneNumberInvalid'), (value) => {
+        try {
+          const phoneNumber = phoneUtil.parse(value);
+
+          const result = phoneUtil.isValidNumber(phoneNumber);
+
+          if (!result) {
+            return false;
+          }
+
+          return true;
+        } catch (error) {
+          return false;
+        }
+      })
+      .required(t('user:phoneNumberRequired'))
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -101,8 +103,8 @@ const UserInfoForm = ({
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth>
       <DialogTitle id="form-dialog-title">
-        Yout details
-        <StyledIconButton aria-label="close" onClick={handleClose}>
+        {t('user:yourDetails')}
+        <StyledIconButton aria-label={t('button:close')} onClick={handleClose}>
           <CloseIcon />
         </StyledIconButton>
       </DialogTitle>
@@ -113,7 +115,7 @@ const UserInfoForm = ({
             autoFocus
             margin="dense"
             id="displayName"
-            label="Display name"
+            label={t('general:displayName')}
             value={formik.values.displayName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -126,7 +128,7 @@ const UserInfoForm = ({
           <TextField
             margin="dense"
             id="phoneNumber"
-            label="Phone number (include contry code)"
+            label={t('form:phoneNumberWithCountryCode')}
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -143,7 +145,7 @@ const UserInfoForm = ({
             type="submit"
             startIcon={loading && <Loader showText={false} size="1rem" />}
           >
-            Save
+            {t('button:save')}
           </Button>
         </DialogActions>
       </form>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { Dropdown, DropdownProps, SearchField } from '~app/components';
 
@@ -18,21 +19,23 @@ const TableAction = ({
   onValueChange,
   onUserTypeFilterChange
 }: TableActionProps): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={3}>
         <SearchField
-          label="Search user"
+          label={t('user:searchUser')}
           value={value}
           onChange={onValueChange}
-          helperText="Search user by email or name"
+          helperText={t('user:searchUserHelperText')}
         />
       </Grid>
 
       <Grid item xs={6} sm={3} lg={2}>
         <Dropdown
           id="user-type-filter"
-          label="User type"
+          label={t('user:userType')}
           options={userTypeOptions}
           value={userTypeFilter}
           onChange={(newValue) => onUserTypeFilterChange(newValue)}

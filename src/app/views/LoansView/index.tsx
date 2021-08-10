@@ -11,7 +11,7 @@ const HomeView = (): JSX.Element => {
 
   return (
     <LoansProvider>
-      <Typography variant="h4">{t('loan:loans')}</Typography>
+      <Typography variant="h4">{t('material:loans')}</Typography>
       <Spacer space={Spacings.xLarge} />
 
       <LoansTable />

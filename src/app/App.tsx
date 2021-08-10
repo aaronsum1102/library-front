@@ -28,7 +28,7 @@ const App = (): JSX.Element => {
 
       {isInitAuth ? (
         <Loader color="primary" thickness={5} showText={!userId}>
-          <Typography variant="h6">{t('login:authenticating')}</Typography>
+          <Typography variant="h6">{t('auth:authenticating')}</Typography>
         </Loader>
       ) : (
         <PageContent>

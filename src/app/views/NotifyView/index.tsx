@@ -31,10 +31,10 @@ const NotifyView = (): JSX.Element => {
     <Container>
       <Center>
         <Typography variant="h4" align="center">
-          {t('login:emailConfirmed')}
+          {t('auth:emailConfirmed')}
         </Typography>
         <Spacer space={Spacings.xLarge} />
-        <Typography align="center">{t('login:emailConfirmedMessage')}</Typography>
+        <Typography align="center">{t('auth:emailConfirmedMessage')}</Typography>
       </Center>
     </Container>
   );

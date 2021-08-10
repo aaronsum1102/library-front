@@ -13,7 +13,7 @@ const AdminView = (): JSX.Element => {
     <UserProvider>
       <Box display="flex">
         <Box flexGrow={1}>
-          <Typography variant="h4">{t('admin:userManagement')}</Typography>
+          <Typography variant="h4">{t('user:userManagement')}</Typography>
         </Box>
         <AddUser />
       </Box>

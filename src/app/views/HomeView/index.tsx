@@ -14,7 +14,7 @@ const HomeView = (): JSX.Element => {
       <ResourceActionProvider>
         <Box display="flex">
           <Box flexGrow={1}>
-            <Typography variant="h4">{t('catalogue:catalogue')}</Typography>
+            <Typography variant="h4">{t('material:catalogue')}</Typography>
           </Box>
           <AddResourceMenu />
         </Box>

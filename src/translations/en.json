@@ -1,5 +1,5 @@
 {
-  "login": {
+  "auth": {
     "signIn": "Sign in",
     "continueToLibrary": "Continue to Library",
     "authError": "Authentication failed. Please try again later.",
@@ -13,40 +13,26 @@
     "signOutError": "Failed to sign out. Please try again later.",
     "authenticating": "Authenticating"
   },
-  "form": {
-    "email": "Email",
-    "invalidEmail": "Invalid email provided",
-    "emailRequired": "Enter an email",
-    "displayName": "Display name",
-    "phoneNumber": "Phone number"
-  },
-  "button": {
-    "continue": "Continue",
-    "clickHere": "Click here",
-    "editInformation": "Edit information",
-    "signOut": "Sign Out"
-  },
-  "error": {
-    "general": "Something went wrong. Please try again later.",
-    "notFound": "Page not found"
-  },
   "user": {
+    "profile": "Profile",
+    "welcome": "Welcome",
     "informationSaved": "Information has been saved.",
     "errorSaveInformation": "Failed to save information. Please try again later.",
     "addUserSuccessMessage": "User has been added.",
     "addUserFailureMessage": "Failed to add user. Please try again later.",
-    "existingUserErrorMessage": "The email address is in use by another account."
-  },
-  "general": {
-    "toHomePage": "to go to home page",
-    "loading": "Loading"
-  },
-  "profile": {
-    "profile": "Profile",
-    "welcome": "Welcome"
-  },
-  "loan": {
-    "loans": "Loans"
+    "existingUserErrorMessage": "The email address is in use by another account.",
+    "nameRequired": "Name is required",
+    "phoneNumberInvalid": "Phone number is invalid",
+    "phoneNumberRequired": "Phone number is required",
+    "yourDetails": "Your details",
+    "searchUser": "Search user",
+    "searchUserHelperText": "Search user by email or name",
+    "userType": "User type",
+    "loadUserError": "Failed to load user. Please try again later.",
+    "noUser": "No user available",
+    "userManagement": "User management",
+    "addUser": "Add user",
+    "addUserText": "Please enter the email address of a new user and select user type"
   },
   "material": {
     "returnSuccessMessage": "Material has been returned.",
@@ -57,12 +43,55 @@
     "addSuccessMessage": "Material has been added.",
     "addFailureMessage": "Failed to add material. Please try again later.",
     "removeSuccessMessage": "Material has been removed.",
-    "removeFailureMessage": "Failed to remove material. Please try again later."
+    "removeFailureMessage": "Failed to remove material. Please try again later.",
+    "addMaterial": "Add material",
+    "addMaterialHelperText": "Please enter the title of the new material and select the material type.",
+    "searchMaterial": "Search material",
+    "availableFrom": "Available from",
+    "borrowerPhoneNumber": "Borrower's contact number",
+    "borrow": "Borrow",
+    "remove": "Remove",
+    "catalogue": "Catalogue",
+    "loans": "Loans",
+    "dueDate": "Due date",
+    "return": "return",
+    "loadLoansError": "Failed to load loan materials. Please try again later.",
+    "noLoans": "No loan materials availiable"
   },
-  "catalogue": {
-    "catalogue": "Catalogue"
+  "form": {
+    "invalidEmail": "Invalid email provided",
+    "emailRequired": "Enter an email",
+    "userType": "User type",
+    "phoneNumberWithCountryCode": "Phone number (include contry code)"
   },
-  "admin": {
-    "userManagement": "User management"
+  "button": {
+    "continue": "Continue",
+    "clickHere": "Click here",
+    "editInformation": "Edit information",
+    "signOut": "Sign Out",
+    "add": "Add",
+    "save": "save",
+    "close": "close"
+  },
+  "error": {
+    "general": "Something went wrong. Please try again later.",
+    "notFound": "Page not found"
+  },
+  "general": {
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "displayName": "Display name",
+    "toHomePage": "to go to home page",
+    "loading": "Loading",
+    "title": "Title",
+    "materialType": "Material type",
+    "all": "All",
+    "available": "Available",
+    "eBook": "E-book",
+    "book": "Book",
+    "yes": "Yes",
+    "no": "No",
+    "admin": "admin",
+    "normalUser": "Normal user"
   }
 }

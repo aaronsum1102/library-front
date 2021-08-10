@@ -18,7 +18,7 @@ const ProfileView = (): JSX.Element => {
 
     if (!result) {
       addSnackbar({
-        content: t('login:signOutError'),
+        content: t('auth:signOutError'),
         error: true
       });
     }
@@ -32,9 +32,9 @@ const ProfileView = (): JSX.Element => {
     <>
       <Box display="flex">
         <Box flexGrow={1}>
-          <Typography variant="h4">{t('profile:profile')}</Typography>
+          <Typography variant="h4">{t('user:profile')}</Typography>
           <Typography variant="h5">
-            {t('profile:welcome')} {user.displayName || user.email.split('@')[0]}
+            {t('user:welcome')} {user.displayName || user.email.split('@')[0]}
           </Typography>
         </Box>
         <Box>
@@ -49,19 +49,19 @@ const ProfileView = (): JSX.Element => {
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <Typography component="label" color="textSecondary">
-            {t('form:email')}
+            {t('general:email')}
           </Typography>
           <Typography>{user.email}</Typography>
           <Spacer space={Spacings.large} />
 
           <Typography component="label" color="textSecondary">
-            {t('form:displayName')}
+            {t('general:displayName')}
           </Typography>
           <Typography>{user.displayName || '-'}</Typography>
           <Spacer space={Spacings.large} />
 
           <Typography component="label" color="textSecondary">
-            {t('form:phoneNumber')}
+            {t('general:phoneNumber')}
           </Typography>
           <Typography>{user.phoneNumber || '-'}</Typography>
           <Spacer space={Spacings.large} />

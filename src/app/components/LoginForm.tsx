@@ -66,27 +66,27 @@ const LoginForm = ({ onSubmitCallback, buttonText }: Props): JSX.Element => {
   return (
     <>
       <Typography variant="h4" align="center">
-        {t('login:signIn')}
+        {t('auth:signIn')}
       </Typography>
 
       <Typography variant="h6" align="center">
-        {t('login:continueToLibrary')}
+        {t('auth:continueToLibrary')}
       </Typography>
       <Spacer space={Spacings.xLarge} />
       <Container onSubmit={formik.handleSubmit}>
         {authError?.error && (
           <>
             <Box bgcolor="error.main" color="error.contrastText" padding={2} minWidth="100%">
-              {authError.message || t('login:authError')}
+              {authError.message || t('auth:authError')}
             </Box>
             <Spacer space={Spacings.xLarge} />
           </>
         )}
         <TextField
           id="email"
-          label={t('form:email')}
+          label={t('general:email')}
           variant="outlined"
-          inputProps={{ 'aria-label': t('form:email') }}
+          inputProps={{ 'aria-label': t('general:email') }}
           value={formik.values.email}
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
