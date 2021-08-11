@@ -40,27 +40,27 @@ const UsersTable = (): JSX.Element => {
 
   const headDetails: DataTabelProps<UserItem>['headDetails'] = {
     email: {
-      label: t('genral:email'),
+      label: t('general:email'),
       width: '30%'
     },
     displayName: {
-      label: t('genral:name'),
+      label: t('general:displayName'),
       width: '30%'
     },
     phoneNumber: {
-      label: t('genral:phoneNumber'),
+      label: t('general:phoneNumber'),
       width: '30%'
     },
     admin: {
       label: t('general:admin'),
-      width: 'fit-content'
+      width: '30%'
     }
   };
 
   const userTypeOptions: DropdownOption<boolean | null>[] = [
     { label: t('general:all'), value: null },
-    { label: t('genral:admin'), value: true },
-    { label: t('genral:normalUser'), value: false }
+    { label: t('general:admin'), value: true },
+    { label: t('general:normalUser'), value: false }
   ];
 
   return (

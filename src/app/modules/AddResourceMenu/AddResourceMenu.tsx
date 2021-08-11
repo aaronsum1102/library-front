@@ -18,7 +18,7 @@ const AddResourceMenu = (): JSX.Element => {
   const { t } = useTranslation();
 
   const validationSchema = yup.object({
-    title: yup.string().required(t('material:titleRquired')),
+    title: yup.string().required(t('material:titleRequired')),
     ebook: yup.bool()
   });
 
