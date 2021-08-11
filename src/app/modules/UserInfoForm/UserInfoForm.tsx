@@ -73,6 +73,7 @@ const UserInfoForm = ({
       displayName: user?.displayName || '',
       phoneNumber: user?.phoneNumber || ''
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (values) => {
       if (user) {

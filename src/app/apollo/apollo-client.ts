@@ -82,6 +82,15 @@ const client = new ApolloClient({
 
               return [...existing, ...incoming];
             }
+          },
+          resources: {
+            merge(existing = [], incoming: unknown[]) {
+              if (existing.length !== incoming.length) {
+                return [...incoming];
+              }
+
+              return [...existing, ...incoming];
+            }
           }
         }
       }
