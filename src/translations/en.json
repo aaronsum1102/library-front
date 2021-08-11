@@ -59,7 +59,8 @@
     "noLoans": "No loan materials availiable",
     "loadMaterialsError": "Failed to load materials. Please try again later.",
     "noMaterials": "No materials availiable",
-    "userInfoText": "Please provider your name and contact number."
+    "userInfoText": "Please provider your name and contact number.",
+    "titleRequired": "Title is required"
   },
   "form": {
     "invalidEmail": "Invalid email provided",
