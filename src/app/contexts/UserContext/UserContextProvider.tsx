@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useUsersQuery, User, useAddUserMutation } from '~app/apollo/generated/graphql';
 import { UserContext } from './UserContext';
@@ -9,12 +10,13 @@ const UserProvider: React.FC = ({ children }) => {
   const [userTypeFilter, setUserTypeFilter] = useState<boolean | null>(null);
 
   const { addSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const { data, loading, error, refetch } = useUsersQuery();
   const [addUser] = useAddUserMutation({
     onCompleted() {
       addSnackbar({
-        content: 'User has been added.'
+        content: t('user:addUserSuccessMessage')
       });
     },
     onError(err) {
@@ -23,9 +25,7 @@ const UserProvider: React.FC = ({ children }) => {
         err.graphQLErrors[0].extensions?.exception?.errorInfo.code === 'auth/email-already-exists';
 
       addSnackbar({
-        content: userExist
-          ? 'The email address is already in use by another account.'
-          : 'Failed to add user',
+        content: userExist ? t('user:existingUserErrorMessage') : t('user:addUserFailureMessage'),
         error: true
       });
     }

@@ -1,17 +1,20 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { ResourcesProvider, ResourceActionProvider } from '~app/contexts';
 import { Spacer, Spacings } from '~app/components';
 import { ResourceFilters, ResourcesTable, AddResourceMenu } from '~app/modules';
 
 const HomeView = (): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <ResourcesProvider>
       <ResourceActionProvider>
         <Box display="flex">
           <Box flexGrow={1}>
-            <Typography variant="h4">Catalogue</Typography>
+            <Typography variant="h4">{t('material:catalogue')}</Typography>
           </Box>
           <AddResourceMenu />
         </Box>

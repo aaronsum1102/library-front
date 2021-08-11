@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, styled } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { User } from '~app/apollo/generated/graphql';
 import { useUser } from '~app/hooks';
@@ -23,43 +24,44 @@ interface UserItem extends Omit<User, 'uid' | '__typename' | 'admin'> {
 
 const fields: Array<keyof UserItem> = ['email', 'displayName', 'phoneNumber', 'admin'];
 
-const headDetails: DataTabelProps<UserItem>['headDetails'] = {
-  email: {
-    label: 'Emai',
-    width: '30%'
-  },
-  displayName: {
-    label: 'Name',
-    width: '30%'
-  },
-  phoneNumber: {
-    label: 'Phone number',
-    width: '30%'
-  },
-  admin: {
-    label: 'Admin',
-    width: 'fit-content'
-  }
-};
-
-const userTypeOptions: DropdownOption<boolean | null>[] = [
-  { label: 'All', value: null },
-  { label: 'Admin', value: true },
-  { label: 'Normal user', value: false }
-];
-
 const UsersTable = (): JSX.Element => {
   const { users, loading, error, userFilter, userTypeFilter, setUserFilter, setUserTypeFilter } =
     useUser();
+  const { t } = useTranslation();
 
   const items = users
     ? users.map((user) => ({
         ...user,
         displayName: user.displayName || '-',
         phoneNumber: user.phoneNumber || '-',
-        admin: user.admin ? 'Yes' : 'No'
+        admin: user.admin ? t('general:yes') : t('general:no')
       }))
     : [];
+
+  const headDetails: DataTabelProps<UserItem>['headDetails'] = {
+    email: {
+      label: t('genral:email'),
+      width: '30%'
+    },
+    displayName: {
+      label: t('genral:name'),
+      width: '30%'
+    },
+    phoneNumber: {
+      label: t('genral:phoneNumber'),
+      width: '30%'
+    },
+    admin: {
+      label: t('general:admin'),
+      width: 'fit-content'
+    }
+  };
+
+  const userTypeOptions: DropdownOption<boolean | null>[] = [
+    { label: t('general:all'), value: null },
+    { label: t('genral:admin'), value: true },
+    { label: t('genral:normalUser'), value: false }
+  ];
 
   return (
     <>
@@ -79,12 +81,10 @@ const UsersTable = (): JSX.Element => {
       <Box padding="1rem">
         {loading && <Loader />}
 
-        {!loading && (error || !items) && (
-          <Typography>Failed to load user. Please try again later.</Typography>
-        )}
+        {!loading && (error || !items) && <Typography>{t('user:loadUserError')}</Typography>}
 
         {!loading && !error && items.length === 0 && (
-          <StyledParagraph>No user availiable</StyledParagraph>
+          <StyledParagraph>{t('user:noUser')}</StyledParagraph>
         )}
       </Box>
     </>

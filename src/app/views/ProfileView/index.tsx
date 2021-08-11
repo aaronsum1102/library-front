@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Box, Typography, Button, Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth, useSnackbar } from '~app/hooks';
 import { Spacer, Spacings } from '~app/components';
@@ -10,13 +11,14 @@ const ProfileView = (): JSX.Element => {
 
   const { user, signOut } = useAuth();
   const { addSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const onRequestSignout = useCallback(async () => {
     const result = await signOut();
 
     if (!result) {
       addSnackbar({
-        content: 'Failed to sign out. Please try again later.',
+        content: t('auth:signOutError'),
         error: true
       });
     }
@@ -30,14 +32,14 @@ const ProfileView = (): JSX.Element => {
     <>
       <Box display="flex">
         <Box flexGrow={1}>
-          <Typography variant="h4">Profile</Typography>
+          <Typography variant="h4">{t('user:profile')}</Typography>
           <Typography variant="h5">
-            Welcome {user.displayName || user.email.split('@')[0]}
+            {t('user:welcome')} {user.displayName || user.email.split('@')[0]}
           </Typography>
         </Box>
         <Box>
           <Button variant="outlined" onClick={onRequestSignout}>
-            Sign Out
+            {t('button:signOut')}
           </Button>
         </Box>
       </Box>
@@ -47,19 +49,19 @@ const ProfileView = (): JSX.Element => {
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <Typography component="label" color="textSecondary">
-            Email
+            {t('general:email')}
           </Typography>
           <Typography>{user.email}</Typography>
           <Spacer space={Spacings.large} />
 
           <Typography component="label" color="textSecondary">
-            Display name
+            {t('general:displayName')}
           </Typography>
           <Typography>{user.displayName || '-'}</Typography>
           <Spacer space={Spacings.large} />
 
           <Typography component="label" color="textSecondary">
-            Phone number
+            {t('general:phoneNumber')}
           </Typography>
           <Typography>{user.phoneNumber || '-'}</Typography>
           <Spacer space={Spacings.large} />
@@ -68,7 +70,7 @@ const ProfileView = (): JSX.Element => {
       <Spacer space={Spacings.large} />
 
       <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
-        Edit information
+        {t('button:editInformation')}
       </Button>
 
       <UserInfoForm

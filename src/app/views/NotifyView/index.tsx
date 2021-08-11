@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, RouteComponentProps, useLocation } from 'react-router-dom';
 import { Typography, Box, styled } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { NotifyViewRouteState, generateRouteUrl } from '~root/src/routes';
 import { Spacer, Spacings, Center } from '~app/components';
@@ -20,6 +21,7 @@ const isRedirectFromVerifyView = (location: RouteComponentProps['location']): bo
 
 const NotifyView = (): JSX.Element => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   if (!isRedirectFromVerifyView(location)) {
     return <Redirect to={generateRouteUrl('login')} />;
@@ -28,13 +30,11 @@ const NotifyView = (): JSX.Element => {
   return (
     <Container>
       <Center>
-        <Typography variant="h3" align="center">
-          Email Address Confirmed
+        <Typography variant="h4" align="center">
+          {t('auth:emailConfirmed')}
         </Typography>
         <Spacer space={Spacings.xLarge} />
-        <Typography align="center">
-          You have been successfully authenticated and may close this window now.
-        </Typography>
+        <Typography align="center">{t('auth:emailConfirmedMessage')}</Typography>
       </Center>
     </Container>
   );
