@@ -39,7 +39,7 @@ const ResourcesTable = (): JSX.Element => {
       label: t('general:available')
     },
     availableFrom: {
-      label: t('general:availableFrom'),
+      label: t('material:availableFrom'),
       sortable: true
     },
     borrowerPhoneNumber: {
@@ -175,12 +175,10 @@ const ResourcesTable = (): JSX.Element => {
         <Box padding="1rem">
           {loading && <Loader />}
 
-          {!loading && error && (
-            <Typography>Failed to load resources. Please try again later.</Typography>
-          )}
+          {!loading && error && <Typography>{t('materail:loadMaterialsError')}</Typography>}
 
           {!loading && !error && items.length === 0 && (
-            <Typography>No resources availiable</Typography>
+            <Typography>{t('materail:noMaterials')}</Typography>
           )}
         </Box>
       </Box>
@@ -188,7 +186,7 @@ const ResourcesTable = (): JSX.Element => {
         open={open}
         handleClose={() => setOpen(false)}
         onSubmitCallback={userInfoUpdated}
-        helperText="Please provider your name and contact number."
+        helperText={t('materail:userInfoText')}
       />
     </>
   );

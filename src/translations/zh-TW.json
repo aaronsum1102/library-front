@@ -47,22 +47,26 @@
     "addMaterial": "添加資料",
     "addMaterialHelperText": "請輸入資料名稱與選擇資料類別。",
     "searchMaterial": "搜尋資料",
-    "availableFrom": "可借出日期",
+    "availableFrom": "可供借出日期",
     "borrowerPhoneNumber": "借書人聯絡電話",
     "borrow": "借出",
     "remove": "移除",
     "catalogue": "目錄",
-    "loans": "借书",
+    "loans": "已借出資料",
     "dueDate": "還書截止日期",
     "return": "歸還",
     "loadLoansError": "無法加載資料。請稍後再試。",
-    "noLoans": "沒有相關資料"
+    "noLoans": "沒有相關資料",
+    "loadMaterialsError": "Failed to load materials. Please try again later.",
+    "noMaterials": "No materials availiable",
+    "userInfoText": "Please provider your name and contact number."
   },
   "form": {
     "invalidEmail": "您提供的電子郵件地址不正確",
     "emailRequired": "請輸入電子郵件地址",
     "userType": "用戶類別",
-    "phoneNumberWithCountryCode": "電話號碼包含國家地區代碼"
+    "phoneNumberWithCountryCode": "電話號碼包含國家地區代碼",
+    "language": "顯示語言"
   },
   "button": {
     "continue": "繼續",
@@ -86,7 +90,7 @@
     "title": "名稱",
     "materialType": "資料類別",
     "all": "全部",
-    "available": "可借出",
+    "available": "可供借出",
     "eBook": "電子書",
     "book": "紙本書",
     "yes": "是",
