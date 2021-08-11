@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Typography, Button, Grid, Dropdown } from '@material-ui/core';
+import { Box, Typography, Button, Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth, useSnackbar } from '~app/hooks';
-import { Spacer, Spacings } from '~app/components';
+import { Spacer, Spacings, Dropdown } from '~app/components';
 import { UserInfoForm } from '~app/modules';
 
 const ProfileView = (): JSX.Element => {
