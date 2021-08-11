@@ -8,22 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { FormDialog, Dropdown, DropdownOption, Spacer, Spacings, Loader } from '~app/components';
 import { useResourceAction, useResources, useAuth } from '~app/hooks';
 
-const validationSchema = yup.object({
-  title: yup.string().required('Title is required'),
-  ebook: yup.bool()
-});
-
-const options: DropdownOption<boolean>[] = [
-  {
-    label: 'Book',
-    value: false
-  },
-  {
-    label: 'Ebook',
-    value: true
-  }
-];
-
 const AddResourceMenu = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,6 +16,22 @@ const AddResourceMenu = (): JSX.Element => {
   const { add } = useResourceAction();
   const { refetchResources } = useResources();
   const { t } = useTranslation();
+
+  const validationSchema = yup.object({
+    title: yup.string().required(t('material:titleRquired')),
+    ebook: yup.bool()
+  });
+
+  const options: DropdownOption<boolean>[] = [
+    {
+      label: t('general:book'),
+      value: false
+    },
+    {
+      label: t('general:eBook'),
+      value: true
+    }
+  ];
 
   const formik = useFormik({
     initialValues: {
@@ -77,7 +77,7 @@ const AddResourceMenu = (): JSX.Element => {
       onSubmit={formik.handleSubmit}
       content={
         <>
-          <DialogContentText>{t('material.addMaterialHelperText')}</DialogContentText>
+          <DialogContentText>{t('material:addMaterialHelperText')}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"

@@ -43,7 +43,7 @@ const ResourcesTable = (): JSX.Element => {
       sortable: true
     },
     borrowerPhoneNumber: {
-      label: t('general:borrowerPhoneNumber'),
+      label: t('material:borrowerPhoneNumber'),
       hide: true
     }
   };
