@@ -46,6 +46,10 @@ const CloseButton = styled(IconButton)({
   float: 'right'
 });
 
+const StyledLinkButton = styled(Button)({
+  justifyContent: 'flex-start'
+});
+
 const AppDrawer = (): JSX.Element => {
   const { drawerOpen, setDrawerOpen } = useApp();
   const { user } = useAuth();
@@ -87,7 +91,7 @@ const AppDrawer = (): JSX.Element => {
 
               return (
                 <Fragment key={label}>
-                  <Button href={path}>{t(label)}</Button>
+                  <StyledLinkButton href={path}>{t(label)}</StyledLinkButton>
                   <Spacer />
                 </Fragment>
               );
