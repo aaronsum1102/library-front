@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   useBorrowResourceMutation,
@@ -10,37 +11,34 @@ import { ResourceActionContext } from '.';
 
 const ResourceActionProvider: React.FC = ({ children }) => {
   const { addSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const [borrow] = useBorrowResourceMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Material has been checked out.'
+        content: t('material:borrowSuccessMessage')
       });
     },
     onError(error) {
-      if (error.message === 'RESOURCE_UNAVAILABLE') {
-        addSnackbar({
-          content: 'The material is unavailable.',
-          error: true
-        });
-      } else {
-        addSnackbar({
-          content: 'Failed to borrow material. Please try again later.',
-          error: true
-        });
-      }
+      addSnackbar({
+        content:
+          error.message === 'RESOURCE_UNAVAILABLE'
+            ? t('material:materialUnavailable')
+            : t('material:borrowFailureMessage'),
+        error: true
+      });
     }
   });
 
   const [add] = useAddResourceMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Material has been added.'
+        content: t('material:addSuccessMessage')
       });
     },
     onError() {
       addSnackbar({
-        content: 'Failed to add material. Please try again later.',
+        content: t('material:addFailureMessage'),
         error: true
       });
     }
@@ -49,12 +47,12 @@ const ResourceActionProvider: React.FC = ({ children }) => {
   const [remove] = useRemoveResourceMutation({
     onCompleted() {
       addSnackbar({
-        content: 'Material has been removed.'
+        content: t('material:removeSuccessMessage')
       });
     },
     onError() {
       addSnackbar({
-        content: 'Failed to remove material. Please try again later.',
+        content: t('material:removeFailureMessage'),
         error: true
       });
     }

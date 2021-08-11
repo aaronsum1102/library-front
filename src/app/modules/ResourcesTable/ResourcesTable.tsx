@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { Box, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { ResourceTableData, ResourceData } from '~app/contexts';
 import { useResources, useResourceAction, useAuth } from '~app/hooks';
@@ -14,31 +15,6 @@ const fields: Array<keyof ResourceTableData> = [
   'borrowerPhoneNumber'
 ];
 
-const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
-  title: {
-    label: 'Title',
-    sortable: true,
-    width: '35%'
-  },
-  ebook: {
-    label: 'Material type'
-  },
-  available: {
-    label: 'Available'
-  },
-  availableFrom: {
-    label: 'Available from',
-    sortable: true
-  },
-  borrowerPhoneNumber: {
-    label: 'Borrower contact number',
-    hide: true
-  }
-};
-
-const borrowActionLabel = 'Borrow';
-const removeActionLabel = 'Remove';
-
 const ResourcesTable = (): JSX.Element => {
   const materialToCheckout = useRef<ResourceData | null>(null);
 
@@ -48,6 +24,29 @@ const ResourcesTable = (): JSX.Element => {
   const { user } = useAuth();
 
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+
+  const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
+    title: {
+      label: t('general:title'),
+      sortable: true,
+      width: '35%'
+    },
+    ebook: {
+      label: t('general:materialType')
+    },
+    available: {
+      label: t('general:available')
+    },
+    availableFrom: {
+      label: t('material:availableFrom'),
+      sortable: true
+    },
+    borrowerPhoneNumber: {
+      label: t('material:borrowerPhoneNumber'),
+      hide: true
+    }
+  };
 
   const onRequestBorrow = useCallback(
     async (id: number) => {
@@ -134,12 +133,12 @@ const ResourcesTable = (): JSX.Element => {
   );
 
   const actions = useMemo(() => {
-    const defaultAction = [{ label: borrowActionLabel, onClick: onRequestBorrow }];
+    const defaultAction = [{ label: t('material:borrow'), onClick: onRequestBorrow }];
 
     if (user?.admin) {
       return [
         {
-          label: removeActionLabel,
+          label: t('material:remove'),
           onClick: onRequestRemove
         },
         ...defaultAction
@@ -150,8 +149,8 @@ const ResourcesTable = (): JSX.Element => {
 
   const items = resources.map((item) => ({
     title: item.title,
-    ebook: item.ebook ? 'eBook' : 'book',
-    available: item.available ? 'Yes' : 'No',
+    ebook: item.ebook ? t('general:eBook') : t('general:book'),
+    available: item.available ? t('general:yes') : t('general:no'),
     availableFrom: item.availableFrom,
     borrowerPhoneNumber: item.borrower?.phoneNumber || '-'
   }));
@@ -176,12 +175,10 @@ const ResourcesTable = (): JSX.Element => {
         <Box padding="1rem">
           {loading && <Loader />}
 
-          {!loading && error && (
-            <Typography>Failed to load resources. Please try again later.</Typography>
-          )}
+          {!loading && error && <Typography>{t('material:loadMaterialsError')}</Typography>}
 
           {!loading && !error && items.length === 0 && (
-            <Typography>No resources availiable</Typography>
+            <Typography>{t('material:noMaterials')}</Typography>
           )}
         </Box>
       </Box>
@@ -189,7 +186,7 @@ const ResourcesTable = (): JSX.Element => {
         open={open}
         handleClose={() => setOpen(false)}
         onSubmitCallback={userInfoUpdated}
-        helperText="Please provider your name and contact number."
+        helperText={t('material:userInfoText')}
       />
     </>
   );

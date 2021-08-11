@@ -3,6 +3,7 @@ import { Box, Drawer, Button, styled } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { useTranslation } from 'react-i18next';
 
 import { useApp, useAuth } from '~app/hooks';
 import { Spacer, Spacings } from '~app/components';
@@ -45,9 +46,14 @@ const CloseButton = styled(IconButton)({
   float: 'right'
 });
 
+const StyledLinkButton = styled(Button)({
+  justifyContent: 'flex-start'
+});
+
 const AppDrawer = (): JSX.Element => {
   const { drawerOpen, setDrawerOpen } = useApp();
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const onClose = () => setDrawerOpen(false);
 
@@ -64,7 +70,12 @@ const AppDrawer = (): JSX.Element => {
             )}
           </Box>
 
-          <CloseButton edge="start" color="default" aria-label="menu" onClick={onClose}>
+          <CloseButton
+            edge="start"
+            color="default"
+            aria-label={t('button:close')}
+            onClick={onClose}
+          >
             <CloseIcon fontSize="small" />
           </CloseButton>
         </Box>
@@ -80,7 +91,7 @@ const AppDrawer = (): JSX.Element => {
 
               return (
                 <Fragment key={label}>
-                  <Button href={path}>{label}</Button>
+                  <StyledLinkButton href={path}>{t(label)}</StyledLinkButton>
                   <Spacer />
                 </Fragment>
               );

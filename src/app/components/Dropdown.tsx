@@ -4,7 +4,7 @@ import { FormControl, InputLabel, Select, MenuItem, styled } from '@material-ui/
 import { isEqual } from '../helpers';
 
 const StyledFormControl = styled(FormControl)({
-  width: '100%'
+  // width: '100%'
 });
 
 export interface DropdownOption<T> {

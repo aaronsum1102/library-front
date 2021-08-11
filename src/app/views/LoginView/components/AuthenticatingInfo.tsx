@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Typography } from '@material-ui/core';
 import { Spacer, Spacings } from '~app/components';
@@ -8,16 +9,18 @@ interface Props {
 }
 
 const AuthenticatingInfo = ({ email }: Props): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <Typography variant="h3">Awaiting Confirmation</Typography>
+      <Typography variant="h4">{t('auth:awaitingConfirmation')}</Typography>
       <Spacer space={Spacings.xLarge} />
       <Typography>
-        <b>Do not close this window untill opening the email link</b>
+        <b>{t('auth:infoText')}</b>
       </Typography>
       <Spacer />
       <Typography color="textSecondary" paragraph>
-        We just sent an email to{' '}
+        {t('auth:sendEmailInfoText')}
         <Typography variant="body1" component="span" color="textPrimary">
           <b>{email}</b>
         </Typography>

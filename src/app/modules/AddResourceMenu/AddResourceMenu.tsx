@@ -3,25 +3,10 @@ import { TextField, DialogContentText, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import { FormDialog, Dropdown, DropdownOption, Spacer, Spacings, Loader } from '~app/components';
 import { useResourceAction, useResources, useAuth } from '~app/hooks';
-
-const validationSchema = yup.object({
-  title: yup.string().required('Title is required'),
-  ebook: yup.bool()
-});
-
-const options: DropdownOption<boolean>[] = [
-  {
-    label: 'Book',
-    value: false
-  },
-  {
-    label: 'Ebook',
-    value: true
-  }
-];
 
 const AddResourceMenu = (): JSX.Element => {
   const [open, setOpen] = useState(false);
@@ -30,6 +15,23 @@ const AddResourceMenu = (): JSX.Element => {
   const { user } = useAuth();
   const { add } = useResourceAction();
   const { refetchResources } = useResources();
+  const { t } = useTranslation();
+
+  const validationSchema = yup.object({
+    title: yup.string().required(t('material:titleRequired')),
+    ebook: yup.bool()
+  });
+
+  const options: DropdownOption<boolean>[] = [
+    {
+      label: t('general:book'),
+      value: false
+    },
+    {
+      label: t('general:eBook'),
+      value: true
+    }
+  ];
 
   const formik = useFormik({
     initialValues: {
@@ -66,8 +68,8 @@ const AddResourceMenu = (): JSX.Element => {
 
   return (
     <FormDialog
-      title="Add material"
-      label="Add material"
+      title={t('material:addMaterial')}
+      label={t('material:addMaterial')}
       labelEndIcon={<AddIcon />}
       open={open}
       handleClickOpen={() => setOpen(true)}
@@ -75,14 +77,12 @@ const AddResourceMenu = (): JSX.Element => {
       onSubmit={formik.handleSubmit}
       content={
         <>
-          <DialogContentText>
-            Please enter the title of the new material and select the material type.
-          </DialogContentText>
+          <DialogContentText>{t('material:addMaterialHelperText')}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="title"
-            label="Title"
+            label={t('general:title')}
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -93,7 +93,7 @@ const AddResourceMenu = (): JSX.Element => {
           <Spacer space={Spacings.large} />
           <Dropdown
             id="material-type"
-            label="Type"
+            label={t('general:materialType')}
             value={formik.values.ebook}
             options={options}
             onChange={(value) => formik.setFieldValue('ebook', value)}
@@ -108,7 +108,7 @@ const AddResourceMenu = (): JSX.Element => {
           type="submit"
           startIcon={loading && <Loader showText={false} size="1rem" />}
         >
-          Add
+          {t('button:add')}
         </Button>
       }
     />

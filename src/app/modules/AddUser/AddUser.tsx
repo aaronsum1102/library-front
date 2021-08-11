@@ -3,31 +3,33 @@ import { TextField, DialogContentText, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import { FormDialog, Dropdown, DropdownOption, Spacer, Spacings, Loader } from '~app/components';
 import { useUser } from '~app/hooks';
-
-const options: DropdownOption<boolean>[] = [
-  {
-    label: 'Normal User',
-    value: false
-  },
-  {
-    label: 'Admin',
-    value: true
-  }
-];
-
-const validationSchema = yup.object({
-  email: yup.string().email('Enter a valid email').required('Email is required'),
-  admin: yup.bool()
-});
 
 const AddUser = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { addUser, refetchUsers } = useUser();
+  const { t } = useTranslation();
+
+  const options: DropdownOption<boolean>[] = [
+    {
+      label: t('general:normalUser'),
+      value: false
+    },
+    {
+      label: t('general:admin'),
+      value: true
+    }
+  ];
+
+  const validationSchema = yup.object({
+    email: yup.string().email(t('form:invalidEmail')).required(t('form:emailRequired')),
+    admin: yup.bool()
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -58,8 +60,8 @@ const AddUser = (): JSX.Element => {
 
   return (
     <FormDialog
-      title="Add user"
-      label="Add user"
+      title={t('user:addUser')}
+      label={t('user:addUser')}
       labelEndIcon={<AddIcon />}
       open={open}
       handleClickOpen={() => setOpen(true)}
@@ -67,14 +69,12 @@ const AddUser = (): JSX.Element => {
       onSubmit={formik.handleSubmit}
       content={
         <>
-          <DialogContentText>
-            Please enter the email address of a new user and select user type
-          </DialogContentText>
+          <DialogContentText>{t('user:addUserText')}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="email"
-            label="Email Address"
+            label={t('general:email')}
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -85,7 +85,7 @@ const AddUser = (): JSX.Element => {
           <Spacer space={Spacings.large} />
           <Dropdown
             id="user-type"
-            label="User type"
+            label={t('form:userType')}
             value={formik.values.admin}
             options={options}
             onChange={(value) => formik.setFieldValue('admin', value)}
@@ -100,7 +100,7 @@ const AddUser = (): JSX.Element => {
           type="submit"
           startIcon={loading && <Loader showText={false} size="1rem" />}
         >
-          Add
+          {t('button:add')}
         </Button>
       }
     />

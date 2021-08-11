@@ -9,6 +9,7 @@ import {
   styled
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 
 export interface FormDialogProps {
   title: string;
@@ -42,6 +43,8 @@ export const FormDialog = ({
   labelStartIcon,
   labelEndIcon
 }: FormDialogProps): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <Button
@@ -57,7 +60,7 @@ export const FormDialog = ({
         <DialogTitle id="form-dialog-title">
           {title}
 
-          <StyledIconButton aria-label="close" onClick={handleClose}>
+          <StyledIconButton aria-label={t('button:close')} onClick={handleClose}>
             <CloseIcon />
           </StyledIconButton>
         </DialogTitle>
