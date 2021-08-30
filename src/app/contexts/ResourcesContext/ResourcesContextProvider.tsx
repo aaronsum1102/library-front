@@ -66,6 +66,7 @@ const ResourcesProvider: React.FC = ({ children }) => {
       dueDate: data.dueDate
         ? formatDate(new Date(data.dueDate), localStorage.getItem('userLanguage') ?? 'en')
         : '-',
+      borrowerName: data.borrower?.name ?? '-',
       borrowerPhoneNumber: data.borrower?.phoneNumber ?? '-'
     }));
 

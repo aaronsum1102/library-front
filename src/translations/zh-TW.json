@@ -59,7 +59,8 @@
     "loadMaterialsError": "無法加載資料。請稍後再試。",
     "noMaterials": "沒有相關資料",
     "userInfoText": "請填入您的姓名與聯絡電話。",
-    "titleRequired": "資料名稱為必填項"
+    "titleRequired": "資料名稱為必填項",
+    "borrowerName": "借書人"
   },
   "form": {
     "invalidEmail": "您提供的電子郵件地址不正確",

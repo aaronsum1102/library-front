@@ -55,17 +55,18 @@
     "dueDate": "Due date",
     "return": "return",
     "loadLoansError": "Failed to load loan materials. Please try again later.",
-    "noLoans": "No loan materials availiable",
+    "noLoans": "No loan materials available",
     "loadMaterialsError": "Failed to load materials. Please try again later.",
-    "noMaterials": "No materials availiable",
+    "noMaterials": "No materials available",
     "userInfoText": "Please provider your name and contact number.",
-    "titleRequired": "Title is required"
+    "titleRequired": "Title is required",
+    "borrowerName": "Borrower"
   },
   "form": {
     "invalidEmail": "Invalid email provided",
     "emailRequired": "Enter an email",
     "userType": "User type",
-    "phoneNumberWithCountryCode": "Phone number (include contry code)",
+    "phoneNumberWithCountryCode": "Phone number (include country code)",
     "language": "Language"
   },
   "button": {

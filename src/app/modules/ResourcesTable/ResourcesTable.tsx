@@ -12,6 +12,7 @@ const fields: Array<keyof ResourceTableData> = [
   'ebook',
   'available',
   'dueDate',
+  'borrowerName',
   'borrowerPhoneNumber'
 ];
 
@@ -41,6 +42,10 @@ const ResourcesTable = (): JSX.Element => {
     dueDate: {
       label: t('material:dueDate'),
       sortable: true
+    },
+    borrowerName: {
+      label: t('material:borrowerName'),
+      hide: true
     },
     borrowerPhoneNumber: {
       label: t('material:borrowerPhoneNumber'),
@@ -152,11 +157,13 @@ const ResourcesTable = (): JSX.Element => {
     ebook: item.ebook ? t('general:eBook') : t('general:book'),
     available: item.available ? t('general:yes') : t('general:no'),
     dueDate: item.dueDate,
+    borrowerName: item.borrowerName,
     borrowerPhoneNumber: item.borrowerPhoneNumber,
     createdDate: item.createdDate
   }));
 
   if (user?.admin) {
+    headDetails.borrowerName.hide = false;
     headDetails.borrowerPhoneNumber.hide = false;
   }
 

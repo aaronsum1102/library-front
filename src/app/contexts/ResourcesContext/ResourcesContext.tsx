@@ -12,6 +12,7 @@ export interface ResourceTableData {
   ebook: string;
   available: string;
   dueDate: string;
+  borrowerName: string;
   borrowerPhoneNumber: string;
 }
 
@@ -20,6 +21,7 @@ export interface Resource extends ResourceResponse {
   ebook: boolean;
   available: boolean;
   dueDate: string;
+  borrowerName: string;
   borrowerPhoneNumber: string;
 }
 
