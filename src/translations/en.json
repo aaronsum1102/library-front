@@ -47,7 +47,6 @@
     "addMaterial": "Add material",
     "addMaterialHelperText": "Please enter the title of the new material and select the material type.",
     "searchMaterial": "Search material",
-    "availableFrom": "Available from",
     "borrowerPhoneNumber": "Borrower's contact number",
     "borrow": "Borrow",
     "remove": "Remove",

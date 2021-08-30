@@ -6,7 +6,7 @@ export { default as LoginForm } from './LoginForm';
 export { default as PageContent } from './PageContent';
 export { default as Spacer, Spacings, Orientations } from './Spacer';
 export * from './Dropdown';
-export * from './DataTabel';
+export * from './DataTable';
 export * from './ActionMenu';
 export { default as SearchField } from './SearchField';
 export * from './FormDialog';

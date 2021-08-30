@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { LoanTableData } from '~app/contexts';
 import { useLoans } from '~app/hooks';
-import { DataTabel, DataTabelProps, Loader } from '~app/components';
+import { DataTable, DataTableProps, Loader } from '~app/components';
 
 const fields: Array<keyof LoanTableData> = ['title', 'ebook', 'available', 'dueDate'];
 
@@ -12,7 +12,7 @@ const LoansTable = (): JSX.Element => {
   const { loans, loading, error, returnMaterial } = useLoans();
   const { t } = useTranslation();
 
-  const headDetails: DataTabelProps<LoanTableData>['headDetails'] = {
+  const headDetails: DataTableProps<LoanTableData>['headDetails'] = {
     title: {
       label: t('general:title'),
       width: '40%'
@@ -55,7 +55,7 @@ const LoansTable = (): JSX.Element => {
 
   return (
     <Box>
-      <DataTabel
+      <DataTable
         fields={fields}
         headDetails={headDetails}
         items={items}

@@ -7,7 +7,7 @@ import {
   ResourcesState,
   TypeFilter,
   AvailabilityFilter,
-  ResourceData,
+  Resource,
   ResourceTableData
 } from './ResourcesContext';
 import {
@@ -15,26 +15,25 @@ import {
   getComparator,
   dateComparator,
   generalDescendingComparator,
-  addDays,
   formatDate
 } from '~app/helpers';
 
-const filterByTitle = (resources: ResourceData[], filter: string): ResourceData[] => {
+const filterByTitle = (resources: Resource[], filter: string): Resource[] => {
   return resources.filter((resource) =>
     resource.title.toLowerCase().includes(filter.toLowerCase())
   );
 };
 
-const filterByType = (resources: ResourceData[], filter: TypeFilter): ResourceData[] => {
+const filterByType = (resources: Resource[], filter: TypeFilter): Resource[] => {
   if (filter === null) return resources;
 
   return resources.filter((resource) => resource.ebook === filter);
 };
 
 const filterByAvailabilityFilter = (
-  resources: ResourceData[],
+  resources: Resource[],
   filter: AvailabilityFilter
-): ResourceData[] => {
+): Resource[] => {
   if (filter === null) return resources;
 
   return resources.filter((resource) => resource.available === filter);
@@ -62,19 +61,21 @@ const ResourcesProvider: React.FC = ({ children }) => {
   const resources = useMemo(() => {
     if (!resourcesData) return [];
 
-    const items = resourcesData.resources.map((data) => ({
+    const items: Resource[] = resourcesData.resources.map((data) => ({
       ...data,
-      availableFrom: formatDate(
-        data.dateBorrowed ? addDays(data.dateBorrowed, 10) : new Date(),
-        navigator.language
-      )
+      dueDate: data.dueDate ? formatDate(new Date(data.dueDate), navigator.language) : '-',
+      borrowerPhoneNumber: data.borrower?.phoneNumber ?? '-'
+      // availableFrom: formatDate(
+      //   data.dateBorrowed ? addDays(data.dateBorrowed, 10) : new Date(),
+      //   navigator.language
+      // )
     }));
 
     let results = filterByTitle(items, titleFilter);
     results = filterByType(results, typeFilter);
     results = filterByAvailabilityFilter(results, availabilityFilter);
 
-    const comparator = orderBy === 'availableFrom' ? dateComparator : generalDescendingComparator;
+    const comparator = orderBy === 'dueDate' ? dateComparator : generalDescendingComparator;
 
     return stableSort(results, getComparator(order, orderBy, comparator));
   }, [resourcesData, titleFilter, typeFilter, availabilityFilter, order, orderBy]);

@@ -58,6 +58,7 @@ export type LoanResource = {
   borrowerId: Scalars['String'];
   borrower: Borrower;
   dateBorrowed: Scalars['String'];
+  dueDate: Scalars['String'];
 };
 
 export type Mutation = {
@@ -129,6 +130,7 @@ export type Resource = {
   borrowerId?: Maybe<Scalars['String']>;
   borrower?: Maybe<Borrower>;
   dateBorrowed?: Maybe<Scalars['String']>;
+  dueDate?: Maybe<Scalars['String']>;
 };
 
 export type ReturnResourceInput = {
@@ -219,7 +221,7 @@ export type LoansQuery = { __typename?: 'Query' } & {
   loans: Array<
     { __typename?: 'LoanResource' } & Pick<
       LoanResource,
-      'title' | 'createdDate' | 'ebook' | 'available' | 'dateBorrowed'
+      'title' | 'createdDate' | 'ebook' | 'available' | 'dateBorrowed' | 'dueDate'
     >
   >;
 };
@@ -230,18 +232,8 @@ export type ResourcesQuery = { __typename?: 'Query' } & {
   resources: Array<
     { __typename?: 'Resource' } & Pick<
       Resource,
-      'title' | 'createdDate' | 'ebook' | 'available' | 'borrowerId' | 'dateBorrowed'
+      'title' | 'createdDate' | 'ebook' | 'available' | 'borrowerId' | 'dateBorrowed' | 'dueDate'
     > & { borrower?: Maybe<{ __typename?: 'Borrower' } & Pick<Borrower, 'name' | 'phoneNumber'>> }
-  >;
-};
-
-export type UserQueryVariables = Exact<{
-  email: Scalars['String'];
-}>;
-
-export type UserQuery = { __typename?: 'Query' } & {
-  user?: Maybe<
-    { __typename?: 'User' } & Pick<User, 'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'>
   >;
 };
 
@@ -596,6 +588,7 @@ export const LoansDocument = gql`
       ebook
       available
       dateBorrowed
+      dueDate
     }
   }
 `;
@@ -647,6 +640,7 @@ export const ResourcesDocument = gql`
         phoneNumber
       }
       dateBorrowed
+      dueDate
     }
   }
 `;
@@ -692,52 +686,6 @@ export type ResourcesQueryResult = ApolloReactCommon.QueryResult<
 >;
 export function refetchResourcesQuery(variables?: ResourcesQueryVariables) {
   return { query: ResourcesDocument, variables: variables };
-}
-export const UserDocument = gql`
-  query user($email: String!) {
-    user(email: $email) {
-      uid
-      email
-      displayName
-      phoneNumber
-      admin
-    }
-  }
-`;
-
-/**
- * __useUserQuery__
- *
- * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserQuery({
- *   variables: {
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useUserQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-}
-export function useUserLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-}
-export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
-export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
-export type UserQueryResult = ApolloReactCommon.QueryResult<UserQuery, UserQueryVariables>;
-export function refetchUserQuery(variables?: UserQueryVariables) {
-  return { query: UserDocument, variables: variables };
 }
 export const UsersDocument = gql`
   query users {
