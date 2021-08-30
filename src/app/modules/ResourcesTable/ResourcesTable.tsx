@@ -2,21 +2,23 @@ import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-import { ResourceTableData, ResourceData } from '~app/contexts';
+import { ResourceTableData, Resource } from '~app/contexts';
 import { useResources, useResourceAction, useAuth } from '~app/hooks';
-import { DataTabel, DataTabelProps, Loader } from '~app/components';
+import { DataTable, DataTableProps, Loader } from '~app/components';
+import { formatDate } from '~app/helpers';
 import UserInfoForm from '../UserInfoForm';
 
 const fields: Array<keyof ResourceTableData> = [
   'title',
   'ebook',
   'available',
-  'availableFrom',
+  'dueDate',
+  'borrowerName',
   'borrowerPhoneNumber'
 ];
 
 const ResourcesTable = (): JSX.Element => {
-  const materialToCheckout = useRef<ResourceData | null>(null);
+  const materialToCheckout = useRef<Resource | null>(null);
 
   const { resources, loading, error, order, orderBy, onRequestSort, refetchResources } =
     useResources();
@@ -26,7 +28,7 @@ const ResourcesTable = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
-  const headDetails: DataTabelProps<ResourceTableData>['headDetails'] = {
+  const headDetails: DataTableProps<ResourceTableData>['headDetails'] = {
     title: {
       label: t('general:title'),
       sortable: true,
@@ -38,9 +40,13 @@ const ResourcesTable = (): JSX.Element => {
     available: {
       label: t('general:available')
     },
-    availableFrom: {
-      label: t('material:availableFrom'),
+    dueDate: {
+      label: t('material:dueDate'),
       sortable: true
+    },
+    borrowerName: {
+      label: t('material:borrowerName'),
+      hide: true
     },
     borrowerPhoneNumber: {
       label: t('material:borrowerPhoneNumber'),
@@ -145,24 +151,29 @@ const ResourcesTable = (): JSX.Element => {
       ];
     }
     return defaultAction;
-  }, [user, onRequestBorrow, onRequestRemove]);
+  }, [user, onRequestBorrow, onRequestRemove, t]);
 
-  const items = resources.map((item) => ({
+  const items: ResourceTableData[] = resources.map((item) => ({
     title: item.title,
     ebook: item.ebook ? t('general:eBook') : t('general:book'),
     available: item.available ? t('general:yes') : t('general:no'),
-    availableFrom: item.availableFrom,
-    borrowerPhoneNumber: item.borrower?.phoneNumber || '-'
+    dueDate: item.dueDate
+      ? formatDate(new Date(item.dueDate), localStorage.getItem('userLanguage') ?? 'en')
+      : '-',
+    borrowerName: item.borrowerName,
+    borrowerPhoneNumber: item.borrowerPhoneNumber,
+    createdDate: item.createdDate
   }));
 
   if (user?.admin) {
+    headDetails.borrowerName.hide = false;
     headDetails.borrowerPhoneNumber.hide = false;
   }
 
   return (
     <>
       <Box>
-        <DataTabel
+        <DataTable<ResourceTableData>
           fields={fields}
           headDetails={headDetails}
           items={items}

@@ -23,7 +23,7 @@ const VerifyView = (): JSX.Element => {
     if (emailFromLocalStorage.current) {
       signIn(emailFromLocalStorage.current);
     }
-  }, []);
+  }, [signIn]);
 
   if (!isVerifyView(search)) {
     return <Redirect to={generateRouteUrl('login')} />;

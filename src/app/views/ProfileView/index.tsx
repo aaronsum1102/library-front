@@ -25,7 +25,7 @@ const ProfileView = (): JSX.Element => {
         error: true
       });
     }
-  }, [signOut]);
+  }, [signOut, addSnackbar, t]);
 
   const onlanguagechange = (value: string) => {
     window.localStorage.setItem('userLanguage', value);

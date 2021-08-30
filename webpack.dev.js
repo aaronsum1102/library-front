@@ -11,18 +11,22 @@ const dev = {
     chunkFilename: '[name].chunk.js',
     filename: '[name].js'
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin()],
+  plugins: [new webpack.NoEmitOnErrorsPlugin()],
   devServer: {
-    contentBase: BUILD_WEB_FOLDER,
     historyApiFallback: true,
     hot: true,
     host: 'localhost',
     port: 3000,
-    publicPath: PUBLIC_PATH,
-    watchOptions: {
-      ignored: /node_modules/
+    static: {
+      directory: BUILD_WEB_FOLDER,
+      watch: {
+        ignored: /node_modules/
+      }
     },
-    writeToDisk: true
+    devMiddleware: {
+      publicPath: PUBLIC_PATH,
+      writeToDisk: true
+    }
   },
   optimization: {
     moduleIds: 'named'

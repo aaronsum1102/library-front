@@ -36,7 +36,7 @@ export const ActionMenu = ({ id, actions }: ActionMenuProps): JSX.Element => {
       onClickHandler(id);
       handleClose();
     },
-    [handleClose]
+    [handleClose, id]
   );
 
   return (

@@ -1,3 +1,3 @@
 export * from './array';
 export { default as isEqual } from './object';
-export * from './date';
+export { default as formatDate } from './date';

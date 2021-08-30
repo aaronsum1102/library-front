@@ -2,20 +2,25 @@ import { createContext } from 'react';
 import { SortDirection } from '@material-ui/core';
 import { ApolloError, ApolloQueryResult } from '@apollo/client';
 
-import { Resource, ResourcesQuery } from '~app/apollo/generated/graphql';
+import { Resource as ResourceResponse, ResourcesQuery } from '~app/apollo/generated/graphql';
 
 export type TypeFilter = boolean | null;
 export type AvailabilityFilter = boolean | null;
 
-export interface ResourceData extends Resource {
-  availableFrom: string;
+export interface ResourceTableData {
+  title: string;
+  ebook: string;
+  available: string;
+  dueDate: string;
+  borrowerName: string;
+  borrowerPhoneNumber: string;
 }
 
-export interface ResourceTableData {
+export interface Resource extends ResourceResponse {
   title: string;
   ebook: boolean;
   available: boolean;
-  availableFrom: string;
+  borrowerName: string;
   borrowerPhoneNumber: string;
 }
 
@@ -24,7 +29,7 @@ export interface ResourcesState {
   typeFilter: TypeFilter;
   availabilityFilter: AvailabilityFilter;
 
-  resources: ResourceData[];
+  resources: Resource[];
   loading: boolean;
   error?: ApolloError;
   order: SortDirection;

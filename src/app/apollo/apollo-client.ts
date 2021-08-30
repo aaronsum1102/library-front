@@ -9,7 +9,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 
-import firebase from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 import getRuntimeConfig from '~config/index';
 import { firebaseApp } from '~app/contexts';
@@ -19,7 +19,7 @@ const { app } = getRuntimeConfig();
 let authToken: string | null;
 
 const acquireAuthToken = async (): Promise<string | null> => {
-  const user = firebase.auth(firebaseApp).currentUser;
+  const user = getAuth(firebaseApp).currentUser;
 
   if (user) {
     const idToken = await user.getIdToken(true);

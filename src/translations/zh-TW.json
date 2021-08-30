@@ -47,20 +47,20 @@
     "addMaterial": "添加資料",
     "addMaterialHelperText": "請輸入資料名稱與選擇資料類別。",
     "searchMaterial": "搜尋資料",
-    "availableFrom": "可供借出日期",
     "borrowerPhoneNumber": "借書人聯絡電話",
     "borrow": "借出",
     "remove": "刪除",
     "catalogue": "目錄",
     "loans": "已借出資料",
-    "dueDate": "還書截止日期",
+    "dueDate": "歸還日期",
     "return": "歸還",
     "loadLoansError": "無法加載資料。請稍後再試。",
     "noLoans": "沒有相關資料",
     "loadMaterialsError": "無法加載資料。請稍後再試。",
     "noMaterials": "沒有相關資料",
     "userInfoText": "請填入您的姓名與聯絡電話。",
-    "titleRequired": "資料名稱為必填項"
+    "titleRequired": "資料名稱為必填項",
+    "borrowerName": "借書人"
   },
   "form": {
     "invalidEmail": "您提供的電子郵件地址不正確",
