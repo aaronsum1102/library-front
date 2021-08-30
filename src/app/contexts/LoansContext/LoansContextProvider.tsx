@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useLoansQuery, useReturnMaterialMutation } from '~app/apollo/generated/graphql';
 import { useAuth, useSnackbar } from '~app/hooks';
-import { addDays, formatDate, stableSort, getComparator, dateComparator } from '~app/helpers';
+import { formatDate, stableSort, getComparator, dateComparator } from '~app/helpers';
 import { LoansContext } from './LoansContext';
 
 const LoansProvider: React.FC = ({ children }) => {
@@ -37,12 +37,18 @@ const LoansProvider: React.FC = ({ children }) => {
   const loans = useMemo(() => {
     if (!data) return [];
 
-    const items = data.loans.map((loanData) => {
-      return {
-        ...loanData,
-        dueDate: formatDate(addDays(loanData.dateBorrowed, 10), navigator.language)
-      };
-    });
+    const items = data.loans.map(
+      ({ title, createdDate, ebook, available, dateBorrowed, dueDate }) => {
+        return {
+          title,
+          createdDate,
+          ebook,
+          available,
+          dateBorrowed,
+          dueDate: formatDate(new Date(dueDate), localStorage.getItem('userLanguage') ?? 'en')
+        };
+      }
+    );
 
     return stableSort(items, getComparator('asc', 'dueDate', dateComparator));
   }, [data]);

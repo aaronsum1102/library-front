@@ -63,12 +63,10 @@ const ResourcesProvider: React.FC = ({ children }) => {
 
     const items: Resource[] = resourcesData.resources.map((data) => ({
       ...data,
-      dueDate: data.dueDate ? formatDate(new Date(data.dueDate), navigator.language) : '-',
+      dueDate: data.dueDate
+        ? formatDate(new Date(data.dueDate), localStorage.getItem('userLanguage') ?? 'en')
+        : '-',
       borrowerPhoneNumber: data.borrower?.phoneNumber ?? '-'
-      // availableFrom: formatDate(
-      //   data.dateBorrowed ? addDays(data.dateBorrowed, 10) : new Date(),
-      //   navigator.language
-      // )
     }));
 
     let results = filterByTitle(items, titleFilter);
