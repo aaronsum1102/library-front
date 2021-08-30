@@ -159,94 +159,122 @@ export type AddResourceMutationVariables = Exact<{
   input: AddResourceInput;
 }>;
 
-export type AddResourceMutation = { __typename?: 'Mutation' } & {
-  addResource: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
+export type AddResourceMutation = {
+  __typename?: 'Mutation';
+  addResource: { __typename?: 'Resource'; title: string; createdDate: number };
 };
 
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
 }>;
 
-export type AddUserMutation = { __typename?: 'Mutation' } & {
-  addUser: { __typename?: 'User' } & Pick<User, 'uid'>;
+export type AddUserMutation = {
+  __typename?: 'Mutation';
+  addUser: { __typename?: 'User'; uid: string };
 };
 
 export type BorrowResourceMutationVariables = Exact<{
   input: BorrowResourceInput;
 }>;
 
-export type BorrowResourceMutation = { __typename?: 'Mutation' } & {
-  borrowResource: { __typename?: 'Resource' } & Pick<
-    Resource,
-    'title' | 'createdDate' | 'dateBorrowed'
-  >;
+export type BorrowResourceMutation = {
+  __typename?: 'Mutation';
+  borrowResource: {
+    __typename?: 'Resource';
+    title: string;
+    createdDate: number;
+    dateBorrowed?: Maybe<string>;
+  };
 };
 
 export type RemoveResourceMutationVariables = Exact<{
   input: RemoveResourceInput;
 }>;
 
-export type RemoveResourceMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'removeResource'>;
+export type RemoveResourceMutation = { __typename?: 'Mutation'; removeResource: boolean };
 
 export type ReturnMaterialMutationVariables = Exact<{
   input: ReturnResourceInput;
 }>;
 
-export type ReturnMaterialMutation = { __typename?: 'Mutation' } & {
-  returnMaterial: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
+export type ReturnMaterialMutation = {
+  __typename?: 'Mutation';
+  returnMaterial: { __typename?: 'Resource'; title: string; createdDate: number };
 };
 
 export type UpdateUserInfoMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
 
-export type UpdateUserInfoMutation = { __typename?: 'Mutation' } & {
-  updateUserInfo: { __typename?: 'User' } & Pick<
-    User,
-    'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'
-  >;
+export type UpdateUserInfoMutation = {
+  __typename?: 'Mutation';
+  updateUserInfo: {
+    __typename?: 'User';
+    uid: string;
+    email: string;
+    displayName?: Maybe<string>;
+    phoneNumber?: Maybe<string>;
+    admin: boolean;
+  };
 };
 
 export type VerifyUserMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
 
-export type VerifyUserMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'verifyUser'>;
+export type VerifyUserMutation = { __typename?: 'Mutation'; verifyUser: boolean };
 
 export type LoansQueryVariables = Exact<{
   borrowerId: Scalars['String'];
 }>;
 
-export type LoansQuery = { __typename?: 'Query' } & {
-  loans: Array<
-    { __typename?: 'LoanResource' } & Pick<
-      LoanResource,
-      'title' | 'createdDate' | 'ebook' | 'available' | 'dateBorrowed' | 'dueDate'
-    >
-  >;
+export type LoansQuery = {
+  __typename?: 'Query';
+  loans: Array<{
+    __typename?: 'LoanResource';
+    title: string;
+    createdDate: number;
+    ebook: boolean;
+    available: boolean;
+    dateBorrowed: string;
+    dueDate: string;
+  }>;
 };
 
 export type ResourcesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ResourcesQuery = { __typename?: 'Query' } & {
-  resources: Array<
-    { __typename?: 'Resource' } & Pick<
-      Resource,
-      'title' | 'createdDate' | 'ebook' | 'available' | 'borrowerId' | 'dateBorrowed' | 'dueDate'
-    > & { borrower?: Maybe<{ __typename?: 'Borrower' } & Pick<Borrower, 'name' | 'phoneNumber'>> }
-  >;
+export type ResourcesQuery = {
+  __typename?: 'Query';
+  resources: Array<{
+    __typename?: 'Resource';
+    title: string;
+    createdDate: number;
+    ebook: boolean;
+    available: boolean;
+    borrowerId?: Maybe<string>;
+    dateBorrowed?: Maybe<string>;
+    dueDate?: Maybe<string>;
+    borrower?: Maybe<{
+      __typename?: 'Borrower';
+      name?: Maybe<string>;
+      phoneNumber?: Maybe<string>;
+    }>;
+  }>;
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UsersQuery = { __typename?: 'Query' } & {
+export type UsersQuery = {
+  __typename?: 'Query';
   users: Array<
-    Maybe<
-      { __typename?: 'User' } & Pick<
-        User,
-        'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'
-      >
-    >
+    Maybe<{
+      __typename?: 'User';
+      uid: string;
+      email: string;
+      displayName?: Maybe<string>;
+      phoneNumber?: Maybe<string>;
+      admin: boolean;
+    }>
   >;
 };
 

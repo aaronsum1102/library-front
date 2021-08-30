@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import {
+  getAuth,
+  onAuthStateChanged,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink
+} from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -16,7 +23,7 @@ const { firebase: firebaseConfig, app } = getConfig();
 
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
+const auth = getAuth(firebaseApp);
 
 const actionCodeSettings: firebase.auth.ActionCodeSettings = {
   url: `${app.baseUrl}verify`,
@@ -58,7 +65,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
   });
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((newUserState) => {
+    const unsubscribe = onAuthStateChanged(auth, (newUserState) => {
       isInitAuth.current = false;
 
       if (newUserState?.email) {
@@ -91,7 +98,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
         const language = window.localStorage.getItem('userLanguage');
         auth.languageCode = language;
 
-        await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+        await sendSignInLinkToEmail(auth, email, actionCodeSettings);
         window.localStorage.setItem('emailForSignIn', email);
 
         return {
@@ -111,18 +118,17 @@ const AuthContextProvider: React.FC = ({ children }) => {
     }
   };
 
-  const isSignInWithEmailLink = auth.isSignInWithEmailLink(window.location.href);
+  const isSignInWithEmail = isSignInWithEmailLink(auth, window.location.href);
 
   const signIn = async (email: string): Promise<AuthActionResult> => {
-    if (isSignInWithEmailLink) {
+    if (isSignInWithEmail) {
       try {
-        const result = await auth.signInWithEmailLink(email, window.location.href);
+        const result = await signInWithEmailLink(auth, email, window.location.href);
         window.localStorage.removeItem('emailForSignIn');
 
-        setUser({
-          ...user,
-          isNewUser: result.additionalUserInfo?.isNewUser
-        } as User);
+        // setUser({
+        //   ...user
+        // } as User);
 
         return {
           success: true
@@ -160,7 +166,6 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const value = {
     user,
     sendSignInLink,
-    isSignInWithEmailLink,
     signIn,
     signOut,
     isInitAuth: isInitAuth.current,
