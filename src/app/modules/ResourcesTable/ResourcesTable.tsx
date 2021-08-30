@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ResourceTableData, Resource } from '~app/contexts';
 import { useResources, useResourceAction, useAuth } from '~app/hooks';
 import { DataTable, DataTableProps, Loader } from '~app/components';
+import { formatDate } from '~app/helpers';
 import UserInfoForm from '../UserInfoForm';
 
 const fields: Array<keyof ResourceTableData> = [
@@ -156,7 +157,9 @@ const ResourcesTable = (): JSX.Element => {
     title: item.title,
     ebook: item.ebook ? t('general:eBook') : t('general:book'),
     available: item.available ? t('general:yes') : t('general:no'),
-    dueDate: item.dueDate,
+    dueDate: item.dueDate
+      ? formatDate(new Date(item.dueDate), localStorage.getItem('userLanguage') ?? 'en')
+      : '-',
     borrowerName: item.borrowerName,
     borrowerPhoneNumber: item.borrowerPhoneNumber,
     createdDate: item.createdDate

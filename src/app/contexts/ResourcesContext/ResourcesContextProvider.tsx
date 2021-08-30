@@ -14,8 +14,7 @@ import {
   stableSort,
   getComparator,
   dateComparator,
-  generalDescendingComparator,
-  formatDate
+  generalDescendingComparator
 } from '~app/helpers';
 
 const filterByTitle = (resources: Resource[], filter: string): Resource[] => {
@@ -63,9 +62,7 @@ const ResourcesProvider: React.FC = ({ children }) => {
 
     const items: Resource[] = resourcesData.resources.map((data) => ({
       ...data,
-      dueDate: data.dueDate
-        ? formatDate(new Date(data.dueDate), localStorage.getItem('userLanguage') ?? 'en')
-        : '-',
+      dueDate: data.dueDate,
       borrowerName: data.borrower?.name ?? '-',
       borrowerPhoneNumber: data.borrower?.phoneNumber ?? '-'
     }));

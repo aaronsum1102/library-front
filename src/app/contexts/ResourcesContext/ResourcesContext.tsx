@@ -20,7 +20,6 @@ export interface Resource extends ResourceResponse {
   title: string;
   ebook: boolean;
   available: boolean;
-  dueDate: string;
   borrowerName: string;
   borrowerPhoneNumber: string;
 }
