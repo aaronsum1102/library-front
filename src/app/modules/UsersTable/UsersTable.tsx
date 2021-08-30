@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { User } from '~app/apollo/generated/graphql';
 import { useUser } from '~app/hooks';
 import {
-  DataTabel,
-  DataTabelProps,
+  DataTable,
+  DataTableProps,
   Loader,
   Spacer,
   Spacings,
@@ -38,7 +38,7 @@ const UsersTable = (): JSX.Element => {
       }))
     : [];
 
-  const headDetails: DataTabelProps<UserItem>['headDetails'] = {
+  const headDetails: DataTableProps<UserItem>['headDetails'] = {
     email: {
       label: t('general:email'),
       width: '30%'
@@ -75,7 +75,7 @@ const UsersTable = (): JSX.Element => {
       <Spacer space={Spacings.xLarge} />
 
       <Box>
-        <DataTabel<UserItem> fields={fields} headDetails={headDetails} items={items} />
+        <DataTable<UserItem> fields={fields} headDetails={headDetails} items={items} />
       </Box>
 
       <Box padding="1rem">

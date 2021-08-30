@@ -9,7 +9,7 @@ export interface AuthActionResult {
 export interface AuthState {
   user: User | null | undefined;
   sendSignInLink: (email: string) => Promise<AuthActionResult>;
-  isSignInWithEmailLink: boolean;
+
   signIn: (email: string) => Promise<AuthActionResult>;
   signOut: () => Promise<AuthActionResult>;
   isInitAuth: boolean;

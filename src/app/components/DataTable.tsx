@@ -27,7 +27,7 @@ interface HeadCellProps<T> extends HeadDetails {
   onRequestSort?: (property: keyof T) => void;
 }
 
-export interface DataTabelProps<T> {
+export interface DataTableProps<T> {
   headDetails: Record<keyof T, HeadDetails>;
   fields: Array<keyof T>;
   items: T[];
@@ -86,7 +86,7 @@ const Container = styled(Box)({
   overflowX: 'scroll'
 });
 
-export const DataTabel = <T,>({
+export const DataTable = <T,>({
   headDetails,
   fields,
   items,
@@ -94,7 +94,7 @@ export const DataTabel = <T,>({
   orderBy,
   actions,
   onRequestSort
-}: DataTabelProps<T>): JSX.Element => {
+}: DataTableProps<T>): JSX.Element => {
   return (
     <Container>
       <Table>

@@ -53,7 +53,7 @@ export const Dropdown = <T,>({
 
       onChange(data, name);
     },
-    [onChange]
+    [onChange, options]
   );
 
   return (

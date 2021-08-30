@@ -99,7 +99,7 @@ const UserInfoForm = ({
     if (open === false) {
       formik.resetForm();
     }
-  }, [open]);
+  }, [open, formik]);
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth>

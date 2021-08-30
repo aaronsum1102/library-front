@@ -18,7 +18,7 @@ const App = (): JSX.Element => {
     if (language) {
       i18n.changeLanguage(language);
     }
-  }, []);
+  }, [i18n, language]);
 
   return (
     <>

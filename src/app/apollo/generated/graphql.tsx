@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -58,6 +59,7 @@ export type LoanResource = {
   borrowerId: Scalars['String'];
   borrower: Borrower;
   dateBorrowed: Scalars['String'];
+  dueDate: Scalars['String'];
 };
 
 export type Mutation = {
@@ -129,6 +131,7 @@ export type Resource = {
   borrowerId?: Maybe<Scalars['String']>;
   borrower?: Maybe<Borrower>;
   dateBorrowed?: Maybe<Scalars['String']>;
+  dueDate?: Maybe<Scalars['String']>;
 };
 
 export type ReturnResourceInput = {
@@ -157,104 +160,122 @@ export type AddResourceMutationVariables = Exact<{
   input: AddResourceInput;
 }>;
 
-export type AddResourceMutation = { __typename?: 'Mutation' } & {
-  addResource: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
+export type AddResourceMutation = {
+  __typename?: 'Mutation';
+  addResource: { __typename?: 'Resource'; title: string; createdDate: number };
 };
 
 export type AddUserMutationVariables = Exact<{
   input: AddUserInput;
 }>;
 
-export type AddUserMutation = { __typename?: 'Mutation' } & {
-  addUser: { __typename?: 'User' } & Pick<User, 'uid'>;
+export type AddUserMutation = {
+  __typename?: 'Mutation';
+  addUser: { __typename?: 'User'; uid: string };
 };
 
 export type BorrowResourceMutationVariables = Exact<{
   input: BorrowResourceInput;
 }>;
 
-export type BorrowResourceMutation = { __typename?: 'Mutation' } & {
-  borrowResource: { __typename?: 'Resource' } & Pick<
-    Resource,
-    'title' | 'createdDate' | 'dateBorrowed'
-  >;
+export type BorrowResourceMutation = {
+  __typename?: 'Mutation';
+  borrowResource: {
+    __typename?: 'Resource';
+    title: string;
+    createdDate: number;
+    dateBorrowed?: Maybe<string>;
+  };
 };
 
 export type RemoveResourceMutationVariables = Exact<{
   input: RemoveResourceInput;
 }>;
 
-export type RemoveResourceMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'removeResource'>;
+export type RemoveResourceMutation = { __typename?: 'Mutation'; removeResource: boolean };
 
 export type ReturnMaterialMutationVariables = Exact<{
   input: ReturnResourceInput;
 }>;
 
-export type ReturnMaterialMutation = { __typename?: 'Mutation' } & {
-  returnMaterial: { __typename?: 'Resource' } & Pick<Resource, 'title' | 'createdDate'>;
+export type ReturnMaterialMutation = {
+  __typename?: 'Mutation';
+  returnMaterial: { __typename?: 'Resource'; title: string; createdDate: number };
 };
 
 export type UpdateUserInfoMutationVariables = Exact<{
   input: UpdateUserInput;
 }>;
 
-export type UpdateUserInfoMutation = { __typename?: 'Mutation' } & {
-  updateUserInfo: { __typename?: 'User' } & Pick<
-    User,
-    'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'
-  >;
+export type UpdateUserInfoMutation = {
+  __typename?: 'Mutation';
+  updateUserInfo: {
+    __typename?: 'User';
+    uid: string;
+    email: string;
+    displayName?: Maybe<string>;
+    phoneNumber?: Maybe<string>;
+    admin: boolean;
+  };
 };
 
 export type VerifyUserMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
 
-export type VerifyUserMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'verifyUser'>;
+export type VerifyUserMutation = { __typename?: 'Mutation'; verifyUser: boolean };
 
 export type LoansQueryVariables = Exact<{
   borrowerId: Scalars['String'];
 }>;
 
-export type LoansQuery = { __typename?: 'Query' } & {
-  loans: Array<
-    { __typename?: 'LoanResource' } & Pick<
-      LoanResource,
-      'title' | 'createdDate' | 'ebook' | 'available' | 'dateBorrowed'
-    >
-  >;
+export type LoansQuery = {
+  __typename?: 'Query';
+  loans: Array<{
+    __typename?: 'LoanResource';
+    title: string;
+    createdDate: number;
+    ebook: boolean;
+    available: boolean;
+    dateBorrowed: string;
+    dueDate: string;
+  }>;
 };
 
 export type ResourcesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ResourcesQuery = { __typename?: 'Query' } & {
-  resources: Array<
-    { __typename?: 'Resource' } & Pick<
-      Resource,
-      'title' | 'createdDate' | 'ebook' | 'available' | 'borrowerId' | 'dateBorrowed'
-    > & { borrower?: Maybe<{ __typename?: 'Borrower' } & Pick<Borrower, 'name' | 'phoneNumber'>> }
-  >;
-};
-
-export type UserQueryVariables = Exact<{
-  email: Scalars['String'];
-}>;
-
-export type UserQuery = { __typename?: 'Query' } & {
-  user?: Maybe<
-    { __typename?: 'User' } & Pick<User, 'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'>
-  >;
+export type ResourcesQuery = {
+  __typename?: 'Query';
+  resources: Array<{
+    __typename?: 'Resource';
+    title: string;
+    createdDate: number;
+    ebook: boolean;
+    available: boolean;
+    borrowerId?: Maybe<string>;
+    dateBorrowed?: Maybe<string>;
+    dueDate?: Maybe<string>;
+    borrower?: Maybe<{
+      __typename?: 'Borrower';
+      name?: Maybe<string>;
+      phoneNumber?: Maybe<string>;
+    }>;
+  }>;
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UsersQuery = { __typename?: 'Query' } & {
+export type UsersQuery = {
+  __typename?: 'Query';
   users: Array<
-    Maybe<
-      { __typename?: 'User' } & Pick<
-        User,
-        'uid' | 'email' | 'displayName' | 'phoneNumber' | 'admin'
-      >
-    >
+    Maybe<{
+      __typename?: 'User';
+      uid: string;
+      email: string;
+      displayName?: Maybe<string>;
+      phoneNumber?: Maybe<string>;
+      admin: boolean;
+    }>
   >;
 };
 
@@ -596,6 +617,7 @@ export const LoansDocument = gql`
       ebook
       available
       dateBorrowed
+      dueDate
     }
   }
 `;
@@ -632,7 +654,7 @@ export type LoansQueryHookResult = ReturnType<typeof useLoansQuery>;
 export type LoansLazyQueryHookResult = ReturnType<typeof useLoansLazyQuery>;
 export type LoansQueryResult = ApolloReactCommon.QueryResult<LoansQuery, LoansQueryVariables>;
 export function refetchLoansQuery(variables?: LoansQueryVariables) {
-  return { query: LoansDocument, variables: variables };
+  return { query: LoansDocument, variables };
 }
 export const ResourcesDocument = gql`
   query resources {
@@ -647,6 +669,7 @@ export const ResourcesDocument = gql`
         phoneNumber
       }
       dateBorrowed
+      dueDate
     }
   }
 `;
@@ -691,53 +714,7 @@ export type ResourcesQueryResult = ApolloReactCommon.QueryResult<
   ResourcesQueryVariables
 >;
 export function refetchResourcesQuery(variables?: ResourcesQueryVariables) {
-  return { query: ResourcesDocument, variables: variables };
-}
-export const UserDocument = gql`
-  query user($email: String!) {
-    user(email: $email) {
-      uid
-      email
-      displayName
-      phoneNumber
-      admin
-    }
-  }
-`;
-
-/**
- * __useUserQuery__
- *
- * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserQuery({
- *   variables: {
- *      email: // value for 'email'
- *   },
- * });
- */
-export function useUserQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-}
-export function useUserLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-}
-export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
-export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
-export type UserQueryResult = ApolloReactCommon.QueryResult<UserQuery, UserQueryVariables>;
-export function refetchUserQuery(variables?: UserQueryVariables) {
-  return { query: UserDocument, variables: variables };
+  return { query: ResourcesDocument, variables };
 }
 export const UsersDocument = gql`
   query users {
@@ -782,5 +759,5 @@ export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
 export function refetchUsersQuery(variables?: UsersQueryVariables) {
-  return { query: UsersDocument, variables: variables };
+  return { query: UsersDocument, variables };
 }

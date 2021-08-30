@@ -56,7 +56,7 @@ const AddUser = (): JSX.Element => {
     if (open === false) {
       formik.resetForm();
     }
-  }, [open]);
+  }, [open, formik]);
 
   return (
     <FormDialog
