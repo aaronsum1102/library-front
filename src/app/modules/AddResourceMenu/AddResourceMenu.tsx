@@ -60,7 +60,7 @@ const AddResourceMenu = (): JSX.Element => {
     if (open === false) {
       formik.resetForm();
     }
-  }, [open]);
+  }, [open, formik]);
 
   if (!user?.admin) {
     return <></>;

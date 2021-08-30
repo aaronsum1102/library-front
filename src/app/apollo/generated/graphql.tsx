@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -653,7 +654,7 @@ export type LoansQueryHookResult = ReturnType<typeof useLoansQuery>;
 export type LoansLazyQueryHookResult = ReturnType<typeof useLoansLazyQuery>;
 export type LoansQueryResult = ApolloReactCommon.QueryResult<LoansQuery, LoansQueryVariables>;
 export function refetchLoansQuery(variables?: LoansQueryVariables) {
-  return { query: LoansDocument, variables: variables };
+  return { query: LoansDocument, variables };
 }
 export const ResourcesDocument = gql`
   query resources {
@@ -713,7 +714,7 @@ export type ResourcesQueryResult = ApolloReactCommon.QueryResult<
   ResourcesQueryVariables
 >;
 export function refetchResourcesQuery(variables?: ResourcesQueryVariables) {
-  return { query: ResourcesDocument, variables: variables };
+  return { query: ResourcesDocument, variables };
 }
 export const UsersDocument = gql`
   query users {
@@ -758,5 +759,5 @@ export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
 export function refetchUsersQuery(variables?: UsersQueryVariables) {
-  return { query: UsersDocument, variables: variables };
+  return { query: UsersDocument, variables };
 }

@@ -5,6 +5,8 @@ module.exports = {
     es2021: true
   },
   extends: [
+    'airbnb',
+    'airbnb/hooks',
     'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/errors',

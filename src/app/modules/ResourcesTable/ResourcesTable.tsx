@@ -151,7 +151,7 @@ const ResourcesTable = (): JSX.Element => {
       ];
     }
     return defaultAction;
-  }, [user, onRequestBorrow, onRequestRemove]);
+  }, [user, onRequestBorrow, onRequestRemove, t]);
 
   const items: ResourceTableData[] = resources.map((item) => ({
     title: item.title,
